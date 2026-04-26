@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>BioEkskresi – Beranda</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+/* ── BACKGROUND BARU: mesh gradient biru-teal lembut ── */
+body{
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+  color:#0f172a;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  background:
+    radial-gradient(ellipse 90% 70% at 15% -5%,  rgba(99,102,241,.18) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 60% at 90%  8%,  rgba(14,165,233,.15) 0%, transparent 48%),
+    radial-gradient(ellipse 80% 50% at 5%  60%,  rgba(37,99,235,.12)  0%, transparent 52%),
+    radial-gradient(ellipse 60% 55% at 80% 75%,  rgba(13,148,136,.13) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 50% 110%,  rgba(59,130,246,.1)  0%, transparent 55%),
+    linear-gradient(155deg,
+      #dde8ff 0%,
+      #e8f0fe 18%,
+      #eef4ff 36%,
+      #f0f7ff 54%,
+      #e8f6fb 72%,
+      #e6f4f1 90%,
+      #edf6ff 100%
+    );
+}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:99px;}
+
+/* ── TOPBAR ── */
+.topbar{
+  background:rgba(248,251,255,.92);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(99,102,241,.12);
+  height:62px;padding:0 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;
+  box-shadow:0 1px 0 rgba(255,255,255,.8), 0 2px 16px rgba(99,102,241,.1);
+}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.brand-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1e40af,#2563eb,#0d9488);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 3px 10px rgba(37,99,235,.3);}
+.brand-name{font-size:17px;font-weight:800;color:#0f172a;letter-spacing:-.3px;}
+.brand-name span{color:#2563eb;}
+
+/* ── NAV ── */
+.nav{display:flex;align-items:center;gap:1px;}
+.nav a{font-size:13.5px;font-weight:600;color:#64748b;text-decoration:none;padding:7px 14px;border-radius:9px;transition:all .17s;}
+.nav a:hover{color:#0f172a;background:#eff6ff;}
+.nav a.on{color:#2563eb;background:#eff6ff;}
+
+/* ── DROPDOWN ORGAN ── */
+.nav-dropdown{position:relative;}
+.nav-dropdown > .nav-btn{
+  font-size:13.5px;font-weight:600;color:#64748b;
+  background:none;border:none;cursor:pointer;
+  padding:7px 14px;border-radius:9px;transition:all .17s;
+  display:flex;align-items:center;gap:5px;
+  font-family:inherit;
+}
+.nav-dropdown > .nav-btn:hover{color:#0f172a;background:#eff6ff;}
+.nav-dropdown > .nav-btn svg{
+  width:12px;height:12px;stroke:currentColor;fill:none;
+  stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;
+  transition:transform .2s;
+}
+.nav-dropdown:hover > .nav-btn svg{transform:rotate(180deg);}
+.nav-dropdown:hover > .nav-btn{color:#0f172a;background:#eff6ff;}
+
+.dropdown-menu{
+  position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);
+  background:#fff;border:1px solid #e2e8f0;border-radius:14px;
+  padding:8px;min-width:180px;
+  box-shadow:0 12px 36px rgba(15,23,42,.12);
+  opacity:0;pointer-events:none;
+  transform:translateX(-50%) translateY(-6px);
+  transition:opacity .18s ease, transform .18s ease;
+  z-index:300;
+}
+.nav-dropdown:hover .dropdown-menu{
+  opacity:1;pointer-events:all;
+  transform:translateX(-50%) translateY(0);
+}
+.dropdown-menu a{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:9px;
+  font-size:13px;font-weight:600;color:#334155;
+  text-decoration:none;transition:all .15s;
+}
+.dropdown-menu a:hover{background:#eff6ff;color:#2563eb;}
+.dropdown-menu a .dm-icon{
+  width:28px;height:28px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;
+}
+.nav-right{display:flex;align-items:center;gap:8px;}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(138deg,#1a3070 0%,#1e40af 30%,#2563eb 58%,#0891b2 80%,#0d9488 100%);padding:56px 40px 80px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.055) 1px,transparent 1px);background-size:26px 26px;pointer-events:none;}
+.hb1{position:absolute;width:560px;height:560px;border-radius:50%;background:radial-gradient(rgba(255,255,255,.09),transparent 65%);top:-200px;right:-100px;pointer-events:none;}
+.hb2{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(rgba(255,255,255,.06),transparent 65%);bottom:-60px;left:5%;pointer-events:none;}
+.hero-in{max-width:1080px;margin:0 auto;position:relative;z-index:2;}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);border-radius:99px;padding:5px 14px;font-size:12px;font-weight:700;color:#fff;letter-spacing:.3px;margin-bottom:18px;}
+.hdot{width:5px;height:5px;border-radius:50%;background:#fff;animation:blink 2s infinite;flex-shrink:0;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(30px,4.5vw,54px);font-weight:800;color:#fff;line-height:1.1;letter-spacing:-.6px;margin-bottom:14px;}
+.hero h1 em{font-style:italic;color:#fde68a;font-weight:700;}
+.hero p{font-size:15.5px;color:rgba(255,255,255,.72);line-height:1.75;max-width:540px;}
+
+/* ── WRAP ── */
+.wrap{max-width:1080px;margin:0 auto;padding:36px 40px 72px;}
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:34px;}
+.stat{
+  background:rgba(255,255,255,.78);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(148,163,220,.2);
+  border-radius:16px;padding:20px 22px;
+  display:flex;align-items:center;gap:14px;
+  box-shadow:0 2px 16px rgba(99,102,241,.08), inset 0 1px 0 rgba(255,255,255,.9);
+  transition:all .22s;
+}
+.stat:hover{border-color:rgba(99,102,241,.3);transform:translateY(-2px);box-shadow:0 8px 28px rgba(99,102,241,.14), inset 0 1px 0 rgba(255,255,255,.9);}
+.stat-ic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.ic-b{background:#eff6ff;} .ic-t{background:#f0fdfa;} .ic-a{background:#fffbeb;} .ic-e{background:#f0fdf4;}
+.stat-val{font-size:26px;font-weight:800;color:#0f172a;line-height:1;margin-bottom:3px;letter-spacing:-.5px;}
+.stat-val sup{font-size:12px;font-weight:700;color:#2563eb;vertical-align:super;letter-spacing:0;}
+.stat-lbl{font-size:11.5px;font-weight:600;color:#94a3b8;letter-spacing:.2px;}
+
+/* ── SECTION LABEL ── */
+.sec{font-size:10.5px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:#2563eb;margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.sec::after{content:'';flex:1;height:1.5px;background:rgba(37,99,235,.12);}
+
+/* ── MENU GRID — 2 kolom (tinggal 2 kartu) ── */
+.mgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:36px;}
+.mc{
+  background:rgba(255,255,255,.80);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border:1.5px solid rgba(37,99,235,.1);
+  border-radius:18px;padding:24px 20px;
+  text-decoration:none;color:inherit;display:block;
+  transition:all .22s;position:relative;overflow:hidden;
+  box-shadow:0 2px 12px rgba(15,23,42,.06);
+}
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--c,#2563eb);transform:scaleX(0);transform-origin:left;transition:transform .3s ease;border-radius:18px 18px 0 0;}
+.mc:hover{border-color:var(--c,#2563eb);transform:translateY(-2px);box-shadow:0 10px 32px rgba(15,23,42,.11);}
+.mc:hover::before{transform:scaleX(1);}
+.mc-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;background:var(--ic,#eff6ff);}
+.mc-num{font-size:9.5px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#94a3b8;margin-bottom:4px;}
+.mc-title{font-size:16px;font-weight:800;color:#0f172a;margin-bottom:5px;letter-spacing:-.2px;}
+.mc-desc{font-size:12.5px;color:#64748b;line-height:1.6;}
+.mc-badge{position:absolute;top:16px;right:16px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--bc,#fffbeb);color:var(--bt,#b45309);}
+
+/* ── ORGAN GRID ── */
+.ogrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:36px;}
+
+/* ── ORGAN CARD ── */
+.ok{border-radius:22px;padding:32px;text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;transition:all .22s;border:1.5px solid transparent;}
+.ok:hover{transform:translateY(-3px);box-shadow:0 16px 44px rgba(15,23,42,.18);}
+.ok::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;top:-90px;right:-60px;}
+.ok-ginjal{background:linear-gradient(148deg,#1e3a8a 0%,#2563eb 60%,#1d4ed8 100%);}
+.ok-ginjal::before{background:radial-gradient(rgba(255,255,255,.1),transparent 65%);}
+.ok-hati{background:linear-gradient(148deg,#78350f 0%,#b45309 55%,#d97706 100%);}
+.ok-hati::before{background:radial-gradient(rgba(255,255,255,.09),transparent 65%);}
+.ok-paru{background:linear-gradient(148deg,#0c4a6e 0%,#0284c7 55%,#0ea5e9 100%);}
+.ok-paru::before{background:radial-gradient(rgba(255,255,255,.09),transparent 65%);}
+.ok-kulit{background:linear-gradient(148deg,#831843 0%,#9d174d 50%,#be185d 100%);}
+.ok-kulit::before{background:radial-gradient(rgba(255,255,255,.09),transparent 65%);}
+.ok-ginjal h2 em{color:#fde68a;}
+.ok-hati h2 em{color:#fde68a;}
+.ok-paru h2 em{color:#bae6fd;}
+.ok-kulit h2 em{color:#fecdd3;}
+.ok-bignum{font-size:90px;font-weight:800;color:rgba(255,255,255,.05);position:absolute;right:20px;top:8px;line-height:1;letter-spacing:-5px;}
+.ok-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:4px 12px;font-size:10.5px;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:.3px;margin-bottom:14px;}
+.ok-kelompok{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:99px;padding:3px 10px;font-size:10px;font-weight:700;color:rgba(255,255,255,.8);margin-left:6px;}
+.ok h2{font-size:22px;font-weight:800;color:#fff;margin-bottom:8px;line-height:1.2;letter-spacing:-.4px;}
+.ok h2 em{font-style:italic;}
+.ok-desc{font-size:13px;color:rgba(255,255,255,.62);line-height:1.7;margin-bottom:18px;}
+.ok-phases{display:flex;flex-direction:column;gap:6px;margin-bottom:20px;position:relative;z-index:2;}
+.ok-phase{display:flex;align-items:flex-start;gap:10px;}
+.ok-ph-num{width:20px;height:20px;border-radius:6px;background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.ok-ph-txt{font-size:12.5px;color:rgba(255,255,255,.6);line-height:1.5;}
+.ok-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:10px 20px;font-size:13px;font-weight:700;color:#fff;transition:all .2s;position:relative;z-index:2;}
+.ok:hover .ok-btn{background:rgba(255,255,255,.24);}
+.ok-btn svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ── MODAL KELOMPOK ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .22s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:#fff;border-radius:22px;padding:0;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(15,23,42,.22);transform:translateY(16px) scale(.97);transition:transform .22s;overflow:hidden;}
+.modal-overlay.open .modal{transform:none;}
+.modal-head{padding:22px 24px 16px;display:flex;align-items:center;justify-content:space-between;}
+.modal-title-wrap{display:flex;align-items:center;gap:12px;}
+.modal-badge{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;flex-shrink:0;}
+.modal-kname{font-size:17px;font-weight:800;color:#0f172a;letter-spacing:-.2px;}
+.modal-organ{font-size:12px;color:#94a3b8;font-weight:600;margin-top:2px;}
+.modal-close{width:32px;height:32px;border-radius:8px;border:1.5px solid #e2e8f0;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:#64748b;transition:all .15s;}
+.modal-close:hover{background:#f1f5f9;color:#0f172a;}
+.modal-divider{height:1px;background:#f1f5f9;}
+.modal-body{padding:16px 24px 24px;}
+.modal-list{display:flex;flex-direction:column;gap:8px;}
+.modal-student{display:flex;align-items:center;gap:12px;padding:10px 14px;background:#f8fafc;border-radius:11px;border:1.5px solid #e2e8f0;}
+.modal-num{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0;}
+.modal-name{font-size:13.5px;font-weight:600;color:#0f172a;}
+
+/* ── KELOMPOK STRIP ── */
+.kelompok-strip{
+  background:rgba(255,255,255,.78);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(148,163,220,.2);
+  border-radius:16px;padding:18px 22px;margin-bottom:36px;
+  box-shadow:0 2px 16px rgba(99,102,241,.08), inset 0 1px 0 rgba(255,255,255,.9);
+}
+.ks-title{font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:#94a3b8;margin-bottom:14px;}
+.ks-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;}
+.ks-item{border-radius:12px;padding:11px 10px;text-align:center;transition:transform .15s,box-shadow .15s;}
+.ks-item:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(15,23,42,.18);}
+.ks-num{font-size:18px;font-weight:800;color:#fff;line-height:1;margin-bottom:4px;}
+.ks-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.75);line-height:1.3;}
+.ks-organ{font-size:9px;font-weight:600;color:rgba(255,255,255,.55);margin-top:3px;}
+
+/* ── DEKORASI BACKGROUND FLOATING ── */
+.bg-blob{position:fixed;pointer-events:none;z-index:-1;border-radius:50%;filter:blur(80px);opacity:.5;}
+.bg-blob-1{width:650px;height:650px;background:radial-gradient(circle,rgba(99,102,241,.22),transparent 65%);top:-180px;left:-200px;}
+.bg-blob-2{width:500px;height:500px;background:radial-gradient(circle,rgba(14,165,233,.18),transparent 65%);top:-60px;right:-150px;}
+.bg-blob-3{width:450px;height:450px;background:radial-gradient(circle,rgba(13,148,136,.16),transparent 65%);bottom:50px;right:-100px;}
+.bg-blob-4{width:350px;height:350px;background:radial-gradient(circle,rgba(37,99,235,.14),transparent 65%);bottom:200px;left:-80px;}
+
+/* ── ORGAN CARD ENHANCEMENTS ── */
+.ok-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:3px 9px;font-size:9.5px;font-weight:800;color:rgba(255,255,255,.9);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.ok-phases{display:flex;flex-direction:column;gap:5px;margin-bottom:20px;position:relative;z-index:2;}
+.ok-phase{display:flex;align-items:flex-start;gap:9px;padding:6px 10px;background:rgba(255,255,255,.07);border-radius:8px;transition:background .15s;}
+.ok:hover .ok-phase{background:rgba(255,255,255,.1);}
+.ok-ph-num{width:18px;height:18px;border-radius:5px;background:rgba(255,255,255,.2);color:#fff;font-size:9.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.ok-ph-txt{font-size:12px;color:rgba(255,255,255,.65);line-height:1.45;}
+.ok-divider{height:1px;background:rgba(255,255,255,.12);margin:14px 0 16px;}
+.ok-footer{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2;}
+.ok-kgroup{font-size:11px;font-weight:700;color:rgba(255,255,255,.6);}
+
+/* ── KELOMPOK STRIP ENHANCEMENTS ── */
+.ks-item{border-radius:14px;padding:14px 10px;text-align:center;transition:transform .18s,box-shadow .2s;cursor:pointer;position:relative;overflow:hidden;}
+.ks-item::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .2s;}
+.ks-item:hover::after{background:rgba(255,255,255,.08);}
+.ks-item:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(15,23,42,.22);}
+.ks-num{font-size:22px;font-weight:800;color:#fff;line-height:1;margin-bottom:5px;}
+.ks-label{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.85);line-height:1.3;}
+.ks-organ{font-size:9.5px;font-weight:600;color:rgba(255,255,255,.6);margin-top:4px;}
+
+@media(max-width:960px){.stats{grid-template-columns:1fr 1fr;}.mgrid{grid-template-columns:1fr 1fr;}.ogrid{grid-template-columns:1fr;}.ks-grid{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:640px){.topbar{padding:0 20px;}.nav{display:none;}.hero{padding:40px 20px 64px;}.wrap{padding:24px 20px 60px;}.stats{grid-template-columns:1fr 1fr;}.mgrid{grid-template-columns:1fr;}.ks-grid{grid-template-columns:repeat(3,1fr);}}
+</style>
+</head>
+<body>
+
+<!-- FLOATING BACKGROUND BLOBS -->
+<div class="bg-blob bg-blob-1"></div>
+<div class="bg-blob bg-blob-2"></div>
+<div class="bg-blob bg-blob-3"></div>
+<div class="bg-blob bg-blob-4"></div>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <a href="dashboard.html" class="brand">
+    <div class="brand-mark">🧬</div>
+    <div class="brand-name">Bio<span>Ekskresi</span></div>
+  </a>
+  <div class="nav">
+    <a href="dashboard.html" class="on">Beranda</a>
+
+    <!-- DROPDOWN ORGAN -->
+    <div class="nav-dropdown">
+      <button class="nav-btn">
+        Organ
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="dropdown-menu">
+        <a href="organ-ginjal.html">
+          <div class="dm-icon" style="background:#eff6ff;">🫀</div>
+          Organ Ginjal
+        </a>
+        <a href="organ-hati.html">
+          <div class="dm-icon" style="background:#fffbeb;">🟤</div>
+          Organ Hati
+        </a>
+        <a href="organ-paru.html">
+          <div class="dm-icon" style="background:#f0f9ff;">🫁</div>
+          Organ Paru-Paru
+        </a>
+        <a href="organ-kulit.html">
+          <div class="dm-icon" style="background:#fff1f2;">🫧</div>
+          Organ Kulit
+        </a>
+      </div>
+    </div>
+
+    <a href="identitas-pembelajaran.html">Pembelajaran</a>
+    <a href="identitas-penyusun.html">Penyusun</a>
+  </div>
+  <div class="nav-right"></div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hb1"></div><div class="hb2"></div>
+  <div class="hero-in">
+    <div class="hero-pill"><div class="hdot"></div><em>Problem-Based Learning</em> · SMA/MA Kelas XI</div>
+    <h1>Sistem <em>Ekskresi</em><br/>pada Manusia</h1>
+    <p>Pelajari mekanisme pengeluaran zat sisa metabolisme melalui empat organ ekskresi utama tubuh manusia berbasis masalah nyata.</p>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="wrap">
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-ic ic-b">🧪</div>
+      <div><div class="stat-val">4</div><div class="stat-lbl">Organ Ekskresi</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-ic ic-t">👥</div>
+      <div><div class="stat-val">7</div><div class="stat-lbl">Kelompok Belajar</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-ic ic-a">⏱</div>
+      <div><div class="stat-val">10<sup>JP</sup></div><div class="stat-lbl">Alokasi Waktu</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-ic ic-e">🎯</div>
+      <div><div class="stat-val">5</div><div class="stat-lbl">Tujuan Pembelajaran</div></div>
+    </div>
+  </div>
+
+  <!-- MENU UTAMA -->
+  <div class="sec">Menu Utama</div>
+  <div class="mgrid" style="grid-template-columns:repeat(3,1fr);">
+
+    <a href="identitas-penyusun.html" class="mc" style="--c:#7c3aed;--ic:#f5f3ff;">
+      <div class="mc-icon">👤</div>
+      <div class="mc-num">01 · Profil</div>
+      <div class="mc-title">Identitas Penyusun</div>
+      <div class="mc-desc">Informasi pengembang media pembelajaran ini</div>
+    </a>
+
+    <a href="identitas-pembelajaran.html" class="mc" style="--c:#2563eb;--ic:#eff6ff;">
+      <div class="mc-icon">📚</div>
+      <div class="mc-num">02 · Info Pembelajaran</div>
+      <div class="mc-title">Identitas Pembelajaran</div>
+      <div class="mc-desc">KD, indikator, tujuan &amp; capaian kompetensi</div>
+    </a>
+
+    <div class="mc" style="--c:#0d9488;--ic:#f0fdfa;cursor:default;">
+      <div class="mc-icon">🫀</div>
+      <div class="mc-num">03 · Materi Organ</div>
+      <div class="mc-title">Pilih Organ</div>
+      <div class="mc-desc" style="margin-bottom:12px;">Buka materi dan LKPD sesuai organ kelompokmu</div>
+      <div style="display:flex;flex-direction:column;gap:7px;margin-top:4px;">
+        <a href="materi-organ.html#ginjal" onclick="event.stopPropagation()" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;background:#eff6ff;border:1px solid #bfdbfe;text-decoration:none;font-size:13px;font-weight:700;color:#1d4ed8;transition:all .17s;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">🫀 Ginjal <span style="margin-left:auto;font-size:11px;color:#93c5fd;">Kel. 1 & 2 →</span></a>
+        <a href="materi-organ.html#hati" onclick="event.stopPropagation()" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;background:#fffbeb;border:1px solid #fde68a;text-decoration:none;font-size:13px;font-weight:700;color:#92400e;transition:all .17s;" onmouseover="this.style.background='#fef3c7'" onmouseout="this.style.background='#fffbeb'">🟤 Hati <span style="margin-left:auto;font-size:11px;color:#fbbf24;">Kel. 3 & 4 →</span></a>
+        <a href="materi-organ.html#paru" onclick="event.stopPropagation()" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;background:#f0f9ff;border:1px solid #bae6fd;text-decoration:none;font-size:13px;font-weight:700;color:#0c4a6e;transition:all .17s;" onmouseover="this.style.background='#e0f2fe'" onmouseout="this.style.background='#f0f9ff'">🫁 Paru-Paru <span style="margin-left:auto;font-size:11px;color:#7dd3fc;">Kel. 5 →</span></a>
+        <a href="materi-organ.html#kulit" onclick="event.stopPropagation()" style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;background:#fff1f2;border:1px solid #fecdd3;text-decoration:none;font-size:13px;font-weight:700;color:#9d174d;transition:all .17s;" onmouseover="this.style.background='#ffe4e6'" onmouseout="this.style.background='#fff1f2'">🫧 Kulit <span style="margin-left:auto;font-size:11px;color:#fb7185;">Kel. 6 & 7 →</span></a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PEMBAGIAN KELOMPOK -->
+  <div class="sec">Pembagian Kelompok</div>
+  <div class="kelompok-strip">
+    <div class="ks-title">7 Kelompok · 35 Siswa · Klik kelompok untuk melihat daftar nama</div>
+    <div class="ks-grid">
+      <div class="ks-item" style="background:linear-gradient(135deg,#1d4ed8,#2563eb);cursor:pointer;" onclick="openModal(1)">
+        <div class="ks-num">1</div>
+        <div class="ks-label">Kelompok 1</div>
+        <div class="ks-organ">🫀 Ginjal</div>
+      </div>
+      <div class="ks-item" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6);cursor:pointer;" onclick="openModal(2)">
+        <div class="ks-num">2</div>
+        <div class="ks-label">Kelompok 2</div>
+        <div class="ks-organ">🫀 Ginjal</div>
+      </div>
+      <div class="ks-item" style="background:linear-gradient(135deg,#92400e,#b45309);cursor:pointer;" onclick="openModal(3)">
+        <div class="ks-num">3</div>
+        <div class="ks-label">Kelompok 3</div>
+        <div class="ks-organ">🟤 Hati</div>
+      </div>
+      <div class="ks-item" style="background:linear-gradient(135deg,#92400e,#d97706);cursor:pointer;" onclick="openModal(4)">
+        <div class="ks-num">4</div>
+        <div class="ks-label">Kelompok 4</div>
+        <div class="ks-organ">🟤 Hati</div>
+      </div>
+      <div class="ks-item" style="background:linear-gradient(135deg,#0c4a6e,#0284c7);cursor:pointer;" onclick="openModal(5)">
+        <div class="ks-num">5</div>
+        <div class="ks-label">Kelompok 5</div>
+        <div class="ks-organ">🫁 Paru-Paru</div>
+      </div>
+      <div class="ks-item" style="background:linear-gradient(135deg,#831843,#be185d);cursor:pointer;" onclick="openModal(6)">
+        <div class="ks-num">6</div>
+        <div class="ks-label">Kelompok 6</div>
+        <div class="ks-organ">🫧 Kulit</div>
+      </div>
+      <div class="ks-item" style="background:linear-gradient(135deg,#9d174d,#e11d48);cursor:pointer;" onclick="openModal(7)">
+        <div class="ks-num">7</div>
+        <div class="ks-label">Kelompok 7</div>
+        <div class="ks-organ">🫧 Kulit</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" id="modal">
+      <div class="modal-head">
+        <div class="modal-title-wrap">
+          <div class="modal-badge" id="modal-badge">1</div>
+          <div>
+            <div class="modal-kname" id="modal-kname">Kelompok 1</div>
+            <div class="modal-organ" id="modal-organ">🫀 Ginjal</div>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="modal-body">
+        <div class="modal-list" id="modal-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORGAN PBL -->
+  <div class="sec">Organ Ekskresi · <em>Problem-Based Learning</em></div>
+  <div class="ogrid">
+
+    <!-- GINJAL -->
+    <a href="organ-ginjal.html" class="ok ok-ginjal">
+      <div class="ok-bignum">G</div>
+      <div class="ok-tag">🫀 Organ 01</div>
+      <h2>Organ Ginjal</h2>
+      <p class="ok-desc">Eksplorasi mekanisme filtrasi darah, pembentukan urin, dan peran ginjal dalam homeostasis melalui kasus nyata.</p>
+      <div class="ok-divider"></div>
+      <div class="ok-phases">
+        <div class="ok-phase"><div class="ok-ph-num">1</div><div class="ok-ph-txt">Mengorientasikan peserta didik pada masalah</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">2</div><div class="ok-ph-txt">Mengorganisasikan peserta didik untuk belajar</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">3</div><div class="ok-ph-txt">Membimbing penyelidikan individu atau kelompok</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">4</div><div class="ok-ph-txt">Mengembangkan dan menyajikan hasil</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">5</div><div class="ok-ph-txt">Menganalisis dan mengevaluasi proses pemecahan masalah</div></div>
+      </div>
+      <div class="ok-footer">
+        <div class="ok-kgroup">👥 Kelompok 1 &amp; 2</div>
+        <span class="ok-btn">Mulai <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </div>
+    </a>
+
+    <!-- HATI -->
+    <a href="organ-hati.html" class="ok ok-hati">
+      <div class="ok-bignum">H</div>
+      <div class="ok-tag">🟤 Organ 02</div>
+      <h2>Organ Hati</h2>
+      <p class="ok-desc">Eksplorasi peran hati dalam ekskresi bilirubin, siklus urea, dan detoksifikasi melalui analisis kasus klinis nyata.</p>
+      <div class="ok-divider"></div>
+      <div class="ok-phases">
+        <div class="ok-phase"><div class="ok-ph-num">1</div><div class="ok-ph-txt">Mengorientasikan peserta didik pada masalah</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">2</div><div class="ok-ph-txt">Mengorganisasikan peserta didik untuk belajar</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">3</div><div class="ok-ph-txt">Membimbing penyelidikan individu atau kelompok</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">4</div><div class="ok-ph-txt">Mengembangkan dan menyajikan hasil</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">5</div><div class="ok-ph-txt">Menganalisis dan mengevaluasi proses pemecahan masalah</div></div>
+      </div>
+      <div class="ok-footer">
+        <div class="ok-kgroup">👥 Kelompok 3 &amp; 4</div>
+        <span class="ok-btn">Mulai <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </div>
+    </a>
+
+    <!-- PARU-PARU -->
+    <a href="organ-paru.html" class="ok ok-paru">
+      <div class="ok-bignum">P</div>
+      <div class="ok-tag">🫁 Organ 03</div>
+      <h2>Organ Paru-Paru</h2>
+      <p class="ok-desc">Eksplorasi mekanisme ekskresi CO₂ dan uap air melalui pertukaran gas di alveolus dalam konteks kasus gangguan pernapasan.</p>
+      <div class="ok-divider"></div>
+      <div class="ok-phases">
+        <div class="ok-phase"><div class="ok-ph-num">1</div><div class="ok-ph-txt">Mengorientasikan peserta didik pada masalah</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">2</div><div class="ok-ph-txt">Mengorganisasikan peserta didik untuk belajar</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">3</div><div class="ok-ph-txt">Membimbing penyelidikan individu atau kelompok</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">4</div><div class="ok-ph-txt">Mengembangkan dan menyajikan hasil</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">5</div><div class="ok-ph-txt">Menganalisis dan mengevaluasi proses pemecahan masalah</div></div>
+      </div>
+      <div class="ok-footer">
+        <div class="ok-kgroup">👥 Kelompok 5</div>
+        <span class="ok-btn">Mulai <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </div>
+    </a>
+
+    <!-- KULIT -->
+    <a href="organ-kulit.html" class="ok ok-kulit">
+      <div class="ok-bignum">K</div>
+      <div class="ok-tag">🫧 Organ 04</div>
+      <h2>Organ Kulit</h2>
+      <p class="ok-desc">Eksplorasi peran kulit dalam ekskresi keringat, termoregulasi, dan fungsi barier tubuh melalui kasus gangguan kulit nyata.</p>
+      <div class="ok-divider"></div>
+      <div class="ok-phases">
+        <div class="ok-phase"><div class="ok-ph-num">1</div><div class="ok-ph-txt">Mengorientasikan peserta didik pada masalah</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">2</div><div class="ok-ph-txt">Mengorganisasikan peserta didik untuk belajar</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">3</div><div class="ok-ph-txt">Membimbing penyelidikan individu atau kelompok</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">4</div><div class="ok-ph-txt">Mengembangkan dan menyajikan hasil</div></div>
+        <div class="ok-phase"><div class="ok-ph-num">5</div><div class="ok-ph-txt">Menganalisis dan mengevaluasi proses pemecahan masalah</div></div>
+      </div>
+      <div class="ok-footer">
+        <div class="ok-kgroup">👥 Kelompok 6 &amp; 7</div>
+        <span class="ok-btn">Mulai <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </div>
+    </a>
+
+  </div>
+
+</div>
+<script>
+const KELOMPOK = {
+  1:{nama:'Kelompok 1',organ:'🫀 Ginjal',bg:'linear-gradient(135deg,#1d4ed8,#2563eb)',nbg:'#eff6ff',nc:'#1d4ed8',
+    siswa:['Putri Salsabila','Kadek Anggita Dharmapatni','Atalantha Ramadhan Islami Prama','Adinda Quiensha Nadiva','Anastasia Rosaline Aurellia Wawoh']},
+  2:{nama:'Kelompok 2',organ:'🫀 Ginjal',bg:'linear-gradient(135deg,#1d4ed8,#3b82f6)',nbg:'#eff6ff',nc:'#1d4ed8',
+    siswa:['Nathania Christy Fortunelia','Imayanti Anisa Murti','Khayyira Talita Sakhi','Beryl Myiesha Ardell Dahayu','Andi Almira Rahmadani Luqman']},
+  3:{nama:'Kelompok 3',organ:'🟤 Hati',bg:'linear-gradient(135deg,#92400e,#b45309)',nbg:'#fffbeb',nc:'#b45309',
+    siswa:['Agatha Puspa Nirwana','Nasywa Asshofa Puteri','Saina Novayanti Hafidzah','Muhammad Shiddiq Al Kholiq','Jeeva Rizcky Aquila']},
+  4:{nama:'Kelompok 4',organ:'🟤 Hati',bg:'linear-gradient(135deg,#92400e,#d97706)',nbg:'#fffbeb',nc:'#b45309',
+    siswa:['Farah Azizah Inami','Alicya Paramitha Maharani','Rania Azahra Kahar','Augieta Christy Putri Daesy Wirawan','Shafiyah Shabira']},
+  5:{nama:'Kelompok 5',organ:'🫁 Paru-Paru',bg:'linear-gradient(135deg,#0c4a6e,#0284c7)',nbg:'#f0f9ff',nc:'#0284c7',
+    siswa:['Shafira Widya Tunggadewi','Aurellia Fabiola Hernanda','Azzakiyah Naisaifullah','Freya Kayaru Paramanindya','Hilalah Ayda Zamri']},
+  6:{nama:'Kelompok 6',organ:'🫧 Kulit',bg:'linear-gradient(135deg,#831843,#be185d)',nbg:'#fff1f2',nc:'#be185d',
+    siswa:['Navira Faizah Putri Zalianty','Aliya Indah Sari','Nur Azizah Yanuarti','Bunga Alzena Salsabila','Nafisah Nur Laily']},
+  7:{nama:'Kelompok 7',organ:'🫧 Kulit',bg:'linear-gradient(135deg,#9d174d,#e11d48)',nbg:'#fff1f2',nc:'#be185d',
+    siswa:['Reyshila Arta Fa\'izah','Agatha Valent Alston','Keyla Maheswari Putri Caniago','Rezita Widiadhari','Muh Mika Djaradjenaka Saputra Firmana']},
+};
+
+function openModal(n){
+  const k=KELOMPOK[n];
+  document.getElementById('modal-badge').textContent=n;
+  document.getElementById('modal-badge').style.background=k.bg;
+  document.getElementById('modal-kname').textContent=k.nama;
+  document.getElementById('modal-organ').textContent=k.organ;
+  const list=document.getElementById('modal-list');
+  list.innerHTML=k.siswa.map((s,i)=>`
+    <div class="modal-student">
+      <div class="modal-num" style="background:${k.bg}">${i+1}</div>
+      <div class="modal-name">${s}</div>
+    </div>`).join('');
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(e){
+  if(e&&e.target!==document.getElementById('modal-overlay')&&e.type==='click')return;
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+</script>
+</body>
+</html>

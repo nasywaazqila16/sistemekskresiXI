@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Dashboard Guru | BioEkskresi</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+  background:#f0f4f8;
+  color:#0f172a;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:99px;}
+
+/* ── TOKENS ── */
+:root{
+  --white:#ffffff;
+  --bg:#f0f4f8;
+  --bg2:#e8eef5;
+  --surface:#ffffff;
+  --border:#e2e8f0;
+  --border2:#cbd5e1;
+  --text:#0f172a;
+  --text2:#475569;
+  --text3:#94a3b8;
+  --blue:#2563eb;
+  --blue-dim:#eff6ff;
+  --blue-brd:#bfdbfe;
+  --green:#059669;
+  --green-dim:#f0fdf4;
+  --green-brd:#bbf7d0;
+  --amber:#d97706;
+  --amber-dim:#fffbeb;
+  --amber-brd:#fde68a;
+  --purple:#7c3aed;
+  --purple-dim:#f5f3ff;
+  --purple-brd:#ddd6fe;
+  --teal:#0d9488;
+  --teal-dim:#f0fdfa;
+  --rose:#be185d;
+  --rose-dim:#fff1f2;
+  /* organ */
+  --c-ginjal:#2563eb;
+  --c-hati:#d97706;
+  --c-paru:#0d9488;
+  --c-kulit:#be185d;
+  /* fase */
+  --c-f1:#2563eb;--c-f2:#7c3aed;--c-f3:#0d9488;--c-f4:#d97706;--c-f5:#059669;
+}
+
+/* ── TOPBAR ── */
+.topbar{
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  height:60px;padding:0 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;
+  box-shadow:0 1px 8px rgba(15,23,42,.06);
+}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#1e40af,#2563eb,#0d9488);display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 3px 10px rgba(37,99,235,.25);}
+.brand-name{font-size:16px;font-weight:800;color:var(--text);letter-spacing:-.3px;}
+.brand-name em{font-style:normal;color:var(--blue);}
+.topbar-left{display:flex;align-items:center;gap:14px;}
+.topbar-right{display:flex;align-items:center;gap:8px;}
+.btn-sm{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:8px;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12.5px;font-weight:600;text-decoration:none;cursor:pointer;border:1px solid var(--border);background:var(--white);color:var(--text2);transition:all .17s;}
+.btn-sm:hover{border-color:var(--blue-brd);color:var(--blue);background:var(--blue-dim);}
+.btn-sm.green{border-color:var(--green-brd);background:var(--green-dim);color:var(--green);}
+.btn-sm.green:hover{background:#dcfce7;}
+.live-pill{display:inline-flex;align-items:center;gap:6px;background:var(--green-dim);border:1px solid var(--green-brd);border-radius:99px;padding:4px 12px;font-size:11.5px;font-weight:700;color:var(--green);}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(5,150,105,.4);}70%{box-shadow:0 0 0 5px rgba(5,150,105,0);}}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(135deg,#1a3070 0%,#1e40af 30%,#2563eb 55%,#0891b2 78%,#0d9488 100%);
+  padding:36px 32px 44px;position:relative;overflow:hidden;
+}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.055) 1px,transparent 1px);background-size:24px 24px;pointer-events:none;}
+.hero-blob1{position:absolute;width:450px;height:450px;border-radius:50%;background:radial-gradient(rgba(255,255,255,.08),transparent 65%);top:-180px;right:-60px;pointer-events:none;}
+.hero-blob2{position:absolute;width:220px;height:220px;border-radius:50%;background:radial-gradient(rgba(255,255,255,.06),transparent 65%);bottom:-60px;left:3%;pointer-events:none;}
+.hero-in{max-width:1120px;margin:0 auto;position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:99px;padding:4px 13px;font-size:11px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.5px;text-transform:uppercase;margin-bottom:12px;}
+.hero h1{font-family:'Instrument Serif',serif;font-size:clamp(26px,3.5vw,42px);font-weight:400;font-style:italic;color:#fff;line-height:1.15;letter-spacing:-.3px;margin-bottom:8px;}
+.hero h1 strong{font-style:normal;font-weight:700;}
+.hero-sub{font-size:13.5px;color:rgba(255,255,255,.7);line-height:1.7;max-width:460px;}
+.hero-kpi{display:flex;gap:3px;}
+.kpi{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:16px 22px;text-align:center;min-width:100px;cursor:default;transition:all .2s;}
+.kpi:hover{background:rgba(255,255,255,.18);}
+.kpi-val{font-family:'Instrument Serif',serif;font-size:32px;color:#fff;line-height:1;margin-bottom:4px;}
+.kpi-lbl{font-size:10.5px;font-weight:600;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;}
+
+/* ── MAIN ── */
+.main{max-width:1120px;margin:0 auto;padding:28px 32px 72px;}
+
+/* ── PANEL BAR ── */
+.panel-bar{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;box-shadow:0 1px 6px rgba(15,23,42,.04);}
+.panel-bar-left{display:flex;align-items:center;gap:10px;}
+.connected-dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(5,150,105,.15);flex-shrink:0;}
+.connected-text{font-size:13px;font-weight:700;color:var(--text);}
+.connected-id{font-size:11px;color:var(--text3);font-family:monospace;margin-top:1px;}
+.panel-bar-right{display:flex;align-items:center;gap:8px;}
+.last-update{font-size:11.5px;color:var(--text3);font-weight:500;}
+.btn-reload{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:9px;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12.5px;font-weight:600;background:var(--white);border:1.5px solid var(--border);color:var(--text2);cursor:pointer;transition:all .18s;}
+.btn-reload:hover{border-color:var(--blue-brd);color:var(--blue);}
+.btn-reload.spin svg{animation:spin .65s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── FILTER ── */
+.filter-wrap{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:18px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;box-shadow:0 1px 6px rgba(15,23,42,.04);}
+.filter-sec{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.filter-lbl{font-size:10.5px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-right:4px;white-space:nowrap;}
+.filter-sep{width:1px;height:26px;background:var(--border2);margin:0 6px;}
+.fbtn{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:8px;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:var(--white);color:var(--text2);cursor:pointer;transition:all .17s;white-space:nowrap;}
+.fbtn:hover{border-color:var(--blue-brd);color:var(--blue);background:var(--blue-dim);}
+.fbtn.on{color:#fff;border-color:transparent;box-shadow:0 2px 10px rgba(0,0,0,.12);}
+.fbtn[data-k="all"].on{background:linear-gradient(135deg,#1e40af,#2563eb);}
+.fbtn[data-organ="Ginjal"].on{background:linear-gradient(135deg,#1e40af,#2563eb);}
+.fbtn[data-organ="Hati"].on{background:linear-gradient(135deg,#92400e,#d97706);}
+.fbtn[data-organ="Paru-Paru"].on{background:linear-gradient(135deg,#0f766e,#0d9488);}
+.fbtn[data-organ="Kulit"].on{background:linear-gradient(135deg,#9d174d,#be185d);}
+.fbtn[data-fase="all"].on{background:linear-gradient(135deg,#1e40af,#2563eb);}
+.fbtn[data-fase="1"].on{background:linear-gradient(135deg,#1e40af,#2563eb);}
+.fbtn[data-fase="2"].on{background:linear-gradient(135deg,#5b21b6,#7c3aed);}
+.fbtn[data-fase="3"].on{background:linear-gradient(135deg,#0f766e,#0d9488);}
+.fbtn[data-fase="4"].on{background:linear-gradient(135deg,#92400e,#d97706);}
+.fbtn[data-fase="5"].on{background:linear-gradient(135deg,#065f46,#059669);}
+
+/* ── KPI ROW ── */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px;}
+.kpi-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(15,23,42,.04);transition:all .2s;}
+.kpi-card:hover{border-color:var(--blue-brd);box-shadow:0 3px 14px rgba(99,102,241,.08);}
+.kpi-ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.kpi-num{font-family:'Instrument Serif',serif;font-size:24px;color:var(--text);line-height:1;}
+.kpi-desc{font-size:11px;font-weight:600;color:var(--text3);margin-top:2px;}
+
+/* ── PROGRESS SECTION ── */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.sec-title{font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:2px;display:flex;align-items:center;gap:10px;}
+.sec-title::after{content:'';width:60px;height:1.5px;background:var(--blue-brd);}
+.prog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:24px;}
+.prog-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 16px;box-shadow:0 1px 6px rgba(15,23,42,.04);transition:all .2s;}
+.prog-card:hover{border-color:var(--blue-brd);box-shadow:0 3px 14px rgba(99,102,241,.08);}
+.prog-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.prog-kelompok{font-size:13px;font-weight:700;}
+.prog-organ{font-size:11px;color:var(--text3);margin-top:1px;}
+.prog-count{font-size:13px;font-weight:800;}
+.prog-pips{display:flex;gap:4px;}
+.pip{height:6px;border-radius:3px;flex:1;background:#f1f5f9;border:1px solid var(--border);transition:all .3s;}
+.pip.done{border-color:transparent;}
+
+/* ── JAWABAN LIST ── */
+.jawaban-list{display:flex;flex-direction:column;gap:10px;}
+.jcard{background:var(--white);border:1.5px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 1px 8px rgba(15,23,42,.05);transition:all .22s;}
+.jcard:hover{border-color:var(--blue-brd);box-shadow:0 4px 20px rgba(99,102,241,.1);}
+.jcard.open{border-color:var(--blue-brd);box-shadow:0 6px 28px rgba(37,99,235,.1);}
+
+.jcard-head{padding:15px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;gap:12px;transition:background .18s;}
+.jcard-head:hover{background:#f8faff;}
+.jcard.open .jcard-head{background:#eff6ff;border-bottom:1.5px solid var(--blue-brd);}
+
+.jcard-left{display:flex;align-items:center;gap:12px;}
+.jcard-ava{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;}
+.jcard-name{font-size:14px;font-weight:800;color:var(--text);}
+.jcard-meta{font-size:11.5px;color:var(--text3);margin-top:2px;display:flex;align-items:center;gap:6px;}
+
+.jcard-right{display:flex;align-items:center;gap:8px;}
+.fase-chip{display:inline-flex;align-items:center;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;}
+.fc1{background:#eff6ff;color:#1d4ed8;}
+.fc2{background:#f5f3ff;color:#6d28d9;}
+.fc3{background:#f0fdfa;color:#0f766e;}
+.fc4{background:#fffbeb;color:#92400e;}
+.fc5{background:#f0fdf4;color:#065f46;}
+.organ-chip{display:inline-flex;align-items:center;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;}
+.oc-g{background:#eff6ff;color:#1d4ed8;}
+.oc-h{background:#fffbeb;color:#92400e;}
+.oc-p{background:#f0fdfa;color:#0f766e;}
+.oc-k{background:#fff1f2;color:#9d174d;}
+.toggle-ic{width:28px;height:28px;border-radius:8px;background:#f1f5f9;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text3);transition:all .2s;flex-shrink:0;}
+.jcard.open .toggle-ic{background:var(--blue-dim);border-color:var(--blue-brd);color:var(--blue);transform:rotate(180deg);}
+
+/* ── JAWABAN BODY ── */
+.jcard-body{display:none;padding:20px;}
+.jcard.open .jcard-body{display:block;animation:fadeIn .2s ease both;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+.fase-section{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border);}
+.fase-section:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+
+.fase-sec-head{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.fase-sec-badge{display:inline-flex;align-items:center;padding:5px 13px;border-radius:8px;font-size:12px;font-weight:700;color:#fff;}
+.fase-sec-time{font-size:11px;color:var(--text3);}
+
+.qa-grid{display:grid;gap:12px;}
+.qa-item{}
+.qa-q{font-size:10.5px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.qa-q::before{content:'';width:3px;height:11px;border-radius:2px;background:var(--blue);flex-shrink:0;}
+.qa-ans{font-size:13.5px;color:var(--text2);line-height:1.8;background:#f8fafc;border:1.5px solid var(--border);border-left:3px solid var(--blue);border-radius:10px;padding:11px 14px;white-space:pre-wrap;word-break:break-word;}
+.qa-ans.empty{color:var(--text3);font-style:italic;border-left-color:var(--border);}
+.qa-ans.fase2{border-left-color:var(--c-f2);}
+.qa-ans.fase3{border-left-color:var(--c-f3);}
+.qa-ans.fase4{border-left-color:var(--c-f4);}
+.qa-ans.fase5{border-left-color:var(--c-f5);}
+
+/* TABLE */
+.qa-table-wrap{overflow-x:auto;border-radius:10px;border:1.5px solid var(--border);margin-top:4px;}
+.qa-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.qa-table th{background:#f8fafc;font-size:10.5px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;padding:9px 12px;text-align:left;border-bottom:1.5px solid var(--border);}
+.qa-table td{padding:9px 12px;border-bottom:1px solid #f1f5f9;color:var(--text2);vertical-align:top;line-height:1.65;}
+.qa-table tr:last-child td{border-bottom:none;}
+.qa-table tr:hover td{background:#fafcff;}
+
+/* ── SUMMARY PANEL ── */
+.summary-panel{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:20px;box-shadow:0 1px 6px rgba(15,23,42,.04);}
+.summary-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.summary-card{border-radius:12px;padding:13px 15px;border:1px solid;}
+.sc-ginjal{background:#eff6ff;border-color:var(--blue-brd);}
+.sc-hati{background:#fffbeb;border-color:var(--amber-brd);}
+.sc-paru{background:#f0fdfa;border-color:#99f6e4;}
+.sc-kulit{background:#fff1f2;border-color:#fecdd3;}
+.sc-name{font-size:12px;font-weight:800;margin-bottom:8px;}
+.sc-ginjal .sc-name{color:#1d4ed8;}
+.sc-hati .sc-name{color:#92400e;}
+.sc-paru .sc-name{color:#0f766e;}
+.sc-kulit .sc-name{color:#9d174d;}
+.sc-pips{display:flex;gap:3px;margin-bottom:6px;}
+.sc-pip{height:5px;border-radius:3px;flex:1;background:rgba(0,0,0,.08);}
+.sc-pip.done{background:currentColor;opacity:.7;}
+.sc-stat{font-size:11px;color:var(--text3);}
+
+/* ── STATE BOXES ── */
+.state-box{background:var(--white);border:1.5px dashed var(--border2);border-radius:20px;padding:64px 24px;text-align:center;box-shadow:0 1px 6px rgba(15,23,42,.04);}
+.state-icon{font-size:40px;display:block;margin-bottom:14px;}
+.state-title{font-family:'Instrument Serif',serif;font-size:20px;font-style:italic;color:var(--text);margin-bottom:8px;}
+.state-desc{font-size:13.5px;color:var(--text3);line-height:1.7;max-width:380px;margin:0 auto;}
+.spinner{width:32px;height:32px;border:2.5px solid var(--border2);border-top-color:var(--blue);border-radius:50%;animation:spin .65s linear infinite;margin:0 auto 14px;}
+
+/* ── SEARCH BAR ── */
+.search-wrap{position:relative;flex:1;max-width:280px;}
+.search-input{width:100%;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:13px;color:var(--text);background:#f8fafc;border:1.5px solid var(--border);border-radius:10px;padding:8px 12px 8px 34px;outline:none;transition:all .18s;}
+.search-input:focus{border-color:var(--blue-brd);background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.07);}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:14px;pointer-events:none;}
+
+/* ── EXPORT BTN ── */
+.btn-export{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:9px;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12.5px;font-weight:600;background:var(--green-dim);border:1.5px solid var(--green-brd);color:var(--green);cursor:pointer;transition:all .18s;}
+.btn-export:hover{background:#dcfce7;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .topbar{padding:0 16px;}
+  .hero{padding:24px 16px 32px;}
+  .main{padding:16px 16px 60px;}
+  .kpi-row{grid-template-columns:1fr 1fr;}
+  .summary-grid{grid-template-columns:1fr 1fr;}
+  .hero-in{flex-direction:column;align-items:flex-start;}
+  .hero-kpi{display:grid;grid-template-columns:repeat(3,1fr);width:100%;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <div class="topbar-left">
+    <a href="dashboard.html" class="btn-sm">← Beranda</a>
+    <a href="dashboard.html" class="brand">
+      <div class="brand-mark">🧬</div>
+      <div class="brand-name">Bio<em>Ekskresi</em></div>
+    </a>
+  </div>
+  <div class="topbar-right">
+    <div class="live-pill"><div class="live-dot"></div>Real-time</div>
+    <a href="https://docs.google.com/spreadsheets/d/1Y2shmQk1yGT9Cdcw4klvdAcjM2Q9BSK-vp9xWsf3-JM/edit" target="_blank" class="btn-sm green">📊 Sheets</a>
+    <span class="btn-sm" style="cursor:default;">👩‍🏫 Guru</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-blob1"></div><div class="hero-blob2"></div>
+  <div class="hero-in">
+    <div>
+      <div class="hero-eyebrow">📊 Dashboard Guru · Kelas XI-I</div>
+      <h1><strong>Pantau Jawaban</strong><br/>Peserta Didik</h1>
+      <p class="hero-sub">Semua jawaban LKPD masuk secara real-time dari Firebase. Filter, cari, dan analisis per organ, fase, maupun kelompok.</p>
+    </div>
+    <div class="hero-kpi">
+      <div class="kpi"><div class="kpi-val" id="kpi-total">–</div><div class="kpi-lbl">Total Jawaban</div></div>
+      <div class="kpi"><div class="kpi-val" id="kpi-kelompok">–</div><div class="kpi-lbl">Kelompok</div></div>
+      <div class="kpi"><div class="kpi-val" id="kpi-selesai">–</div><div class="kpi-lbl">Selesai F5</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- PANEL BAR -->
+  <div class="panel-bar">
+    <div class="panel-bar-left">
+      <div class="connected-dot"></div>
+      <div>
+        <div class="connected-text">Firebase Tersambung · BioEkskresi</div>
+        <div class="connected-id">bioekskresi-default-rtdb.asia-southeast1.firebasedatabase.app</div>
+      </div>
+    </div>
+    <div class="panel-bar-right">
+      <span class="last-update" id="last-update">Memuat...</span>
+      <button class="btn-reload" id="reload-btn" onclick="manualReload()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- SUMMARY PANEL -->
+  <div class="summary-panel" id="summary-panel" style="display:none;">
+    <div class="summary-title">📋 Ringkasan Progress per Organ</div>
+    <div class="summary-grid" id="summary-grid"></div>
+  </div>
+
+  <!-- FILTER + SEARCH -->
+  <div class="filter-wrap" id="filter-wrap" style="display:none;">
+    <div class="filter-sec">
+      <span class="filter-lbl">Organ</span>
+      <button class="fbtn on" data-organ="all" data-k="all" onclick="setOrgan(this,'all')">🌐 Semua</button>
+      <button class="fbtn" data-organ="Ginjal" onclick="setOrgan(this,'Ginjal')">🫀 Ginjal</button>
+      <button class="fbtn" data-organ="Hati" onclick="setOrgan(this,'Hati')">🟤 Hati</button>
+      <button class="fbtn" data-organ="Paru-Paru" onclick="setOrgan(this,'Paru-Paru')">🫁 Paru-Paru</button>
+      <button class="fbtn" data-organ="Kulit" onclick="setOrgan(this,'Kulit')">🫧 Kulit</button>
+    </div>
+    <div class="filter-sep"></div>
+    <div class="filter-sec">
+      <span class="filter-lbl">Fase</span>
+      <button class="fbtn on" data-fase="all" onclick="setFase(this,'all')">Semua</button>
+      <button class="fbtn" data-fase="1" onclick="setFase(this,1)">F1</button>
+      <button class="fbtn" data-fase="2" onclick="setFase(this,2)">F2</button>
+      <button class="fbtn" data-fase="3" onclick="setFase(this,3)">F3</button>
+      <button class="fbtn" data-fase="4" onclick="setFase(this,4)">F4</button>
+      <button class="fbtn" data-fase="5" onclick="setFase(this,5)">F5</button>
+    </div>
+    <div class="filter-sep"></div>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="search-input" placeholder="Cari kelompok atau jawaban..." oninput="renderJawaban()">
+    </div>
+  </div>
+
+  <!-- KPI ROW -->
+  <div class="kpi-row" id="kpi-row" style="display:none;">
+    <div class="kpi-card"><div class="kpi-ic" style="background:#eff6ff;">📝</div><div><div class="kpi-num" id="s-jawaban">0</div><div class="kpi-desc">Jawaban Ditampilkan</div></div></div>
+    <div class="kpi-card"><div class="kpi-ic" style="background:#f0fdf4;">👥</div><div><div class="kpi-num" id="s-kelompok">0</div><div class="kpi-desc">Kelompok Aktif</div></div></div>
+    <div class="kpi-card"><div class="kpi-ic" style="background:#f5f3ff;">🏫</div><div><div class="kpi-num" id="s-organ">0</div><div class="kpi-desc">Organ</div></div></div>
+    <div class="kpi-card"><div class="kpi-ic" style="background:#fffbeb;">✅</div><div><div class="kpi-num" id="s-fase5">0</div><div class="kpi-desc">Selesai Fase 5</div></div></div>
+    <div class="kpi-card"><div class="kpi-ic" style="background:#fff1f2;">⏱️</div><div><div class="kpi-num" id="s-terbaru">–</div><div class="kpi-desc">Update Terbaru</div></div></div>
+  </div>
+
+  <!-- PROGRESS GRID -->
+  <div id="prog-section" style="display:none;">
+    <div class="sec-head"><div class="sec-title">Progress Kelompok</div></div>
+    <div class="prog-grid" id="prog-grid"></div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="main-content">
+    <div class="state-box">
+      <div class="spinner"></div>
+      <div class="state-title">Menghubungkan ke Firebase...</div>
+      <div class="state-desc">Mengambil data jawaban secara real-time.</div>
+    </div>
+  </div>
+
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyAVRUz17JObm2qPfcDGmrasgacRAthjDgM',
+  authDomain: 'bioekskresi.firebaseapp.com',
+  databaseURL: 'https://bioekskresi-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId: 'bioekskresi',
+  storageBucket: 'bioekskresi.firebasestorage.app',
+  messagingSenderId: '129115226512',
+  appId: '1:129115226512:web:b9fa69270169ac6a527315'
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+
+// ── STATE ──
+let allData = [];
+let currentOrgan = 'all';
+let currentFase  = 'all';
+
+const FASE_LABELS = ['','Orientasi Masalah','Organisasi Belajar','Penyelidikan','Pengembangan Hasil','Analisis & Evaluasi'];
+const FASE_GRADS  = ['',
+  'linear-gradient(135deg,#1e40af,#2563eb)',
+  'linear-gradient(135deg,#5b21b6,#7c3aed)',
+  'linear-gradient(135deg,#0f766e,#0d9488)',
+  'linear-gradient(135deg,#92400e,#d97706)',
+  'linear-gradient(135deg,#065f46,#059669)'
+];
+const ORGAN_COLOR = {Ginjal:'#2563eb',Hati:'#d97706','Paru-Paru':'#0d9488',Kulit:'#be185d'};
+const ORGAN_GRAD  = {
+  Ginjal:'linear-gradient(135deg,#1e40af,#2563eb)',
+  Hati:'linear-gradient(135deg,#92400e,#d97706)',
+  'Paru-Paru':'linear-gradient(135deg,#0f766e,#0d9488)',
+  Kulit:'linear-gradient(135deg,#9d174d,#be185d)'
+};
+const ORGAN_CHIP_CLASS = {Ginjal:'oc-g',Hati:'oc-h','Paru-Paru':'oc-p',Kulit:'oc-k'};
+const FASE_CHIP_CLASS  = ['','fc1','fc2','fc3','fc4','fc5'];
+const PIP_COLORS = ['','#2563eb','#7c3aed','#0d9488','#d97706','#059669'];
+
+// ── FIREBASE LISTENER ──
+window.addEventListener('DOMContentLoaded', () => {
+  onValue(ref(db, 'jawaban'), snap => {
+    allData = flatten(snap.val());
+    document.getElementById('last-update').textContent = 'Update: ' + new Date().toLocaleTimeString('id-ID');
+    document.getElementById('reload-btn').classList.remove('spin');
+    updateKPIs();
+    if (allData.length === 0) {
+      showEmpty();
+    } else {
+      show('filter-wrap'); show('kpi-row'); show('prog-section'); show('summary-panel');
+      renderSummary();
+      renderProgress();
+      renderJawaban();
+    }
+  }, err => showError(err.message));
+});
+
+function flatten(raw) {
+  if (!raw) return [];
+  const rows = [];
+  Object.entries(raw).forEach(([organ, kelompoks]) => {
+    if (!kelompoks || typeof kelompoks !== 'object') return;
+    Object.entries(kelompoks).forEach(([kKey, fases]) => {
+      if (!fases || typeof fases !== 'object') return;
+      Object.entries(fases).forEach(([fKey, data]) => {
+        if (!data || typeof data !== 'object') return;
+        const faseNum = parseInt(data.fase) || parseInt(fKey.replace('fase_','')) || 1;
+        const kelNum  = data.kelompok || kKey.replace('kelompok_','');
+        rows.push({
+          ...data,
+          organ: data.organ || organ,
+          kelompok: kelNum,
+          fase: faseNum
+        });
+      });
+    });
+  });
+  return rows;
+}
+
+// ── FILTER ──
+window.setOrgan = (btn, organ) => {
+  document.querySelectorAll('.fbtn[data-organ]').forEach(b => b.classList.remove('on'));
+  document.querySelector('.fbtn[data-k="all"]')?.classList.remove('on');
+  btn.classList.add('on');
+  currentOrgan = organ;
+  renderProgress(); renderJawaban(); renderSummary();
+};
+window.setFase = (btn, fase) => {
+  document.querySelectorAll('.fbtn[data-fase]').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  currentFase = fase === 'all' ? 'all' : parseInt(fase);
+  renderProgress(); renderJawaban();
+};
+
+function getFiltered() {
+  const q = (document.getElementById('search-input')?.value || '').toLowerCase();
+  return allData.filter(r => {
+    const oOk = currentOrgan === 'all' || String(r.organ).toLowerCase() === currentOrgan.toLowerCase();
+    const fOk = currentFase === 'all' || r.fase === currentFase;
+    const sOk = !q || String(r.kelompok).includes(q) || JSON.stringify(r).toLowerCase().includes(q);
+    return oOk && fOk && sOk;
+  });
+}
+
+// ── SUMMARY ──
+function renderSummary() {
+  const organs = ['Ginjal','Hati','Paru-Paru','Kulit'];
+  const scClass = {Ginjal:'sc-ginjal',Hati:'sc-hati','Paru-Paru':'sc-paru',Kulit:'sc-kulit'};
+  const grid = document.getElementById('summary-grid');
+  grid.innerHTML = organs.map(organ => {
+    const rows = allData.filter(r => r.organ === organ);
+    const kelompoks = new Set(rows.map(r => r.kelompok));
+    const faseCount = [1,2,3,4,5].map(f => new Set(rows.filter(r=>r.fase===f).map(r=>r.kelompok)).size);
+    const maxK = kelompoks.size || 1;
+    const pips = faseCount.map((c,i) => `<div class="sc-pip${c>0?' done':''}" style="color:${PIP_COLORS[i+1]};" title="Fase ${i+1}: ${c} kelompok"></div>`).join('');
+    return `<div class="summary-card ${scClass[organ]}">
+      <div class="sc-name">${organ}</div>
+      <div class="sc-pips">${pips}</div>
+      <div class="sc-stat">${kelompoks.size} kelompok · ${rows.length} jawaban</div>
+    </div>`;
+  }).join('');
+}
+
+// ── PROGRESS ──
+function renderProgress() {
+  const filtered = getFiltered();
+  const groups = {};
+  filtered.forEach(r => {
+    const key = r.organ + '__' + r.kelompok;
+    if (!groups[key]) groups[key] = {organ:r.organ, kelompok:r.kelompok, fases:new Set()};
+    groups[key].fases.add(r.fase);
+  });
+
+  const grid = document.getElementById('prog-grid');
+  const sorted = Object.values(groups).sort((a,b) => String(a.organ).localeCompare(String(b.organ)) || String(a.kelompok).localeCompare(String(b.kelompok)));
+
+  if (!sorted.length) { grid.innerHTML = '<div style="color:var(--text3);font-size:13px;grid-column:1/-1;">Tidak ada data.</div>'; return; }
+
+  grid.innerHTML = sorted.map(g => {
+    const color = ORGAN_COLOR[g.organ] || '#2563eb';
+    const pips = [1,2,3,4,5].map(f => {
+      const done = g.fases.has(f);
+      return `<div class="pip${done?' done':''}" style="${done?'background:'+PIP_COLORS[f]+';':''}" title="Fase ${f}"></div>`;
+    }).join('');
+    const done = g.fases.size;
+    return `<div class="prog-card">
+      <div class="prog-top">
+        <div>
+          <div class="prog-kelompok" style="color:${color};">Kelompok ${g.kelompok}</div>
+          <div class="prog-organ">${g.organ}</div>
+        </div>
+        <div class="prog-count" style="color:${done>=5?'var(--green)':'var(--text3)'};">${done}/5</div>
+      </div>
+      <div class="prog-pips">${pips}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── RENDER JAWABAN ──
+window.renderJawaban = function() {
+  const filtered = getFiltered();
+
+  // Update KPI row
+  const kelompokSet = new Set(filtered.map(r => r.organ+'__'+r.kelompok));
+  const organSet    = new Set(filtered.map(r => r.organ));
+  const fase5       = filtered.filter(r => r.fase === 5).length;
+  const terbaru     = filtered.length ? String(filtered[filtered.length-1].timestamp||'').split(' ').slice(1).join(' ')||'–' : '–';
+  document.getElementById('s-jawaban').textContent  = filtered.length;
+  document.getElementById('s-kelompok').textContent = kelompokSet.size;
+  document.getElementById('s-organ').textContent    = organSet.size;
+  document.getElementById('s-fase5').textContent    = fase5;
+  document.getElementById('s-terbaru').textContent  = terbaru;
+
+  const container = document.getElementById('main-content');
+  if (!filtered.length) {
+    container.innerHTML = `<div class="state-box"><span class="state-icon">🔍</span><div class="state-title">Tidak ada data</div><div class="state-desc">Belum ada jawaban untuk filter yang dipilih.</div></div>`;
+    return;
+  }
+
+  // Group by organ + kelompok
+  const grouped = {};
+  filtered.forEach(r => {
+    const key = r.organ + '__K' + r.kelompok;
+    if (!grouped[key]) grouped[key] = {organ:r.organ, kelompok:r.kelompok, rows:[]};
+    grouped[key].rows.push(r);
+  });
+
+  const cards = Object.values(grouped).sort((a,b) =>
+    String(a.organ).localeCompare(String(b.organ)) || String(a.kelompok).localeCompare(String(b.kelompok))
+  );
+
+  const organLabel = currentOrgan === 'all' ? 'Semua Organ' : currentOrgan;
+  const faseLabel  = currentFase  === 'all' ? 'Semua Fase' : `Fase ${currentFase} — ${FASE_LABELS[currentFase]}`;
+
+  let html = `<div class="sec-head" style="margin-top:4px;"><div class="sec-title">${organLabel} · ${faseLabel} · ${cards.length} kelompok</div></div><div class="jawaban-list">`;
+
+  cards.forEach((grp, idx) => {
+    const grad = ORGAN_GRAD[grp.organ] || ORGAN_GRAD.Ginjal;
+    const chipClass = ORGAN_CHIP_CLASS[grp.organ] || 'oc-g';
+    const faseChips = grp.rows.sort((a,b)=>a.fase-b.fase).map(r => `<span class="fase-chip ${FASE_CHIP_CLASS[r.fase]}">F${r.fase}</span>`).join('');
+    const selesai = grp.rows.length >= 5;
+
+    html += `<div class="jcard" id="jc${idx}">
+      <div class="jcard-head" onclick="toggleCard(${idx})">
+        <div class="jcard-left">
+          <div class="jcard-ava" style="background:${grad};">K${grp.kelompok}</div>
+          <div>
+            <div class="jcard-name">Kelompok ${grp.kelompok}</div>
+            <div class="jcard-meta">
+              <span class="organ-chip ${chipClass}">${grp.organ}</span>
+              <span style="color:var(--text3);">·</span>
+              <span>${grp.rows.length} fase dikerjakan</span>
+              ${selesai ? '<span style="color:var(--green);font-weight:700;">✅ Selesai</span>' : ''}
+            </div>
+          </div>
+        </div>
+        <div class="jcard-right">${faseChips}<div class="toggle-ic">▾</div></div>
+      </div>
+      <div class="jcard-body">
+        ${grp.rows.sort((a,b)=>a.fase-b.fase).map(r => renderFaseBlock(r)).join('')}
+      </div>
+    </div>`;
+  });
+
+  html += '</div>';
+  container.innerHTML = html;
+};
+
+function renderFaseBlock(r) {
+  const fi = r.fase;
+  const organ = r.organ || '';
+  const grad = FASE_GRADS[fi];
+  const cls  = 'fase' + fi;
+
+  let html = `<div class="fase-section">
+    <div class="fase-sec-head">
+      <div class="fase-sec-badge" style="background:${grad};">Fase ${fi} — ${FASE_LABELS[fi]}</div>
+      <div class="fase-sec-time">${r.timestamp || ''}</div>
+    </div>
+    <div class="qa-grid">`;
+
+  if (fi===1) {
+    html += qa('Fakta dari Kasus', r.fakta, cls);
+    html += qa('Rumusan Masalah', r.rumusan_masalah, cls);
+
+  } else if (fi===2) {
+    html += qa('Rumusan Masalah yang Dipilih', r.rumusan_pilih, cls);
+
+    if (organ === 'Ginjal') {
+      html += qaTable('Struktur Sistem Urinaria', tryJ(r.struktur_urinaria), ['nama','fungsi'], ['Nama Struktur','Fungsi']);
+      html += qaTable('Bagian-Bagian Ginjal', tryJ(r.struktur_ginjal_bag), ['nama','fungsi'], ['Bagian','Fungsi']);
+      html += qaTable('Struktur Nefron', nefArr(tryJ(r.struktur_nefron)), ['no','nama'], ['No','Nama Struktur']);
+      html += qaTable('Tahapan Pembentukan Urine', tryJ(r.urine_tahapan), ['tahapan','tempat','proses','hasil'], ['Tahapan','Tempat','Proses','Hasil Akhir']);
+      html += qa('Dampak Gangguan Filtrasi, Reabsorpsi & Augmentasi', r.dampak_gangguan, cls);
+      html += qa('Alasan Penderita Memerlukan Hemodialisis', r.hemodialisis, cls);
+
+    } else if (organ === 'Hati') {
+      html += qaTable('Struktur Anatomi Hati (Kotak A–J)', tryJ(r.struktur_hati), ['kotak','nama','fungsi'], ['Kotak','Nama Struktur','Fungsi']);
+      html += qa('Keterkaitan Gangguan Fungsi Ekskresi Hati dengan Gejala Kasus', r.dampak_gangguan, cls);
+      html += qa('Pengaruh Kebiasaan Sehari-hari terhadap Fungsi Ekskresi Hati', r.gagal_hati, cls);
+      html += qa('Kesimpulan Progresivitas Kerusakan Hati', r.kesimpulan, cls);
+
+    } else if (organ === 'Paru-Paru') {
+      html += qaTable('Struktur Anatomi Paru-Paru (Kotak A–H)', tryJ(r.struktur_paru), ['nama','fungsi'], ['Nama Struktur','Fungsi']);
+      html += qa('Keterkaitan Gangguan Fungsi Ekskresi Paru dengan Gejala Kasus', r.keterkaitan, cls);
+      html += qa('Pengaruh Kebiasaan & Lingkungan terhadap Fungsi Ekskresi CO₂ Paru', r.kebiasaan, cls);
+      html += qa('Kesimpulan Progresivitas Kerusakan Paru-Paru', r.kesimpulan, cls);
+
+    } else if (organ === 'Kulit') {
+      html += qaTable('Struktur Anatomi Kulit', tryJ(r.struktur_kulit), ['nama','fungsi'], ['Nama Struktur','Fungsi']);
+      html += qa('Keterkaitan Gangguan Fungsi Ekskresi Kulit dengan Gejala Kasus', r.keterkaitan, cls);
+      html += qa('Pengaruh Kebiasaan terhadap Fungsi Ekskresi Kulit', r.kebiasaan, cls);
+      html += qa('Kesimpulan Progresivitas Gangguan Kulit', r.kesimpulan, cls);
+    }
+
+  } else if (fi===3) {
+    html += qaTable('Sumber Referensi', tryJ(r.sumber_referensi), ['nama','url','info'], ['Sumber','Tautan/Penulis','Info Relevan']);
+    html += qa('Jawaban Rumusan Masalah', r.jawab_rumusan, cls);
+    html += qa('Keterkaitan Gejala, Penyebab & Gangguan', r.keterkaitan, cls);
+    html += qa('Solusi Pencegahan & Penanganan', r.solusi, cls);
+
+  } else if (fi===4) {
+    const tjRows = tryJ(r.tanya_jawab);
+    const tgRows = tryJ(r.tanggapan);
+    if (tjRows && tjRows.length) {
+      html += qaTable('Catatan Tanya Jawab', tjRows.filter(x=>x.kelompok||x.pertanyaan||x.jawaban), ['kelompok','pertanyaan','jawaban'], ['Kelompok Penanya','Pertanyaan','Jawaban']);
+    } else {
+      html += qa('Catatan Tanya Jawab', r.tanya_jawab, cls);
+    }
+    if (tgRows && tgRows.length) {
+      html += qaTable('Tanggapan untuk Kelompok Lain', tgRows.filter(x=>x.kelompok||x.isi), ['kelompok','isi'], ['Kelompok','Tanggapan']);
+    } else {
+      html += qa('Tanggapan untuk Kelompok Lain', r.tanggapan, cls);
+    }
+
+  } else if (fi===5) {
+    html += qa('Refleksi 1 — Konsep Baru', r.refleksi1, cls);
+    html += qa('Refleksi 2 — Kaitkan dengan Hidupmu', r.refleksi2, cls);
+    html += qa('Refleksi 3 — Proses Belajar', r.refleksi3, cls);
+    html += qa('Kelebihan Solusi', r.kelebihan, cls);
+    html += qa('Kekurangan Solusi', r.kekurangan, cls);
+  }
+
+  html += '</div></div>';
+  return html;
+}
+
+function qa(label, val, cls='') {
+  const empty = !val || !String(val).trim();
+  return `<div class="qa-item">
+    <div class="qa-q">${label}</div>
+    <div class="qa-ans ${cls} ${empty?'empty':''}">${empty ? 'Belum diisi' : esc(String(val))}</div>
+  </div>`;
+}
+
+function qaTable(label, rows, keys, headers) {
+  if (!rows || !rows.length) return qa(label, '');
+  let html = `<div class="qa-item">
+    <div class="qa-q">${label}</div>
+    <div class="qa-table-wrap">
+    <table class="qa-table">
+      <thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
+      <tbody>`;
+  rows.forEach(r => { html += `<tr>${keys.map(k=>`<td>${esc(String(r[k]||''))}</td>`).join('')}</tr>`; });
+  html += '</tbody></table></div></div>';
+  return html;
+}
+
+function nefArr(obj) {
+  if (!obj || typeof obj !== 'object') return [];
+  return Object.entries(obj).map(([k,v]) => ({no:k, nama:v}));
+}
+function tryJ(s) { try { return JSON.parse(s); } catch(e) { return null; } }
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+window.toggleCard = (idx) => document.getElementById('jc'+idx)?.classList.toggle('open');
+
+function updateKPIs() {
+  document.getElementById('kpi-total').textContent    = allData.length;
+  document.getElementById('kpi-kelompok').textContent = new Set(allData.map(r=>r.organ+'__'+r.kelompok)).size;
+  document.getElementById('kpi-selesai').textContent  = new Set(allData.filter(r=>r.fase===5).map(r=>r.organ+'__'+r.kelompok)).size;
+}
+
+window.manualReload = () => {
+  document.getElementById('reload-btn').classList.add('spin');
+  setTimeout(() => document.getElementById('reload-btn').classList.remove('spin'), 800);
+};
+
+function show(id) { const el=document.getElementById(id); if(el) el.style.display=''; }
+function showEmpty() {
+  document.getElementById('main-content').innerHTML = `<div class="state-box"><span class="state-icon">📭</span><div class="state-title">Belum ada jawaban</div><div class="state-desc">Dashboard akan otomatis update begitu ada siswa yang submit jawaban.</div></div>`;
+}
+function showError(msg) {
+  document.getElementById('main-content').innerHTML = `<div class="state-box"><span class="state-icon">⚠️</span><div class="state-title">Gagal terhubung</div><div class="state-desc">Pastikan Rules Firebase sudah diset ke test mode.<br/><small style="opacity:.6">${msg}</small></div></div>`;
+}
+</script>
+</body>
+</html>

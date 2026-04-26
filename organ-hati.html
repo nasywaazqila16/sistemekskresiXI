@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Organ Hati | BioEkskresi</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#f1f5fb;color:#0f172a;min-height:100vh;-webkit-font-smoothing:antialiased;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:99px;}
+[data-fase="0"]{--fc:#2563eb;--fc2:#1d4ed8;--fc-grad:linear-gradient(135deg,#1d4ed8,#2563eb);--fc-shadow:0 4px 18px rgba(37,99,235,.28);--fc-dim:#eff6ff;--fc-brd:#bfdbfe;--fc-lbl:#2563eb;--pbar:linear-gradient(90deg,#2563eb,#60a5fa);}
+[data-fase="1"]{--fc:#7c3aed;--fc2:#6d28d9;--fc-grad:linear-gradient(135deg,#6d28d9,#7c3aed);--fc-shadow:0 4px 18px rgba(124,58,237,.28);--fc-dim:#f5f3ff;--fc-brd:#ddd6fe;--fc-lbl:#7c3aed;--pbar:linear-gradient(90deg,#7c3aed,#a78bfa);}
+[data-fase="2"]{--fc:#0d9488;--fc2:#0f766e;--fc-grad:linear-gradient(135deg,#0f766e,#0d9488);--fc-shadow:0 4px 18px rgba(13,148,136,.26);--fc-dim:#f0fdfa;--fc-brd:#99f6e4;--fc-lbl:#0d9488;--pbar:linear-gradient(90deg,#0d9488,#2dd4bf);}
+[data-fase="3"]{--fc:#d97706;--fc2:#b45309;--fc-grad:linear-gradient(135deg,#b45309,#d97706);--fc-shadow:0 4px 18px rgba(217,119,6,.26);--fc-dim:#fffbeb;--fc-brd:#fde68a;--fc-lbl:#b45309;--pbar:linear-gradient(90deg,#d97706,#fbbf24);}
+[data-fase="4"]{--fc:#059669;--fc2:#047857;--fc-grad:linear-gradient(135deg,#047857,#059669);--fc-shadow:0 4px 18px rgba(5,150,105,.26);--fc-dim:#f0fdf4;--fc-brd:#bbf7d0;--fc-lbl:#059669;--pbar:linear-gradient(90deg,#059669,#34d399);}
+
+.topbar{background:rgba(255,255,255,.97);border-bottom:1px solid #e8edf5;height:62px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 1px 6px rgba(15,23,42,.06);}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.brand-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1e40af,#2563eb,#0d9488);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 3px 10px rgba(37,99,235,.3);}
+.brand-name{font-size:17px;font-weight:800;color:#0f172a;letter-spacing:-.3px;}
+.brand-name span{color:#2563eb;}
+.btn-back{font-size:13px;font-weight:600;color:#64748b;text-decoration:none;padding:7px 14px;border-radius:9px;border:1px solid #e2e8f0;background:#fff;display:inline-flex;align-items:center;gap:6px;transition:all .17s;}
+.btn-back:hover{color:#2563eb;border-color:#bfdbfe;}
+.prog-chips{display:flex;align-items:center;gap:5px;}
+.chip{width:8px;height:8px;border-radius:50%;background:#e2e8f0;transition:all .3s;}
+.chip.done{background:#10b981;}
+.chip.active{background:var(--fc,#2563eb);width:22px;border-radius:99px;}
+
+.hero{padding:52px 40px 72px;position:relative;overflow:hidden;background:linear-gradient(135deg,#78350f,#b45309,#d97706);}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.055) 1px,transparent 1px);background-size:26px 26px;pointer-events:none;}
+.hb1{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(rgba(255,255,255,.09),transparent 65%);top:-180px;right:-80px;pointer-events:none;}
+.hb2{position:absolute;width:260px;height:260px;border-radius:50%;background:radial-gradient(rgba(255,255,255,.06),transparent 65%);bottom:-50px;left:5%;pointer-events:none;}
+.hero-in{max-width:1060px;margin:0 auto;position:relative;z-index:2;}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);border-radius:99px;padding:5px 14px;font-size:12px;font-weight:700;color:#fff;letter-spacing:.3px;margin-bottom:16px;}
+.hdot{width:5px;height:5px;border-radius:50%;background:#fff;animation:blink 2s infinite;flex-shrink:0;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(28px,4vw,46px);font-weight:800;color:#fff;line-height:1.1;letter-spacing:-.5px;margin-bottom:12px;}
+.hero p{font-size:15px;color:rgba(255,255,255,.72);line-height:1.75;max-width:520px;}
+.hero-tags{display:flex;gap:9px;margin-top:18px;flex-wrap:wrap;}
+.htag{display:inline-flex;align-items:center;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:5px 13px;font-size:12px;font-weight:600;color:rgba(255,255,255,.88);}
+
+.pbar-wrap{background:#fff;border-bottom:1px solid #e8edf5;}
+.pbar-in{max-width:1060px;margin:0 auto;padding:10px 40px;display:flex;align-items:center;gap:14px;}
+.pbar-track{flex:1;height:5px;background:#e8edf5;border-radius:99px;overflow:hidden;}
+.pbar-fill{height:100%;background:var(--pbar);border-radius:99px;transition:width .55s ease;}
+.pbar-lbl{font-size:12px;font-weight:700;color:var(--fc-lbl,#94a3b8);white-space:nowrap;}
+
+.stepper-bg{background:#f8fafc;border-bottom:1px solid #e8edf5;padding:14px 40px;}
+.stepper{max-width:1060px;margin:0 auto;background:#fff;border-radius:18px;box-shadow:0 4px 24px rgba(15,23,42,.08);padding:5px;display:flex;gap:3px;overflow-x:auto;}
+.ftab{flex:1;min-width:120px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 8px;border-radius:13px;cursor:pointer;border:none;background:transparent;font-family:'Plus Jakarta Sans',system-ui,sans-serif;transition:all .22s;}
+.ftab:hover:not(.on){background:#f8fafc;}
+.ftab.on{background:var(--fc-grad);box-shadow:var(--fc-shadow);}
+.ftab.done .fbdg{background:#dcfce7;color:#16a34a;}
+.ftab.done .fnum,.ftab.done .ftit{color:#16a34a;}
+.fbdg{width:26px;height:26px;border-radius:7px;background:#f1f5f9;color:#94a3b8;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:3px;transition:all .22s;}
+.ftab.on .fbdg{background:rgba(255,255,255,.22);color:#fff;}
+.fnum{font-size:8.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#94a3b8;transition:color .22s;}
+.ftit{font-size:11.5px;font-weight:700;color:#64748b;text-align:center;line-height:1.3;transition:color .22s;}
+.ftab.on .fnum{color:rgba(255,255,255,.7);}
+.ftab.on .ftit{color:#fff;}
+
+.wrap{max-width:1060px;margin:0 auto;padding:32px 40px 72px;}
+.fp{display:none;animation:fadeUp .35s ease both;}
+.fp.on{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.fase-title{font-size:21px;font-weight:800;color:#0f172a;margin-bottom:5px;letter-spacing:-.3px;padding-left:16px;border-left:4px solid var(--fc,#2563eb);}
+.fase-sub{font-size:13.5px;color:#64748b;margin-bottom:24px;line-height:1.65;}
+.sec{font-size:10.5px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--fc-lbl,#2563eb);margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+.sec::after{content:'';flex:1;height:1.5px;background:#e8edf5;}
+
+.card{background:#fff;border:1px solid #e8edf5;border-radius:20px;padding:26px;margin-bottom:18px;box-shadow:0 1px 8px rgba(15,23,42,.05);}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.card-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:var(--fc-dim,#eff6ff);}
+.card-header h3{font-size:16px;font-weight:800;color:#0f172a;letter-spacing:-.2px;}
+.card-header p{font-size:12.5px;color:#64748b;margin-top:1px;}
+[data-fase="0"] .card{border-top:2.5px solid rgba(37,99,235,.2);}
+[data-fase="1"] .card{border-top:2.5px solid rgba(124,58,237,.2);}
+[data-fase="2"] .card{border-top:2.5px solid rgba(13,148,136,.2);}
+[data-fase="3"] .card{border-top:2.5px solid rgba(217,119,6,.2);}
+[data-fase="4"] .card{border-top:2.5px solid rgba(5,150,105,.2);}
+
+/* KASUS */
+.kasus{border-radius:20px;padding:28px;margin-bottom:18px;position:relative;overflow:hidden;background:linear-gradient(135deg,#78350f,#b45309);box-shadow:0 6px 24px rgba(120,53,15,.25);}
+.kasus::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.04) 1px,transparent 1px);background-size:22px 22px;pointer-events:none;}
+.kasus-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(253,230,138,.15);border:1px solid rgba(253,230,138,.28);border-radius:99px;padding:4px 13px;font-size:11px;font-weight:700;color:#fde68a;margin-bottom:14px;}
+.kasus h3{font-size:18px;font-weight:800;color:#fff;line-height:1.45;margin-bottom:12px;letter-spacing:-.2px;}
+.kasus-body{font-size:13.5px;color:rgba(255,255,255,.78);line-height:1.9;}
+.kasus-body strong{color:#fff;}
+.kasus-body p{margin-bottom:12px;}
+.kasus-body p:last-child{margin-bottom:0;}
+
+/* ARAHAN */
+.ar-step{display:flex;gap:0;align-items:stretch;position:relative;}
+.ar-left{display:flex;flex-direction:column;align-items:center;padding-right:16px;position:relative;z-index:1;}
+.ar-num{width:38px;height:38px;border-radius:12px;color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 10px rgba(0,0,0,.15);}
+.ar-connector{flex:1;width:2px;background:#e2e8f0;margin:4px 0;}
+.ar-step:last-child .ar-connector{display:none;}
+.ar-right{flex:1;padding-bottom:20px;}
+.ar-step:last-child .ar-right{padding-bottom:0;}
+.ar-card{border-radius:16px;padding:18px 20px;transition:all .2s;}
+.ar-card:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,.08);}
+[data-fase="0"] .ar-card{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1.5px solid #93c5fd;}
+[data-fase="1"] .ar-card{background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1.5px solid #c4b5fd;}
+[data-fase="2"] .ar-card{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:1.5px solid #6ee7b7;}
+[data-fase="3"] .ar-card{background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1.5px solid #fcd34d;}
+[data-fase="4"] .ar-card{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #86efac;}
+.ar-tag{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:99px;margin-bottom:10px;border:1px solid transparent;}
+.ar-title{font-size:15px;font-weight:800;color:#0f172a;margin-bottom:8px;line-height:1.3;}
+.ar-desc{font-size:13.5px;color:#334155;line-height:1.85;}
+.ar-desc strong{color:#0f172a;font-weight:800;}
+
+/* PM STEPS (Penyelidikan) */
+.pm-steps{display:flex;flex-direction:column;gap:0;}
+.pm-step{display:flex;gap:16px;padding-bottom:16px;position:relative;}
+.pm-step:not(:last-child)::before{content:'';position:absolute;left:15px;top:36px;bottom:0;width:2px;background:#e2e8f0;}
+.pm-num{width:32px;height:32px;border-radius:10px;background:var(--fc-grad);box-shadow:var(--fc-shadow);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;position:relative;z-index:1;}
+.pm-body{flex:1;padding-top:4px;}
+.pm-title{font-size:14px;font-weight:800;color:#0f172a;margin-bottom:5px;}
+.pm-desc{font-size:13px;color:#475569;line-height:1.7;}
+
+/* PRES GRID */
+.pres-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.pres-card{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:14px;padding:16px;}
+.pres-card h4{font-size:13px;font-weight:800;color:#0f172a;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.pres-card ul{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.pres-card ul li{font-size:12.5px;color:#475569;display:flex;gap:8px;line-height:1.55;}
+.pres-card ul li::before{content:'›';color:var(--fc,#2563eb);font-weight:800;flex-shrink:0;}
+
+/* DONE BANNER */
+.done-banner{background:linear-gradient(135deg,#064e3b,#065f46);border-radius:20px;padding:30px;text-align:center;margin-top:22px;}
+.done-banner h3{font-size:22px;font-weight:800;color:#fff;margin-bottom:8px;}
+.done-banner p{color:rgba(255,255,255,.7);font-size:14px;margin-bottom:22px;line-height:1.65;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:11px 22px;border-radius:12px;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;border:none;transition:all .2s;text-decoration:none;}
+.btn-fase{background:var(--fc-grad);color:#fff;box-shadow:var(--fc-shadow);}
+.btn-fase:hover{transform:translateY(-1px);filter:brightness(1.08);}
+.btn-green{background:linear-gradient(135deg,#047857,#059669);color:#fff;}
+.btn-ghost{background:#fff;color:#64748b;border:1.5px solid #e2e8f0;}
+.btn-ghost:hover{border-color:var(--fc);color:var(--fc);}
+.fnav{display:flex;justify-content:space-between;align-items:center;padding-top:22px;border-top:1.5px solid #e8edf5;margin-top:8px;}
+.ninfo{font-size:12px;color:#94a3b8;font-weight:600;}
+
+/* IDENTITY BAR */
+.identity-bar{background:linear-gradient(135deg,#78350f,#b45309);border-radius:16px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.id-label{font-size:12px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:4px;}
+.id-field{flex:1;min-width:180px;}
+.identity-bar select{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:13px;font-weight:700;background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:8px;padding:7px 12px;outline:none;cursor:pointer;width:100%;}
+.identity-bar select option{background:#78350f;color:#fff;}
+
+/* LKPD FORM */
+.lkpd-form{background:#fff;border:2px solid #fde68a;border-radius:18px;overflow:hidden;margin-bottom:18px;}
+.lkpd-form-head{padding:16px 20px;display:flex;align-items:center;gap:12px;}
+.lkpd-form-head h4{font-size:14px;font-weight:800;color:#fff;letter-spacing:-.2px;}
+.lkpd-form-head p{font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;}
+.lkpd-form-body{padding:20px;display:flex;flex-direction:column;gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-label{font-size:12px;font-weight:800;color:#0f172a;letter-spacing:-.1px;display:flex;align-items:center;gap:6px;}
+.form-label span{font-size:11px;font-weight:600;color:#94a3b8;}
+.form-input,.form-textarea{width:100%;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:13.5px;color:#0f172a;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:11px 14px;outline:none;transition:all .18s;resize:vertical;}
+.form-input:focus,.form-textarea:focus{border-color:#d97706;background:#fff;box-shadow:0 0 0 3px rgba(217,119,6,.08);}
+.form-textarea{min-height:100px;line-height:1.7;}
+.form-table{width:100%;border-collapse:collapse;font-size:13px;}
+.form-table th{background:#f1f5f9;font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.8px;padding:9px 12px;text-align:left;border:1.5px solid #e2e8f0;}
+.form-table td{padding:5px 4px;border:none;}
+.form-table td input{width:100%;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12.5px;color:#0f172a;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;transition:all .18s;}
+.form-table td input:focus{border-color:#d97706;background:#fff;}
+.submit-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 22px;border-radius:12px;font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:14px;font-weight:800;cursor:pointer;border:none;transition:all .2s;color:#fff;}
+.submit-btn:hover{transform:translateY(-1px);filter:brightness(1.08);}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+.submit-status{display:none;padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;text-align:center;margin-top:8px;}
+.submit-status.ok{display:block;background:#f0fdf4;color:#166534;border:1.5px solid #bbf7d0;}
+.submit-status.err{display:block;background:#fff1f2;color:#be185d;border:1.5px solid #fecdd3;}
+.submit-status.loading{display:block;background:#fffbeb;color:#b45309;border:1.5px solid #fde68a;}
+
+/* ORG COLOR OVERRIDE */
+:root{
+  --org-grad:linear-gradient(135deg,#78350f,#d97706);
+  --org-shadow:0 4px 18px rgba(120,53,15,.28);
+  --org-pbar:linear-gradient(90deg,#d97706,#fbbf24);
+  --org-chip:#d97706;
+  --org-lbl:#b45309;
+  --org-bg:#fffbeb;
+}
+.pbar-fill{background:var(--org-pbar)!important;}
+.pbar-lbl{color:var(--org-lbl)!important;}
+.ftab.on{background:var(--org-grad)!important;box-shadow:var(--org-shadow)!important;}
+.chip.active{background:var(--org-chip)!important;}
+.chip.done{background:#10b981;}
+.stepper-bg{background:var(--org-bg);}
+.btn-fase{background:var(--org-grad)!important;box-shadow:var(--org-shadow)!important;}
+.pm-num{background:var(--org-grad)!important;box-shadow:var(--org-shadow)!important;}
+.fase-title{border-left-color:#d97706!important;}
+.sec{color:#b45309!important;}
+
+@media(max-width:768px){
+  .topbar{padding:0 18px;}.hero{padding:36px 18px 52px;}
+  .pbar-in,.stepper-bg{padding-left:18px;padding-right:18px;}
+  .wrap{padding:22px 18px 60px;}
+  .pres-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body data-fase="0">
+
+<nav class="topbar">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a href="dashboard.html" class="btn-back">← Beranda</a>
+    <a href="dashboard.html" class="brand"><div class="brand-mark">🧬</div><div class="brand-name">Bio<span>Ekskresi</span></div></a>
+  </div>
+  <div class="prog-chips">
+    <div class="chip active" id="c0"></div><div class="chip" id="c1"></div>
+    <div class="chip" id="c2"></div><div class="chip" id="c3"></div><div class="chip" id="c4"></div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hb1"></div><div class="hb2"></div>
+  <div class="hero-in">
+    <div class="hero-pill"><div class="hdot"></div><em>Problem-Based Learning</em> · Organ 02 · Kelompok 3 &amp; 4</div>
+    <h1>🫀 Organ Hati</h1>
+    <p>Investigasi kasus kerusakan hati akibat gaya hidup modern yang kian mengancam generasi muda Indonesia — temukan mekanisme, penyebab, dan solusinya.</p>
+    <div class="hero-tags">
+      <span class="htag">Kelompok 3 &amp; 4</span>
+      <span class="htag">5 Fase PBL</span>
+      <span class="htag">Pertemuan 1–4</span>
+    </div>
+  </div>
+</div>
+
+<div class="pbar-wrap">
+  <div class="pbar-in">
+    <div class="pbar-track"><div class="pbar-fill" id="pbf" style="width:20%"></div></div>
+    <div class="pbar-lbl" id="pbl">Fase 1 dari 5 — Orientasi Masalah</div>
+  </div>
+</div>
+
+<div class="stepper-bg">
+  <div class="stepper">
+    <button class="ftab on" onclick="gof(0)"><div class="fbdg">1</div><div class="fnum">Fase 01</div><div class="ftit">Orientasi Masalah</div></button>
+    <button class="ftab" onclick="gof(1)"><div class="fbdg">2</div><div class="fnum">Fase 02</div><div class="ftit">Organisasi Belajar</div></button>
+    <button class="ftab" onclick="gof(2)"><div class="fbdg">3</div><div class="fnum">Fase 03</div><div class="ftit">Penyelidikan</div></button>
+    <button class="ftab" onclick="gof(3)"><div class="fbdg">4</div><div class="fnum">Fase 04</div><div class="ftit">Pengembangan Hasil</div></button>
+    <button class="ftab" onclick="gof(4)"><div class="fbdg">5</div><div class="fnum">Fase 05</div><div class="ftit">Analisis &amp; Evaluasi</div></button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ══════════════════════
+  FASE 1 — ORIENTASI MASALAH
+══════════════════════ -->
+<div class="fp on" id="f0">
+  <div class="fase-title">Fase 1 — Mengorientasikan Peserta Didik pada Masalah</div>
+  <div class="fase-sub">Baca kasus berikut dengan cermat. Amati apa yang terjadi, identifikasi gejala, dan pikirkan pertanyaan yang ingin kamu selidiki.</div>
+
+  <div class="kasus">
+    <div class="kasus-badge">📰 Kasus · Kesehatan Remaja Indonesia</div>
+    <h3>Kerusakan Hati Akibat Konsumsi Alkohol dalam Jangka Panjang</h3>
+    <div class="kasus-body">
+      <p>Dalam kehidupan sehari-hari, konsumsi minuman beralkohol sering dianggap tidak menimbulkan dampak langsung terhadap tubuh, terutama bila tidak disertai keluhan yang nyata. Namun, berbagai laporan kesehatan menunjukkan bahwa kebiasaan tersebut dalam jangka panjang dapat memengaruhi fungsi hati secara bertahap dan progresif.</p>
+      <p>Seseorang dengan kebiasaan mengonsumsi alkohol dalam jangka waktu tertentu biasanya tidak merasakan gangguan yang berarti pada awalnya. Aktivitas sehari-hari masih berjalan seperti biasa. Namun, seiring berjalannya waktu, mulai muncul perubahan kondisi fisik seperti mudah lelah, nafsu makan menurun, serta rasa tidak nyaman pada bagian perut kanan atas.</p>
+      <p>Pemeriksaan lebih lanjut menunjukkan adanya perubahan pada hati yang diawali dengan <strong>penumpukan lemak pada sel hati (fatty liver)</strong>. Kondisi ini kemudian dapat berkembang menjadi <strong>peradangan hati (hepatitis alkoholik)</strong>, yang ditandai dengan kerusakan sel hati secara aktif.</p>
+      <p>Seiring waktu, proses kerusakan tersebut dapat berlanjut hingga terbentuknya <strong>jaringan parut pada hati (fibrosis)</strong>. Pada tahap yang lebih lanjut, jaringan hati yang sehat semakin tergantikan oleh jaringan parut sehingga fungsi hati menurun secara signifikan. Kondisi ini dikenal sebagai <strong>sirosis hati</strong>, yang dapat memengaruhi kemampuan tubuh dalam mengolah berbagai zat, menetralkan racun, serta menjaga keseimbangan fisiologis tubuh secara keseluruhan.</p>
+    </div>
+  </div>
+
+  <!-- FORM LKPD FASE 1 -->
+  <div class="lkpd-form">
+    <div class="lkpd-form-head" style="background:linear-gradient(135deg,#78350f,#b45309);">
+      <div><h4>✍️ LKPD Fase 1 — Orientasi Masalah</h4><p>Isi semua kolom berdasarkan analisismu terhadap kasus di atas</p></div>
+    </div>
+    <div class="lkpd-form-body">
+      <div class="form-group">
+        <div class="form-label">📋 Fakta-fakta dari kasus <span>(minimal 5 fakta, pisahkan tiap baris)</span></div>
+        <textarea class="form-textarea" id="f1_fakta" rows="7" placeholder="1. ...&#10;2. ...&#10;3. ...&#10;4. ...&#10;5. ..."></textarea>
+      </div>
+      <div class="form-group">
+        <div class="form-label">🔬 Rumusan masalah <span>(tulis 2 pertanyaan masalah)</span></div>
+        <textarea class="form-textarea" id="f1_rumusan" rows="5" placeholder="1. Bagaimana...?&#10;2. Mengapa...?"></textarea>
+      </div>
+      <button class="submit-btn" style="background:linear-gradient(135deg,#78350f,#b45309);box-shadow:0 4px 18px rgba(120,53,15,.28);" onclick="submitFase(1)">✅ Simpan &amp; Lanjut ke Fase 2</button>
+      <div class="submit-status" id="status-f1"></div>
+    </div>
+  </div>
+  <div class="fnav"><div></div><span class="ninfo">Fase 1 / 5</span><button class="btn btn-fase" onclick="nextFase(1,1)">Lanjut Fase 2 →</button></div>
+</div>
+
+
+<!-- ══════════════════════
+  FASE 2 — ORGANISASI BELAJAR
+══════════════════════ -->
+<div class="fp" id="f1">
+  <div class="fase-title">Fase 2 — Mengorganisasikan Peserta Didik untuk Belajar</div>
+  <div class="fase-sub">Sebelum membaca materi, selesaikan dua langkah persiapan di bawah ini. Lalu baca seluruh materi dan temukan konsep-konsep penting untuk dicatat di LKPD.</div>
+
+  <!-- AJAKAN BUKA MATERI -->
+  <div style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:2px solid #ddd6fe;border-radius:18px;padding:24px 28px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+    <div>
+      <div style="font-size:12px;font-weight:800;color:#7c3aed;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">📖 Sebelum Mengisi LKPD</div>
+      <div style="font-size:15px;font-weight:800;color:#0f172a;margin-bottom:6px;">Baca Materi Hati Terlebih Dahulu</div>
+      <div style="font-size:13.5px;color:#475569;line-height:1.7;max-width:480px;">Pelajari struktur, fungsi hati, proses metabolisme bilirubin, dan gangguan pada hati. Setelah membaca, kembali ke halaman ini untuk mengisi LKPD.</div>
+    </div>
+    <a href="materi-organ.html#hati" target="_blank" style="display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:14px;background:linear-gradient(135deg,#5b21b6,#7c3aed);color:#fff;text-decoration:none;font-size:14px;font-weight:800;box-shadow:0 4px 16px rgba(124,58,237,.28);transition:all .2s;white-space:nowrap;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+      📖 Buka Materi Hati
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
+  </div>
+
+  <!-- FORM LKPD FASE 2 -->
+  <div class="lkpd-form" style="margin-top:8px;">
+    <div class="lkpd-form-head" style="background:linear-gradient(135deg,#4c1d95,#7c3aed);">
+      <div><h4>✍️ LKPD Fase 2 — Organisasi Belajar</h4><p>Isi setelah membaca seluruh materi di atas</p></div>
+    </div>
+    <div class="lkpd-form-body">
+
+      <!-- PERTANYAAN ANALISIS KASUS -->
+      <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border:1.5px solid #fde68a;border-radius:14px;padding:14px 18px;margin-bottom:16px;">
+        <div style="font-size:11px;font-weight:800;color:#b45309;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">📋 Kegiatan LKPD Fase 2</div>
+        <div style="font-size:13px;color:#78350f;line-height:1.6;">Selesaikan kegiatan berikut secara berurutan bersama kelompokmu.</div>
+      </div>
+
+      <div class="form-group">
+        <div class="form-label">📌 1. Pilih rumusan masalah kelompok</div>
+        <textarea class="form-textarea" id="f2_rumusan_pilih" rows="3" placeholder="Tuliskan satu rumusan masalah yang disepakati kelompok dari hasil diskusi Fase 1..."></textarea>
+      </div>
+
+      <!-- TABEL STRUKTUR HATI 10 KOTAK A–J -->
+      <div class="form-group">
+        <div class="form-label">🫀 2. Gambar dan fungsi struktur organ hati <span>(10 bagian berlabel a–j dari gambar)</span></div>
+        <div style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:14px;overflow:hidden;margin-bottom:12px;">
+          <div style="padding:12px;display:flex;align-items:center;justify-content:center;background:#fff;">
+            <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAF2AXEDASIAAhEBAxEB/8QAHQABAAEFAQEBAAAAAAAAAAAAAAUBAwQGBwgCCf/EAE8QAAEDAwIDBAYHBAUICQUAAAEAAgMEBREGIRIxQQcTUWEUIjJxgZEVI1KhscHRCDNCYhZy0uHwJDRDVoKSlKJTVFVjdKOywvEXNWSV0//EABsBAQADAQEBAQAAAAAAAAAAAAADBAUCBgEH/8QAMxEAAgIBAgQEAwgDAQEBAAAAAAECAxEEIQUSMUETIlFhcYGhFCMykbHB0fAG4fFCM1L/2gAMAwEAAhEDEQA/APZaIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIvJPan2zV9r/aHNVR6p9G0/pytpbdW2oTbVve8XfyhvXu8tHkQvWrHNexr2EOa4ZBHUICqImR4oAiZHiiALWdUalZZ7zSULwP8AKIy8fA4WzLnfaZbG1uqrVUPdwshppS4j3hS0xjKeJHMm0ti5qbtDp7RA2VzQcnxWs3ftXY60d/CQ1znBo+a512pV8L420schc9h6LRauR/0TAOI47wbfFbNegr5OZoqS1DU+U9Xa+1W+w1dnibyrOLPwx+q1/WvaJLZ3QcGPrBlR/b1/nmk3D7Un4NXPO1ckvpST0XgddqbIWzjF+h+kcD4VptTXRKyOc82fk2b7H2rS/R8lQ7HqrsFiqjW2ejrD/p4GSfMArxu8n6EkGTzXr7RgxpK0/wDgof8A0BTcLunZKSk8lb/KeG6fRwg6ljLZLoiLaPGhFqV/1zSWjtJ03oiShmlqL9DUyxVDXAMiELOIgjmcrbUAREQBERAEREAREQBFHX++WiwUcdZerjT0FPJMyBkk7+FrpHHDWjzJUiCCARuDyQBEQkDmgCIiAIiIAiIgCIiAIiIAi0rti7QKfs401TXqotVRczU1sVFFBBI1ji+TPDu7bGys9lXaPBrqrvltksdfZLpY5o4q2lqXskAMjS5pa9hLXZAKA3tERAEREAREQGoN7M9DCwXWxHT1M6gu88lTXRvc5zppHkFzi4niBJA5EY6LaLdSU9vt9PQUjCynpomxRNLi4hrQABk7nYcyr+Qvlz2NGXOA95QFuupoqymfTT8fdvGHcDyw/AgghQ/9ErN/+f8A8fP/AG1Ky19DFvLWU7P60gCxn6gsTPbvFA3HjUN/Vc8y9TpQk+iMM6Rs2OVf/wAfP/bWM59bpeQmV81ZYzvxvJfLR/1jzfH5829cjcSH9J9O5x9OW7/iG/qrjdQWKQYbeKB2f+/b+qc8fU++HP0L1bcqant3pveNkiLQWFpzx55AeOVxntO1TNSMkc54NTMMEg7Mb0aPIfeVZ11ebFa668CS9XO2UcVP31ohoxxwvn9YPIHCcZOPVJDcEkcyuL3rUlbehG+f/OJMADoCtLh9cZTyytqG4x2LN3r5KqZ8kr8uPRfE7s2aJx+2FeudvgobcyV7uOZ3tFR1TWtfa2wsbk8XQL0EpLlM2MJKe56M7dncX9EZPEu/9LVzntIqtOR2W8yXmtr4r5CWfQ8EbD3UjeFvPAwcu4wcnYAY8947cLnRSUGk3w1MUzosmRsbw4t9RvPHJcw7RaynvUlOaeES8A3OV+Y6mahqptrOT9S4fS7tDRFT5GsvPzZr9FU19RYC8wQYJ3zIc/gvWuk59VjTFsEVts5YKSLhLq6QEjhHMd0vKEQnFvNM2NjMnxXc7T200Fvs1HRNsdZK+ngZGXGRoBLWgZHNOHWRrlJy2Ov8lrlqa641PmabydppXTOp4zUNjZNwgyNY4uaD1wSBkeeAvtwJaQDgkc1xv/66QczpycD/AMQP0WRF25WvH11irm/1ZGu/Rav2un1PIvhuqX/gxNNdnXaPUdr1m1ZrfUNmuFFp+OsjoJKWJzKioE44R3rcBreFv2SeXxXaFzOk7aNLzD62muUHiXRA4+RUvQdqOi6t4aLuIieksbm/iF3HUVS6SIpaLUR6wZuqKKoNSWCvwKO8UM5PIMmaT8lJ95GWF4e0tAzkFSqSfRkEoyj1RBagnq6q70VkoKuSlfIHVFTLEAXMiaMADIIBc9zeY5B3gvsWGt/1mu//AJX9hW9Hj019dqB+5uEmID4U7MiPHkcuf/trYF9OSC+gaz/Wa7/+V/YT6BrP9Zrv/wCV/YU6iAxrbSyUdP3UtbUVjuInvJuHi93qgD7lkoiA5J+1Tabpeez61Utot1XXzs1DQzPjpoXSOaxryXOIA2A6ldYgBELAdiGj8F9ogCIiAIiIAiIgCIiAIiIAiIgOY/tI9n947R9C0tksr7c2oguUNW5tc97YnsZnLSWtJ3z4LE/Z77OL/oKp1LUXd9npae7VEU1NbLVJK+npS1ha9wMgBy7bO3RdZRAR94tNPdO77+orYu7zj0epfFnPjwkZUf8A0ToP+v3r/wDZzf2lsCiNS6ks+nqI1V1rWQN/hbzc8+AHMlfJSUVlnUYuTxFZZiS6Up2xudTXW8wzAZZIa+R4aeh4XEg+4hWYNVU1sL6DU9TTW+shbxNle7hiqWfbjJ+9vNp8iCeV6s7YLxcXSU2noBQU/Lv5BxSn3dB965rdYqm8vdNcKmoq5s5E0jyXh3iCeSo2a+MXiO5r0cGtmszeDvN87ZdN0fEy3R1NyeOsbOFnzdj7srTLr2z6kqWkW+30lI08i/MjvyC5tTRmCQU9cR3h/dEbNlH5Hy+SkHQt4S+QAZGQAFSs1lr74NWjhemis4z8SUuGvNaV2RNfaiJp6QtDPwGVCz113rjmrulbKf8AvKhzvzWREwyZEUfESDnP5KronMbjkScKs7Jy6svRoqj+GKXyI18GXtc5z3ZO+cq0YDxkhuAdgplzA0ZJJJGyx5GMLTLIQ1jB02XOWyTyojvReEFp/wDlSWmbG+51hGCYIRxyu/AK1GTMxkjWOcHH1d/kt0fJDpjTDaY8IqpvrJvJx5D4BaPDtFLU247IzeKa6Okq26s0zV8FO0mJwBA2AWwaV05S09pjfPTsfLIOJxc3l4Bau5k1y1JQRSA8Mr+8JPUDdb7qK5R26nZSxY70t6dArnFa1pmq4P3ZncMnLUpzku5A6hNBHmnihjL+pDeS1kUYeSQ0ADdSc73B/GT9YdyqxRRhrnOYeI+yM7LEdkn3PQwqjFdCP9GadyCRyV1lGMk44RnYLMpxxwcQHq8X4LIEIcQXNIycDdc7neV2MBlF6zc8Jz1C+pqVsdNJNkZaCRt4L6ubqykcwwvgcw7cDs5PuxzVl9xdO91JLGaYlhGZGk8fuVmvTTklJ7L+/MrT1cIS5cZft+/p8y7RwCaGOZzNi0FfRiZxn2Whx69F92anZUW2N8gJIGC0uOAR5cldrzDTtHcwt7wkBoa0czyA8/w5r5KFak4rLOIW2OCexjOijklbSxuby4nuHIDwX36CwNJABPipG2W2KmpMzxNklkPE8kbZ8B5Dkvp9DT7mOMxOPLgcW/guZKromyVO1dUmQ8lAMAgOyd9tsK3UXO+UEApbddq6mNQe74Y53ABv8R8OWVMywGNgbI9xPTKioOGqr5p2YMcI7luORPN5/AfAriLcXlM+2JTXK11Nrsfadq60wxQd7TVUETQxjJIgMAbAZbhbjaO2+nJay72aaLxfTvDx8jhcsfTuHECBhu2B1WNURNa18h2a0Y3GBlSw1dsejK9vDtNNbxx8D0pYe0DSd4w2mvEDJDsI5j3bs+52MraGSMe0OY4OB6grx16I6SPic0kFSdnv2o9PkOtV3qoANxGX8TD/ALJyFahxD/8ASM27gfeuX5nrRFwvT3bXcYOCG/2xlSP4pab1XD/ZOx+5dM0xrzTGoGhtFco2znbuJvUkz7jz+CvV6muzozKv0N9P4o7G0IqNcHDIOQqqfJTCIiAIiIAiIgCIiAIiIAiIgCIuVdr3aMbWX2Kwy5uDhiecbiAeA/m/BR22xrjzSJqKJ3z5IEl2l9pVFp3jttt4Ku6EYLc+pD5u8/JcJuNXcL1XPr7rUyVM7jzedh5AdArMMRfI+WVzpJHnic5xySTzJKz4Y8NB2DuQCw79RO179D1uk0Nemjtu/Uxo4BjA6rJbHwjg2GVd4RyxsfvXy97I2Hie0er1OMbqBJyeEXHJR3Zi1VLFUgwytB5Y6EHoQehVlk0sE7KSuJcSfqZsbSeR6B349OoCtqMV8Iiy/iYTsPAt/vVytnjkZ6G6lNRJIPXYOTR0JPRWoaWxrp9SpPVVpKSf0Zll3AMhp9UcgrDKqN5xlpy7A946eRWJHJcaSWKnqnxCJ5xHO7L8E8mv5b+B6+/nSuo6hgfUMkY6QD1uFmOIfPmvioj0clkfamnnleO5IDOQG4BHioyvPpdQKCPZjcOmcOjeePefwVDUTegOkZPxPeeFrQ0D/H/ytj0bp50cTrnVVLoaON3FJI9g+sf1Dcjf39FPp9IpTxzb+yf+iK/WOuLm47L3X+y/pq2CNjbtVjFJT7wtI/eOHLHkFpWr71Pcbk9gkLmsOXHz8FtF71L6e2vEJcaeljOD0zyAWiW6mdNM1jgXuecuI8Sty9x4ZpeWH4pdzB06lxTVc9n4V2N4sjPTrbRXC3BrrhbxvEecjDzUbcLmaivfJWskhkJ9lwxjyUteKRlus9M2l+oqgOIPbs4KCN4vRYRUMjqRjcyRglVnbpeIRXjPlmixCnV6CTdEeaDL8b4pDxNcSehK+7hK9lDI5oDsNzjqVg014fA8v+i6R3iHR4WfWalkfSmN9pZCzG7qdwafmoXwimElzW7FmPGbpry0vK9z6idT0VLFE+f1uEDhI9Y/DmV9ieolfiIdww7B0g3+Df1WHDVUrASLLVOPUmpAyrouEDsZsMxB8aoo9JTB5hOOfVvP0OYay6cUpwlj0Sx9epnU0dJAeJ7+OUj1pHHJ/uVK59vqqfgmLXEcnAbj3KyyrtmOKWwVeenDMXKzDUU9VP3dNYWgg4xNM8H8FHLh05/eO1P6ksOKRrfIqmvkXLDUBjp4nu9qT1SdgRjC+7WwVdbJWPOI4yWxAj5n8vgqVjKS3MfVXGSloRwnEbCXb46Z35fetcqtfmmg9EslO9zW7CSTAA+A/NVGq4uWZFyqN05LljhL6ZOiNbxRjcEAbZKja+6WqgafTLjC0jfhByfkFyuvvOoLmc1VynDT/Ax3CPuVmkh4QWyuccn2hzCrxhCUsZL8o2QjnGfgbxdtb2WCB7oYqmpkAIZiMtaXHkMnxOFB02tGUNM2CntUshxkvkdguJ3JPvKhny1UNXHHFUP4WeuD0JOw/P7lstQWRUkEtwjjnlczLmOjGdwCOW+f8eKseBXHMZSwUvtE+ZSjHKeyw/8ARiM1teJcugtMDRsS5ziceCw6nWl6Lw30SlIBz7JO/wA1nMks1TRuZP6XBKMlrI8cB+PNYT6eiB9WhlLftOlwMfJd/Ym488WsfH+Oh0uIRjLksi8/D+ep8DW19POjpCB04Crz9ZXmIA1Frpt+m4OFZIpI3Hu4XtOPaDuR8sqw6CCRxDHkuO+HDfPvUHgxeyabLKv7yi0vdfx0M9muSSDPZRnqWPV2LV1ke4Gakq6dw6gZx8lESU3D6pYMjnsrbqDi9qLbqcKBxx2LCcGtmjrOi+1uotj2R0t+ZUwf9XrSfkHHcLtekO0qx3vu4qiQUVS7YNe4Fjj5O5fPC8YTW2N+cMxgZK+YG3G3P4qKrmix0Djj5clYq1M6+j/Mz9Twmm/fGH6o/Qprg4ZByFVeR+y7txvOnKiK36ja+stpIbxj24x4jy8l6qsN1ob1a6e5W6oZUU07A+N7TkELVpvjatup5bWaGzSSxLp6mciIpykEREAREQBERAERRmqbzS2Cx1V1rHYigYXY6uPRo8ycBfG0lln2MXJ4RqHbHrlumrYKCgkButU08A/6JvV5/L+5ef4GSzSGWV7pJHkue47uJPVXLvdK3UF6qLvXPzNUPzjo0dGjyA2V1g4IDwtIcBnOPmsHUXu2fsez0Ojjpqsd31LlKe84eEBwP5LJyQ/fltso6ySN9Fic9xD+Bvzx/esqjkFRPJK1v1UZLAftHqfhy+ahcd37FnnWy9TKY08LeIb+KsyOgj3lYC7yGXK+BjPMknAX04twRt6vikZYZ8nHmRDVznz3CExcUTWxEZc3fmOnT4qTp4YovUZkcySdyT4lYdwZIatssTS7Aw7G/u/BX3XCkYPWnYSdw1gL3H4Dl8VdcLbYxjBbY/fuylXZTSnKb82X8fyLs8bJYXRyND2v9UtcOYUcZJrdiKo4pKXkyY7mP+V/l4O+B8TI2mO43adzaC3PdGzd75n8IA8Tjl81gamu/wBHUs9vjlglnkbwOigblvuceo8Va0/CZTi5Smsf35FLVcXjCXLGDySlopNNmD6VuNxp3QQy8UcME7Xuf6uwdj2dyfPGOShNWasrdQyikogaa3R+qwMGBjwA/NQevtTXTXOpKSvq7TS21sEQpe7pySJOHclx2zgu2HTKnKGiZHA0nGwGFLZrYaSHLUvM+5BpdBZrGpXvyrojKpKGNnZzdHsjw8OaXHqRlWuzy2mquHeOae7jALvAqcsJiq6O5Wh5DTUQZYD1I/wFe0Qxlu0tUVRdmXicxw8HDbCi1k3dpqrOvVMn0sVRqba0sZxj4GFqaoFTdXDH1cXqjHVYgbs5zzjA+GFaaJJ3PcSS4uyRnxV0U8bgeOJpHIbrGyb0ViOEY76y0syx0scjztwxjiP3LGZVUHoM1C8uGeIMcWEEA8gc+CnKOniii4ooowR1AX1DTj02pgkjZIXiOUhzQR6zBj8FcplmqS7LDKVkOW6D5t3lfuYllnpDE2OctdKGjLt8EnzUxHSCX92wYHLA5qKuVDbbcTc56ptGG8wXbO8gCteu2uKt1JLBp+DuImDJmePWIzgkDpuoJJS80SauE6/K3lepul1rrRY4RNdKmKMgZbGN3H3BaNdtcXG5S+h2Gj9HY93Cx3DmR5Ph4LXaK1XG81L6iokdK/HHJJK/Aa37TnHZo/HopYuo7ZTllI4vL28DqjHCZB1bGObWeLjuVLVVtzyeI/3oTWyhV5cc0vQwauGEPDLhPLUukPDJIHcW/wDER5A7DxwVYrbZHRSlkcrZoyA5j29QqPJfIXv3zyAGMDoPcsmJsklO1wGCxxaCeQHPJ92/3KamVV3NGax3T7le2N9HLZGXfdPp/oxmxhrQ54GeWPDy96q/iZGXPIwMuPuV55imPVozt/f5qzJBLWVbLfAwkyHik32DBzJ8uQ+Krzox5ovMfX+9CxHWLD51yv0f93L+nKN1T3kk7D3YHfSeO24HyGFSvmkmnfJK7Li4ud5k81OXinmtFuFtgp5JKyoAcWNblzW7HJHQnAwOgA65WNDYXMMVbfZmUUYGZIScyP8AcBvv/ghTyrlZBR7r+/Qo1311WeJj8XT1+OPf+DCttulrJWRsYcPdhpzjPxPQdTyCy5YWxO4HSNYxn8Ldy7zKyJb23JFBC2BgGA4gFxaOg6NHkPmVFv8AWc5znO43HLj4nxXELY6f8Ly/YndFuqfNbsuy6s+3Ppg92Im5z13TvX842xM82tAyrQLQHHId0yq8bRjfbquJajnzlYfsSx0ka3s8r33Pts0u543ZJ3IJXy98x2dI8j3lWu/jPFwnl4qxLWM5ZOw8VFKUpLEiaFdcJZiks+x9OaXHlzHRfDg1zcHmrDqnj2aHOPkFmUVpvle4Cgs1wqc8u6p3uz8guVBsmlZFLdkdcIoizOxOPBejv2O5q9+krpBOXmjiqwKfi5AluXAfd81zjSPYprS/1MTrnTfQ1CcF8k5BkI8Awb59+F6i0Zpy26VsFNZrVF3dPA3meb3Hm4+JK0dHTNS5med4zraZ1eFB5ZNIiLUPMBERAEREAREQBcD/AGhdSurrzBpukkzBTEPqcHnIRsPgN/iu26guENpstXcp3YjponSH4BeR56ma53OquVS/MtRK6R2fElZ+vt5Y8q7m1wbT89jsfRfqXIGFvq7gk7YHNZb2uy9vFn1TurYeyNveyZbvsPyXxPLO5j3RsEbDsePn8lmwqlLzdF7norLox8q3fsYLXPhhDWD6x+GRj3jn8lO0bWUlG2LjGBty5k8/vULURvdc2NHeNDIWd3w8ySMH7wVkMpHPc5oBlmbs7jOWxnzPj5D44V6FMJrd+7/6ZivsjhqO76f8MyrrDEQCe5zyL9vl4q211ZIMxRFo+3Ltt/V/U/BXqK2U9HJxuzLORvI85O/h4LNaAWbgbD71DO2qp/crPu/2RYhTdavvnj2X7sjJbfLNG4VE75duWfVHuA2UnpfTD3NfX3GRtLaovae/2nnwZ/jCl7Tb6VtJJebrJ3Ntps8WTgyu58I/VajrDVdZqV8dDRxmnoHZ4Wt2xGOQA81oaSmVsHbqX5f70MzV3qmzwdKvM9n/AH1MnVOspKyM2jTzBQ25u3eDYydMjx961+ltxZF3zxlgHeOLty7G+5/xzUjT23gpQHtHAObMbe8eBX1K0sY2lkcQyQhxPhE0cRI8jj7iFDqNRLVJKvaPTHp/JNp9NXp4vnXn9X3+BHQwMFTDEGnjYwFw8Xu9b8C35LYGxubmNgyMbkqKtLHTVDqp7TxOeXY8M7/oFLzEM+r4tz62x5LO1M1Kx46dPyNimHJBI+KRlQLlB6OQJmyAg/jlfGp6ue3VU0dKeGGqcHSx/wDRycvv/IKX0nC11Y6qLdmN2JUJd3Mul2vMO31VK97cfabh33ZIWlw372qdMuj/AFMfib8O6Fseq6/AUUznxAn2h4DksuF57sEnY77jcqItkdW6gZJAd8gEEbOCyrneLfaKRr692JcepA3dxWO008G5W+dE1SgOYX7Rxgetk4C1fUWtqahrar6KaKuplayMyfwM4Rge/ZazdtQXS+tkLi6loY9mwsOOI9MnqsKlhY22nDBxNlzn3j+4qzVCSi1nr+xHNQ51J9nj8y1WT3C7VPpFxqHyuJ5HkPcOi2zS1rqK6N8VNRvmPdCUNbgZZ7LySTjGQD8FrDGuMgaBxE7AAc10vQsc0Vp1FLC4vdSUTbfEQdu8e4l+D78/BdaSPiWqPZ9fgd6+ahp5N/1muXiYUNKKBsZ+qfu1+D30uN5XY5gZw0cuq19znSPMk73OedySsq91UdRdZpGyccYIjYSdy1owD9yybfY6quY6ecmlpYxxSPcMYHQHwJ6Dn5KO2UrJfAh0nLTUp2PzMj6aJ9TIGRtcWvdwDAyXHwH+Nuqn5tP1HGaN9RBRsaOJ88z+FhaNjwk44hk8xz3UhFqW0WKEUun6NlXWtbwOrJY8Mi8mDx8zv7lr9fLW3R4kq6pzpHOJc7PTwVqiNdXNz7vBDqXfe448sc/Fl++0Wj7Vouhu7dVivvMtY+CW1xFvFwesA4D2gMAHiOxztzC+bxqnTUNn0+3SlnraK8Q04bc5pJciVwAAJIccniyQcDY48hDVdjpJ2lx/eAjgfzweiyKKCF3ETC2NzPVe0dCPBfI6qOMRjggnw2UnmybljdZNit12tU+iL/c71que36gpwDb6SNoDqo4BA3Bc7idlpII4RudlqtFco54++rHvbIdj32RxHyJ5/DKy6yCCRp442uxyWM6VrGiNrS93IDGc/BRz1cppdsFmnQ+DKbztIzXOibGeHruMLFkq2R8yCSt90N2J6l1JwVlc02GhfuHPaRK8eIj/ALS7DpPsmo9HyekW2ktt6lByH3FhbM33PGW/Jg96+w0krHzdERXcWq065fxNeh5905ovWWpDxWmwVb4XbiaRvdRnzDn4B+C6BZf2ftSVIa673mhomkbtha6Vw8ug+9d7ZW35gw3T0QA6Csb/AGVX6Q1B/q/H/wAa3+yrkNDWuu5kW8bvn+DCOb2j9nzSdO0G4V9yrndRxiNp+AGfvW12zso0Db2gRacpZSP4pyZD/wAxK2+3TVc8HHWUopZM44BJx7eOcLJVmNFceiKE9bqJ/imyKodO2OhaG0dnoKcDl3dO1v4BSUcTIxhjGtHkMLievO1K8aT/AGiI9Oy0t4ulifpoVYobZbxUStqDUFveHA4g3hGOeMkbKf8A2Y9W3vW3ZdHfdQVTqmsfXVMfE6JsZDGykNaWtAAIAAUiil0K7k31Z1BERfTkIiIAiIgCIiAIiFAcu/aNvBo9IwWuN2H184DgOfA3c/fwrhFG0At9UnAPJdC/aKrzVa3pLeH+pSUwJHg55yfuAWgwhjCMHcc/NYWsnzWv2PY8Lq8PTL33L0MQz3khL3k7Z6eQVq5ve7hp4WF8shwAPEr6lrIIncOQCOnNWHPy4RxkF8gHeyfZaf4B5kcz4bdSua4O2WZvCRPfLwIYgstkiGSGtkiYBE5kTOOUH1uHhzwt8OuT8lmQRMhY2OPhawcgArMAzODsO8p4ifgCPyVx0gFc2InYtPyGF3qrJOXJ2RFpKYxrjJ9Wi/nON+W/xWTaaKS4XKGii2fK/BPRo5knyAysYDGxcADuVmm4fQOjrlfDgVdX/ktE3rv7Th9w+BXzR0O+1R7DXan7PS5Lr2+JB9o95bd7u2xW4kWi2ju8A/vXjx/ErFtFM0VJDxhzI24255J/uWLYbVUiIHjY17vWL3Di4nHmSFmS090gljkFTBI9wLAO74R446+CuX6hXTlFPCxhfIp6fTfZ64yl+LOX8/8ApJVUjYInPPs8wDyUXXyxVNnaHU7RK6smaJG5yI2tDms92T95WPdK6pbAYaqLun9Psn3Hr9yuOcGWu3uc4ASSzO5c/VhGPxVfSVyfMl6Ms3yh4lc29smXQxiCEAty7wPirc87GOcJHgS49kDJ+Q3R5mlaDI7uYydmtPrH3n8grlHDFxO4WsjjBzI7HIYUXLVX+PzP26fn/BPzXXbxXKvV9fy/kzu/rIbL9WW0kbxji5yO9w5D71g2G3xwQ3SsL+GD0N8bXPOMl2Bz+ZUPW9oFmc18IoqiUxOwwbcLsdcqH1Bc7rdbXCyof6NFVDvI6aP7Azgnx6qamy2diUFhLsRW6euFbdj3fcv3vWDKSIW2xDvntHCZyPVHuHVQUETopTW3R76ipkORG/fPmc8gsakhMIzHhpH8QG6zKaLvJozI8kOcAc9VV6ywu5pSq8mH0RmvjZVzRUzWCGoe0cPB7BceQI+QVijBkgmYRjLeXmN/wyvqmmc26Rz7B3fBw+BWz2jRl5uF6FPDGykidiZs8wwwx75I8eYGyuQfPa8dn9Ohny+5r5JPrHO/Zrc1y3vZTQz3Ij/NwGw/zSu9kfDc/BdBloLhZ+ziLTdCYYrvX4qq4yv4TEH+zH48XDjI9/irUdRYtJxTC3ej1z4nuEVTUNGGyH2nsbvk7ADwxzK1qruN2r2d6Xijp5CS+qlGHynqcc3H5/BdQp8Bc0nhP9PbuUtVqLtc410R2W79CY0jpyyWiRkl5qm1lwwXNpo3csDJJ+yANyTv7lE6tvrr5UCOHvYaCLaKngjDW48Tv1Ue10McT4aYS8Mn72V5+sl9/gPIfevnAYBgnxVeWpwsVrBoafh7i+e6WZfoIGQsiJhGcc9sEe8LIZgMaeHmrAc3icepbjHiqulIZudsclXjPDfui2684T7MvB4DDhowFGV0zYJRVt6DEjR1Hj8PwSpq9zwkk8tuvkusdlHYvXX3urxqtstJbzh0dJykmHi77I+/3LqmqU5YRHq9RXRDmm8Gi6I0hqPXFd3NmpsUzTiWrk2ij+PU+Q3XpLs47J9O6RjjqXR/SNzA9aqnb7J/kbyb+PmpfS9LT6Vrm6ZiiZBbpeKS2YGA3q+H3j2h4jP2SVtg5LXo0kK93uzyms4pbqPKtogDAAREVszAiIgCIiA106Nsp7Qv6dFk/wBMfRv0Zxd59X3Hed5jh8eLqvrQOkLNoiwfQlibM2k7+SfEsnG7ikcXO395WwIgCIiAIiIAiIgCIiAIio/2SjB5V7T6g3DtLvc3EeFk/djP8gDfyUVTNb3gGSNuaX6f0jUdzmO5krZTn/bKpTvjhaXvcQGg4xzXnJ5nY8dz3lWK6Vnsj4rqSGShnuNW0GBhEUDT7Usp5AeQ5k/qo1sFVRN9JZxzxE5eHbub556hZUwmuNdT947EULC+OLozP+CpqJrDGRsBhW9Q4VRjXHfuylplZZKdr27JFummjlFI5jgcwluM+DyR9zgrjcOvjWkZ4ISd/PIVl8TpP8nijaydju8p3D+I4w5nxG481WKUQ3FtS5vFUzwBsVM44OxJLneDfvKPTytfPHo119MeohqI11pS6p4x3fXGDNrpKekDZqvi7snDI2n1pjzwPLxKwNQRVddqKhoaxvdmOIVL4RyjHJjfvysqgt8lfqqgiqZHTSTSsD3EYDWjcho6NAzsrrKltx1ffbpza6o7mL+qwdPiVepshTpbPD+GfUz7q7LtXWrPjj0RlthETBwADfksacd7KxsYy7jBA67K6+kmqMNMsgZ9hh4dvM81HXZ1ktTCyprIaWRw3dxZfj8crOqhUpeaX5GrbK6SxCP5/wAf7LdxEdY51EyJspZ+8dn1Wnwz1d+Cwp6OeenjiphL3tPKSY38nMcAMtPjgDI8lhTa3sVvpxS2qhlqAzkSOEE+O+6hKzV98uj+6gdFQNPs8A39xKO9JtVrEenudV6OakrZvzd/Q2+aajtVNx3asjhLR7BOXH3BaXqTVk10Y+gtkbqajds959uQfkEobAL817WVZN1Zs+mndhz/ADYT+Ciq+2XCzzmOsppIsbDibhRvTyhFSxs+5drtrk2k90LZbnyVkQZGXMG8v9Qbk/BStdPJLVsrIi1zAB3RHINGwCzqCSO2aKnr3ACpucppoM8xE3Be74nA+agKaoFG5waO9pnnLm4yWnxH6LucZVRi87vcihON1ktto7fPuZlRG0y8TBljhxD9FafJ3TC7Y8P3LOEUdRTRy00oezc5Hh4KNr4jJNHTRZ4nuDQPMlcW+azK7ktL5KuWXbKNt7KdJSajrXXW4ufDaqZ+NtnTP+y38ytpvF/dNX0llomySOaPRZpm+wI2u9fB6DHNx9wWVeK5+mtM0FjtrHelyQiOCOMZdv7UnvJJA891o9fO+jpjYqebje15fXStOQ6QgAxtP2G4A8yCVdm4U1rl/wC/8MGEJ6/UNyflR91b6FtyqZ4CytnfM90cj24iiGdg1vX47e9YE8kk8jpJ5HzSHmXc/wC4eS+2NDcNxhv4qsRa2cOfE2RmfWaTjKpKcbVix7ro/wBjalGdTzUtu6/fJZYc7AYGML5GQThuc8l9zOALssAYCcDPRYk9Q0NJwGgclxZUoPHMn+ZJVc5rPK18cfyVfIGjfBPVWqeOuulfDb7bTy1VVM7hjiibkuKldF6R1Bre6Cls9ITGD9dVSZEUXmT4+Q3Xqbsv7NrJoeh/ydgqrjIPr6yRvrO8m/Zb5fNS6fSyt37FLXcTr0qx1l6Gqdj3Y1SWBsF61IyOsu2zo4fajpj/AO53n06eK7GBwjA5KoGEWzXXGtYiePv1Fl8+ebI/UFsZdba6nMjoZmOElPM32oZG7tcPceY5EZB2JVrTV0fcaJzamMQ11M8w1cIPsSDw/lIw4HqCFKqAvtLU0N0hv1tp5J5MCGsgjxxTRZ2cMkAuYST7i4c8KQhJ9FB/0hd/2Fef+GH6p/SJ3/YV5/4YfqgJxFbpZe/p45u6ki4254JBhzfIjxWkdsvaDJoO0276Ps0t7vV3rW0NtoGSiMSyu3y559loA3Pu5DJAG9ouadj3aNeNXXO52bUVjt1ruFEA9hobrFWRTMzg+yeJpBwDkdV0tAEREAREQBERAMIiIAiIgC+Zf3bvcvpfMn7t3uQHjiZx+kqlzvW+veeEf1ivuaNz2ADAIcNj5r5qWFl4rWkexUSA+XrFZWGl/wBppGCvNZxLc9+lmB8W+PhL5eE+sRg+DRyUjFnAxjxz71Rrg3OOuAB5cl95jZGXv2YxpLiPBdNyus26s4SjRXv0R9Vje6mayNgkqDvGDybjm93kPvPxWJU0TfRjNIz/AC9h4/Si4nvepBHQ+7bZZUD+7HpFSSJpt3ADPCOjR5AfmrVVdRFlpYxhcOcrwD8hkn5K5zzw6aVmPf3fqUPs/M1fN8su3t8u/uZWj69rLpV10rwHUVDLIA7Y8WMDHjzWDoSMz0RLju4mR7j0ySd1aoqWO5Omk7vvoWAd42Jha0ZPicH5KM1be6GEGy2VklPGTipfGScfyhdW5jp1U9nnPU+UpT1UrX6Y9j71trbupJLZYCOIerJUjfHk39VoTKaWqmMs7pJ5HHJJJJJW52On0jSsElbT3GoONwGEA/ctotGobAWvpbLpsQzO9WOSdnEScHx8gSuY6KbjnmS+e5fevqg8Ri3+hz216VuVbh4gZTQ9Zah4jaPnufgCtm09ouklleaqsiexvKQBwiz5cnO+4e9Yt1vzW1EsFHTOrqkH13huQD+QUBcLnd6jIqrpFSs/6OIlx/5f1Vn7LpqMeNLL9EVpa2+3/wCSx8f46m8V9mttJUNlFTSzvaRhzG8Lm45Yyc/es6obXXGItlloKtuDgSt4vzXM7fS0Ez3y1Lq+piiGXvdIIxnoBzJJWxWt0sdXRQOYI5+8a2OFriTE0kbyOPXB2b+C6rnp5SahB8vxwUJy1VT8ry/gtiWuTrdTV7aautUFTR0cLIGtweFjscbyACDzdz8lku0/oq7U7X09LJb3PHqPhlJaT19r8NlqN1uzpLvWy+iF4kmeQ9spB5nkDkcvJUs9xjinMc9XWtpnjeKVoIa7o4EYwR7k1OrqjbiKyls08dvQk0tc/BXiZi3vle+++P4Lt00lc6Bj6qyTOqYInua57G7u8cs6+G3gsfTEdTX6ipO9onB8Tu9dJGMtHD1I5jC2CwX2vtN0barlG1jXk9zIOT+uD4HC269XuaHRNfeKGyzeiSuFJ9ItYwRh5dwuGc8RwfVzjGcjKmv0dFkfGpe3oV1xO2mDhZv7mg6h1DMLhU3aGb679zC482DGNvMBRVjjfJBxbu4t8+ZWd2jQwQWC30jGNyynNRKR1c92Bn4ALXdMwOfCHRVVRCcblr/1Wbq63GKb9zW0DUVype/5mzuY8NA4Dnocc1aewg4LXe/zWNJFcGezdJTt1Y0rGnFYM8dxlOegaAqGDSyy7WvLGkyODcAczsuk9h/ZXTa0ozqG+SzNtrJSyCCP1fSOHmS77OcjbwO641WBneAPc+RxOMuOV700jb6W1act9voomxU8FOxjGDoMK9o6VZLMuxkcY1c9PUow2bL9mtVvs9BHQWykhpKaIYZHG3ACzgiLZSweQbbeWEREPgREQBERAFo/a/2ft17arc2mvE9ku9prWV1tuEUQl7mVu3rMJAc0jmMj8lvCIDlPY92Ow6H1VddW3G6UdxvdwgFMXUNsZQU8UQdxECNhOXOcAS4nOwXVkRAEREAREQBERAEREAREQBUcMhVRAeRdSQupdYXqmOA1lbMP+c4VpmzPVaTy5Kb7XaY0Xaddoy3DZpGyt6ZDmg/jlQ9I7JPFy5Z8AF5u1Ym0e808uamMl6IstuDYpC14y3+ZpB+8Y+9Xn1PpNOe5jaGBzXSHi3AznkfMAfFJKiOIOkJw3mTywsEVc1dKyOJuIjkNO3FkY69Oas6ZRy5pPZepV1Ns3ivC3aMueSead2ZHBow0BrsnA/DfPifcsuktBnIPAwZ8Bufesu1Wt73jhj3ACs6u1FS6bonRRlstwkGI2D+DzKglZJpRXQsKlTlmW7MPVt1hstuntNtPFXSx/Wvznum/quZx05ZK4Sk8edzzUtpl0lbc6r0txkmrYXt4nfaxkfeFaeG1cAczHpEQ4Xt+0B1Ctw0/iUZj+L+Oxx4y02o5GsRws/Po/gYzWndjeIknDcHmfJbi58Fo082jJIqJMOrJ+b29Wwx+Djzc7oMe5YOm7e2KjkvFW1o4H91SscNnSYyXEeDRufh4qJuNU6sn4w53A0kN4ue5ySfM5yVDHNMeZ9X0/kmvS1M/Cj0XVnzca2etlLnuIYRhkYccNH5q1SUjpZxEGjiJ5nk3zRsbyBjl4qVoKSZ0Tixj3d4Mkgcox7R+J2+5QQi5ySXcnnyaevEUZFKyKNrREWsjYC6Nzug6ykdXHGGj9N1hdm/U8mdmvL8E5OwJyT1OyxXOL3PLhgnw/wAdBspPS1L310dLI7gjhp5ZHvPIAMIHzJA+Ks1z574Qj0TXz9ytdWqNNOT6tPJERgubu3c818VzA2mcW4OB1KuRkGJpA5gFfFwJdTkAnGNwVXsz4ks+pYqx4Sx6Gz2DVEMGmZpKjS9Je6q6UhoI5pnYNPJGDg8jzaWnbBy34iAqBqWqoxpWnvD57Q17aialP1cbpPaJJ3I3322zvjO6lOyiWmZaLua4Ex297auLbYyFrmcP3g/BZWnYyLZV3F3tSkgH8f0W1wvmtlyPojyXEaorUbfF/E1PtFikpXzQOjqIm+jwBoMveAjhHIkk48lE6bqzBTBru6eCPtcDs+ADtj81P9qT5ai2Wm4sp6j0Z0Qp31BhcInSMJHCHkYJx4KIsvCyhAc1pz4jKqa2eEoNdM/qzb0kE3zVy9P0JJ9xgw0PDoiOfGMAfHl96xK6rHD6juPi5EHOVZdB6ROIKOne6U5IbACCfMgc1P2TQc8tG2ukmcyZ5yAW7D5Yys6ThFZyaUPFcsYya863zClbUvbglwXve2Hht9OP+6b+C8a3OyXmji4HGKohbzJ9r5bfivR1t7QKi30FM3Uekr3bxwDimp4DVQt26mPJ+5XeGTy5bmT/AJNyctXKmuvX5HRkUFYdXabveG2y8Uk8nWLj4ZB72HBHyU5keIWweSKoqZHioTX9+dpfQ961I2mFS62UMtUIS7hEnA0u4c9M45oCcRc47D9fXvtAtIu9dbbHR0UtPHNEKG6elSsc8Z4JW8A4CB0yV0dAEREAREQBERAEREAREQBERAEREAREQBERAefP2kaHuNYUFeBtU03Cfex36OC0KnJIBacYGd12L9pik4rHa64D1oqkxk46Obn/ANq41RPYWYPLGT5LB1kcWs9hwyzm0sX6GJe2vfWtpckcABfjxIB/NTVno2UzqWQsyxsoD8DJwQR+Y+SioW97Wd6Tl8py4n3lbdCw0lv73I4jhrT4F2d/kHfcvkdQq8Psk/qc3+XTuUuufqmZdZVmMGlo+Lj5EsHrD48gfn8Fqldounq5X1M9LO6V5y6R8ri4/wCPcu0dmWnqCpovSJmNe7zWx3qwUbYyWRtaPAKBVWShz52MeWutcvxNHmB2kZaCuhqqSd7TFIH8DxnODyytbuFouVLc5JvRn9y6QvaWHPuGy9A6itcUTyWgLU6yCNuRgLhaiyuPLnbqS1662E+dvO2Nznl+q6akklou/kkjpw2HvA7IMrmgyFo5Y2woh/A0CQOD2EbOB5rerrYqC4t4ZYBnOQW7FY1u0LEC4RvqntdzaSMfgrctbXqG/EWPR/3qT6bXKhZj36rt8vT9DVozECCT3hH8OcD4nwWbNXVAlwKhzXSRNEhYeEFoGQ0DoOS2d/Z/GBkiqaP64/RWK3RTnPL21EsZ4AwZAOAAB+SghbGOS9LiNErIyedjWu8jL2sa7m3pzWTLU+jxmnY7BdgyjPPwb+Z/uUvQaMfCHOdWuMp5PEe7R5b8/NYlZo2dhzFXZI6Pbz+9S12wqXNF+Z/Q5t4hTfLlk/Kvr/oj6pjI5cx7ROHHHjwPT4cvgo+vfhnD481n1lHW0FAY6tuTG/LHjcEHmPwUNPK15OOa+3uM5qyP/rf59y3obVKtwTzy7fLsbbbWR2zRFHHLE9/0jO6qqGs9owsJaB8cO/3lPaht9w0tRU9jvVEyknmgM8HBKHhzC4jBI5OG2Ry32JWPcGxyaho7S9re7bbGQhuPBrc/gVjt06+uvcdVe6uuuAga1kT5ahznMjB9kEnIAytfRy+zVPUdV3PORVmqucV/6f6bGs9rd81IyyW7QXp0b7TTCOpDe5HeB5HFwF3VoLjjYHxJWr0D6gQiJ7eAAe30P6fFTGsWTS6mqpHTPmzIWtMh3wDsM+5ZNpfTxQTRzM7sluAXjY/FX9LwyOqgrrpdd8f7I9ZxKXD7XRRHD7v/AEdz7ELDaIOyOovUdFEblVNnjlqHbv4QSAB4D3KE1fPJa9PwU1Aw+kPw3iAyW7dPNSfZVR3Kn7GpK+1VuwNQZKSf1onBpJy3qw/MeXVQ095o+7oX3CKSGojaXd1KPacQQHA8nDfO3xwvO8XqUbnGKwkb/wDjt7muezzNvv32I+w1xuVuNJWZNTEP4ub2/qF6VsEgNKwA5HCF5DFTNT3GSrgeQ/v+Jp8s8vdhettNMeyIMkHC5oAIVfhm1jaLf+WVckYP1y8fkZlwslnuf/3C1UVVjkZYGuI+JCwxpCwgYFNUNHQNrJgB7gH7KeCL0SPBkPRaatFHVR1NPDO2WM5aXVcrh8i4gq3r+wnVOiL1pttUKQ3OilpROWcfd8bS3i4cjOM8shTiL6DVey3RNr0Ho63WKgp6MT09LFDVVUFK2E1T2N4e8cBnJO53J581tSIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgOf/ALQFMJ+ziqlxl1PNHIP97H5rztSkOp3cbiMjfyXqDtZpvSuzu9R+FM5/+7v+S8u0Z44SwDI81j8QX3iZ6bgz5qJR9y7bHN7xoaDs87+/H962q8teLZTlmA3bPvHL7i5alQO4aiMRjPE4j5Y/VbFq+tkptE1c0e0sTQ5p8wQs9rKwX76vGg4I2DRespLO8Rud6nULdqvXtFVU+zgCR4rzvZb1Bc4A9jgybHrx53B/RSYqJW7An5qLxLK1ynlppwlyyW50K935lQ93C4LWqutaSSVBmqk81Zkme5Qvmk9zl2ImIq5mc4wtn07fqaDAkDVzp9QyPeSVrR5lWH3mii51bD5A5XUYST2PsJSl0R1a+6spRCWxAE+5aTV3+omecPwPALV6q9RmHjhjkly4NGRgEqOuNTcnEdxIGMcfVLRzHh7x+imVUpbss16TUXPEVj4m6fStRw/vMfFRV0v7KZpdNUZdjZrTkrUXU1xkyJamY56cS+I7U8HMjiXHxX1URXVmhXwWxvzy/InqDVDK6oNNJC8MIJJduMKLv9L6BXh0f7mXdo8D4L5ZRNgjnkyM90Wj3nb9VeimZdbKKCRw9Mpv3ZP8ben6fJTuuMIxlHv1JPAlo7eaH4VjJvVPFUVuvbPVxwSTRGmEkxYPZYWDc+WSFBdl181HVdoOo7PfKYRwwzF7GPeOOna8eo3bYjGD7/et90HT1NquFlgur4y2tpBSySRu4m93K3DDnxDuEHzBUJqTTdXb+1GPUMEoj9IgdR1tMyNz5JpWnbgA3J2+QW3oYuzTyrb9fqYsLuS1Nf8Al/uQmqLM59TXyMGJIv8AKGfzMPtfJRVnIfTzcQBBZuCt2pKumq6mWCdji9nGzdpDm52c0g7jzB6rAtosNki7uWkfWV4cWmHJcDg88eCv8P4p9l03h2xbknjC+n5l3ivCXrdSrqJLlazlvHxN67KLdRHscnljutVb6qWSeM91LljgdsOjdluN+YAPmtM1bdWNoorVX00FcyAACeDIdn7RZk8PwcVsVuobnqLSN1uZrobVTW2N59AhbiUkDIz0a0+WVG6itsP9HaGlo4msfLhxI5uPUk9V5ril9k7XKcOX27nouA6KiuKjGzm33a6dPqahAaWqh4KacyFu/ATiVnzxxD34PmV6a0V2gadvFJEXVLaSpY0Rytl2Adjlnp8cLy9NSs9Fl7xg7yM4DuoPkV1ms7FLnWWmjr9Pag3nhje6OqyHAFoOBI0cveCo9BObk3WviTf5HpqoRgr57b4+h6DY4OaCCCPEL6XPbZq+v022G3aytVRRwsxHHcooy+nIA/jLc8HvOx5nh5LeaevoaiFk8FZBLE9ocx7JAQ4HqCvQrofnr67GSqNAHJfMcscme7ka/HPByvtfT4EWj37tY0NZNXu0lcLrO28s7vjp4qGeXhEmOAlzGFoBzzyt4ByMoAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiICI1pF32krrFjPHSSD/AJSvI1I9rYTkOb0969iXtne2esjP8ULx9xXjyJhFOWY2BOT4LK4it0ej4E/LNfAuUj8TQhg2GTj3n+4KS1tOWaDrXTYBezhA88hRlA8CpY5gy1uBlY3apW93Y6K2Nd9ZPJxuHkP7yFnLqb0FsjS7JA/hkMZLXPhIBGxBG/5LNprjfYWhveslA+23dZOl6VktwpoZH8DJPVcfDZfQhBlLSchpOMHc4/xzVmac6k8Z3aK9mnonfJWJdE/1RSG73l7iHNgaADuGq/VzVxjicaglxeCWAYBAG/wJyP8AZKyqF8MUjYHMjkLwSBw54dvayfD5L5dwOOQ3OBwtHgFG4xrhnbLII6PTzt5YQ2XUj6m0Mlqu+aXOjk3bk594+CvUtqj7xrO7GcjGVKtf3dqmh5udIwh2PZ2PJWIXDu5SHHi3YH55Hy+H5Ke6vnSsh36r0O6bPB5qmumyfr6FpzIXztZH+5pyQD9p55n4L7cGmMtc0FpPI/irZLI4g0eq1uwCx56jAAB+apyll7GhGqKjyvcuHhBz3j8DxIP5KxLMASR9/MrGkqXSSBkTC57jhrQMkldC0L2N6t1Q5lTcY/oa3u37ydv1rh/Kzn88LuFcrHhIjtvq065rJYNApoq26VkdvttLLV1UzsMjjBcSvRXY92KUFkpTdNVU8Nfc52ECAjiip2np5u8+nTxO/wDZ/wBn+nNF0ndWqkDqhwxLVS+tLJ8eg8hsttAAWrRpFDeZ5jX8WlenCvZfqeftfaWZpi7S0tI5xoqqEy0vEcmJzTktz5HB+KmtZQ3J9BYNfWN0cVbJDHK/jj44xK6Ph9YZGQQS04I3AUz268Bbahtx5lPw4Rn8ll6Qkp4exe3i4xh0T6R3E132SXEH5br7TKNNsvTBkVxcpqK7nDTFfqCtuGrL1LBU1Na9zjAWd3nOMlmOQAGADnPj1UBT3KW4lt7oGmC4QZbPA72nR52cPHA2Kl9WX+pr7q2rjjDoxKIaWM7twOuFEX+szUsE9AIahoPG6IcOfAjHI8+Sl4Zqbbb3aoZi9l7HrNfw2vTaVUua50stfH0Nmt13+laKomfS1VO5sJZPPTvHrMI34m5yW/BXbVUy19xZGZGyRwR8LHBpbkDxHitQ05dWw1cjJ2RVVHM48cWQHt92cAn5LoFmjoKqd9Ta65r3BvAYpdi0dAeo+KtcZ0k9TFKEVn6lDgeoq0NkueTSedu3xNEvru4rJR/C6T1vdldj0h2p+gWGmoHmnmEETY43PBDg0DAB33XNNR6YupnEohjna6TJbHJvz5brJj+h7ZTSzVNuqqKqawlveNIGfIhZeg4Pe4OSlyy9MGzx3jWkscISr8SGM5T7nf8As61rHrB1xjbRiMUT2MdI05ZJxDO3gR4b9FMSaR0rLI6STTVne95Jc40UZJPidlq37P0lXUdnsFZXUcFNLUTPe0xxBhkZ/C5wAAz5+S6ItCMJ1rlm8tHjL51zscqo4j2RgWqy2i0mQ2u10VCZcd56PA2PixyzwgZ5lZ6IuiE84ai03qej/aguuqm2nWptFTDQshnsU0DYpnMI4m1AkcCYx1A35r0eOQREAREQBERAEREAREQBERAEREAREQBERAEREBZrxxUUw8Y3D7l43LeComjyTh7gR47r2VU708g/lP4Lx1Ut4bjVtOP3z9/9orL4j2PQcCe818ClpYXVgZjlufALTNUV30tqmZ+eKGn+qZv4c/vW63Wdlo0/VV7CA8s4WHxcdlz60Qu7vjcMuduSfFZ0emT00Iktb+GOeNwe8O4hyAH4rIjc0gtIDeE777OHgc9VjxcRdkAYaAST0WU5je8NS7HdB3FEz7biMgnyCt0zfgyT6Z3+ZT1MIq9SfXG3xX/S7UQmlmkjMjZJX4Dy3drG/ZHxVW4JwHcvBYVHK50YfI4ni3J5k5WVGBuRn4qG+MW8xe3oS0OUVixbvv6l6PicHM4+CMjPEea+KyaNrOGP1WtGGj8/erM8rYgdzkb581e01Yr1q69MtdkpjNKd3vxhkTftOPQLiPNLCXY6nGMMzk9iOmqXPc2KMGSR5w1rW5JK6ToLsS1JqIMrb5IbNQuwQxzczvH9Xk347+S7N2W9lNj0dCyqnYy4XYj16qRuzD4MH8I8+a6IAByC0adF3mef1nG3+CjZepp+h+zfSWko2m22yN9UBvVVH1kpPvPL4YW4AAclVFoRgorCRg2WTsfNN5YREXRwcW7fHXNt6o2xUz5Y6iH0emLRnEjnbj3nZZfadMy0aPtejqScCsfTw0kYHPfDOL7l1uWGKUtMkbHlpy3iGcHxCib1YLTXVbLpVUEM1ZTRu7mVzclmx5KpZpnLOH1wWtHdCi5WTWcfqeVr6Kaiu2n6OThayCKJs7gfYe7G581P6qtjTG8Fg42bZxzC1yttk9xtDpWRue90jnyynflnH5rcLVUfSulLfWu9aTu+5mP87PVyffjPxW7o9NLTVJS65ZLqNetVblZwksZ6mtaShsX9H9T2a52+mfVyU/pNDO5g42ub7TWu5jbB28Co0WGsZUv+j67gMDWuaZHlrhkA4Dh+C+9T0j4ZXSxeo5u4P5Kt2d30UFdFcWUcUsQLmPeGPccY2642WRxi7UaW2Nlb8r/LJ6Pg2l02rpnXavNk+KXVWoaVwjqYvSxHze0jiwOZI6/D5Kcp9aialZPUU8no0h4eN8R4CfDOMZWsW2JzjL3VxgrZXtIYwTesM+Gea7t2R6Stl77L6VtXTupqwPmjdK1o4v3jsBwILXDycCFFw/i9ts+SyKOeN8Io0VCurb64wzXOyPU9zrO0umtVumk+jHQOfPAHExsaG7EDkDnwXoRc80xY6LQc888liiayXZ9woWueA3+eMkuYP6uR12W6095tNRCyaG5UckbxxNc2ZpBHjzV+6cZyzFHkpyUnlGcixmV9DI8Rx1tO97tg1soJKyGHIzgjfqojgqi5zV9uHZdR6mn05WargpbjT1RpJmzQSsjjlBxwmQt4B784XRWkOaHNIIO4I6oCqIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgPifeJw8ivHtwy2+V8eMgVMjcY/mK9hybsPuXkO6MLtWXFvhWSg/75WZxHojf4D+OfyNa7Tqnhp6C1sO7z3rx5ch+ah6CJoiAPqtAySvrV8wq9YzjPqwBsYz5DdZVNCwtcZR9TGRxDlxu6N93UrPjHOx6hyUVkzqZlDJb8VEb+E+uxjQAZAOpPQZx/jdYs0nftDuFrceqWtGAB0/x5KRvttp6Ds/otYP1Db5ZK+qNO+3DAliaC4DfPThBIwBuPDeJpXNdFx53k3CnszX5X0a/v1M7TzWpk7M7xf/AE+qNuIxvnBxjHmrj5Wtb6xPyXy13ASAN8blXLFaLlqe/wBNZbTF3lTO7Gf4WN6ucegCrYc5GhKUYRy+iMvROl7trbULbXbWkNHrTzkepCzxPn4DqvXOgNH2jRtkZbbVCB1mmcPXmd9px/xhW+zjRtt0Xp6K2ULQ6QgOqJyMOmf1J/IdFtAC2tNplWsvqeN4jxGWplyx/CgERFbMsIiIAiIgCt1X+ay/1D+CuKxcXFlvqHgFxbE4gDrsvq6hnmTTpzpSqH8zvxUBoy/xWsXO3VRPdSEzQ+Thz+4ZVuyahZRWeWlq+CF0pLgHuwcHrgZK13vaGSZ75KqIhxJGA7b7l6eNXNFplCN3hzjImXy3bVdeyCz0skj5DwsHBxOcfEDkB5lTt27GdZU8kcxp4KhxYC8R7gHrjH6Lbf2TYZGXS/Pe0PjfDEY5A7iBw5wOCvQmB4Bed4rV433LeyPRaDjFmln4lUV8zypZOyHVVdVRtqKX0aMOBLizhwPed/uXpPR9kZYLHFb2yGVzSXPeericn4KYwEWbptFCh5W7JeJ8b1HEUo2YSXZDAUfLY7LLI6SS0UD3uOXOdTsJJ8ScKQRXDHMCGyWeCVs0FqoYpWHLXsp2gtPkQFnjkiIDyZdtP67Mfapoum7Nq24/0uvcslFcZ3xspII3YAmJJLstxxDAzsF6e0da5rJpO02eoqXVU1DRRU8kzucjmMDS4+/GVKogCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgKO5ELyZeWcGu7szkG1cpP8AvFesyvLPaDCaHXmo+Q4Xvk+bc/ms7iKzBM3eAv72S9jkMEhqb5WVXtF0znD57KaqSIomQAEtjGXHxceZ/L4KAsLncJeBu52VMudv7XETzysyUsbHq1DLT9DC+jaWUxSvjHed2058cjP5rJjpW07MUknBjfgIy0/Dp8F9cQEYaM8TRg+Y6Kk0ndx5OwCSnJsjhTGK6YZjmtc5/cujcyV54Wt5hxPQFesewfs+h0hp5tdWRtdeK5ofO/mY28xGPd18T7guY/s3dnzL3Uu1VeqVslBCSyjikblsr+Rfg8wOXvz4LvDbDX252NP3QU0B50tVGZoW+bPWDm+4Hh8lp6OhLzs81xjWtvwIvZdf4NhRQHo2r/8AtWzf8BJ//VSlqZcGUxFynpp5+I+tBEY248MFx3+K0TANZ7W9eUvZ/pqK5yW6oudZV1UdFQUMBDX1M8h9VmTsOR3WF2ca21Rfb3WWXVnZ/X6XqoIWzwzekiqppmk4IErWgB4+yfNZHbJoL+n+mqehp7pJabnb6yOvt1a1gf3M8fsuLT7Q3Oys9nGmtf2681t21xreO9ulibDTUNHRinpoQOb8buc8+/bJ8sAb4iIgCIiAKjgHDB5FVRAcn1f2MWm6XOW5W2VtJLNvIxzctPu8FA0HYUXyFtdcY2RZ/wBEzJP4LuyK1HWXRXKmRumDeWjXNCaOs+jrc6ktURBfvJK85c8+a2NEVeUnJ5fU7SS2QREXJ9CIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgBXnP8AaBt76TVlwqWtw2st/GD4uALT9wHzXoxcz7frEbhpyO5xMLpKTibJgf6N4wfvwqmsg51PHY0uFXKrUrPfY8h2LApx71LMGxLt2+5Q9vD6aplpX4D43lpypTvQ1mAdh0WLLqe3i9j6kfgl4IAz1Uv2eaWrtcargs9MHtpweOrmHKKIHf4nkPMqHs9uuOoLzBaLTTPqKud2GsaOQ8T4AeK9gdkuhKPQ2m20cfDLXzYfWVGN3u8B/KOnz6qzpaPFll9DM4nxBaavEX5n0NpstupLRaqa20MLYaanjEcbByAAWYg5IttLGx4ltt5YREX0BERAEREAREz5IAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIBnyKpnyKqiApnyKt1UMVVTyU88YkikaWva4ZBB5hXUXzB9TweZu1LsHvTrzJc9JCOpilOXQPeGOb7idiobTXYLre41TW3d1Naqf+N7niR+PIN2+9eskVV6KtvJqx4zqYw5dvj3NO7Oez6waIoTFbKdz6qQfXVUu8knx6DyC3AHyKqisxiorCMyyyVkuabyymfIpnyKqi6OCmfIpnyKqiApnyKZ8iqogKZ8imfIqqICmfIpnyKqiApnyK+ZZRGG5Y93E4N9VucZ6nyX2iApnyKZ8iqogKZ8imfIqqICmfIpnyKqiApnyKZ8iqogKZ8imfIqqICmfIr5fIGOYOB543cOzc42J38BsvtEBTPkUz5FVRAUz5FM+RVUQFM+RTPkVVEBTPkUz5FVRAUz5FM+RVUQFM+RTPkVVEBTPkUVUQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQH//Z" alt="Anatomi Organ Hati" style="width:100%;max-width:500px;height:auto;border-radius:10px;display:block;">
+          </div>
+          <div style="background:#fff7ed;padding:8px 14px;font-size:11.5px;color:#b45309;font-weight:600;text-align:center;">Gambar: Anatomi Organ Hati — isi kotak sesuai label pada gambar</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <!-- Kotak a -->
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:800;color:#b45309;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Kotak A</div>
+            <input type="text" id="f2_hat1_nama" placeholder="Nama struktur..." class="form-input" style="margin-bottom:6px;">
+            <input type="text" id="f2_hat1_fungsi" placeholder="Fungsi..." class="form-input">
+          </div>
+          <!-- Kotak b -->
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:800;color:#b45309;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Kotak B</div>
+            <input type="text" id="f2_hat2_nama" placeholder="Nama struktur..." class="form-input" style="margin-bottom:6px;">
+            <input type="text" id="f2_hat2_fungsi" placeholder="Fungsi..." class="form-input">
+          </div>
+          <!-- Kotak c -->
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:800;color:#b45309;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Kotak C</div>
+            <input type="text" id="f2_hat3_nama" placeholder="Nama struktur..." class="form-input" style="margin-bottom:6px;">
+            <input type="text" id="f2_hat3_fungsi" placeholder="Fungsi..." class="form-input">
+          </div>
+          <!-- Kotak d -->
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:800;color:#b45309;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Kotak D</div>
+            <input type="text" id="f2_hat4_nama" placeholder="Nama struktur..." class="form-input" style="margin-bottom:6px;">
+            <input type="text" id="f2_hat4_fungsi" placeholder="Fungsi..." class="form-input">
+          </div>
+          <!-- Kotak e -->
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:800;color:#b45309;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Kotak E</div>
+            <input type="text" id="f2_hat5_nama" placeholder="Nama struktur..." class="form-input" style="margin-bottom:6px;">
+            <input type="text" id="f2_hat5_fungsi" placeholder="Fungsi..." class="form-input">
+          </div>
+          <!-- Kotak f -->
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:800;color:#b45309;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Kotak F</div>
+            <input type="text" id="f2_hat6_nama" placeholder="Nama struktur..." class="form-input" style="margin-bottom:6px;">
+            <input type="text" id="f2_hat6_fungsi" placeholder="Fungsi..." class="form-input">
+          </div>
+          <!-- Kotak g -->
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:800;color:#b45309;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Kotak G</div>
+            <input type="text" id="f2_hat7_nama" placeholder="Nama struktur..." class="form-input" style="margin-bottom:6px;">
+            <input type="text" id="f2_hat7_fungsi" placeholder="Fungsi..." class="form-input">
+          </div>
+          <!-- Kotak h -->
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:800;color:#b45309;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Kotak H</div>
+            <input type="text" id="f2_hat8_nama" placeholder="Nama struktur..." class="form-input" style="margin-bottom:6px;">
+            <input type="text" id="f2_hat8_fungsi" placeholder="Fungsi..." class="form-input">
+          </div>
+          <!-- Kotak i -->
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:800;color:#b45309;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Kotak I</div>
+            <input type="text" id="f2_hat9_nama" placeholder="Nama struktur..." class="form-input" style="margin-bottom:6px;">
+            <input type="text" id="f2_hat9_fungsi" placeholder="Fungsi..." class="form-input">
+          </div>
+          <!-- Kotak j -->
+          <div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:12px 14px;">
+            <div style="font-size:11px;font-weight:800;color:#b45309;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Kotak J</div>
+            <input type="text" id="f2_hat10_nama" placeholder="Nama struktur..." class="form-input" style="margin-bottom:6px;">
+            <input type="text" id="f2_hat10_fungsi" placeholder="Fungsi..." class="form-input">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="form-label">🔗 3. Keterkaitan gangguan fungsi ekskresi hati dengan gejala pada kasus</div>
+        <div style="background:#fff7ed;border-left:3px solid #f97316;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:8px;font-size:13px;color:#7c2d12;line-height:1.65;">
+          Bagaimana keterkaitan antara gangguan fungsi ekskresi hati dengan munculnya gejala pada kasus (mudah lelah, nafsu makan menurun, rasa tidak nyaman di perut kanan atas)?
+        </div>
+        <textarea class="form-textarea" id="f2_dampak_gangguan" rows="5" placeholder="Jelaskan hubungan antara gangguan fungsi ekskresi hati dengan kemunculan gejala-gejala tersebut secara ilmiah..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <div class="form-label">🍺 4. Pengaruh kebiasaan sehari-hari terhadap fungsi ekskresi hati</div>
+        <div style="background:#fff7ed;border-left:3px solid #f97316;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:8px;font-size:13px;color:#7c2d12;line-height:1.65;">
+          Bagaimana kebiasaan sehari-hari (misalnya konsumsi alkohol berlebihan atau pola makan tinggi lemak) dapat memengaruhi fungsi ekskresi hati secara bertahap?
+        </div>
+        <textarea class="form-textarea" id="f2_gagal_hati" rows="5" placeholder="Uraikan mekanisme bagaimana kebiasaan tersebut memicu kerusakan fungsi ekskresi hati secara progresif..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <div class="form-label">📝 5. Kesimpulan progresivitas kerusakan hati</div>
+        <div style="background:#fff7ed;border-left:3px solid #f97316;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:8px;font-size:13px;color:#7c2d12;line-height:1.65;">
+          Tuliskan kesimpulan mengenai hubungan antara progresivitas kerusakan hati (<em>fatty liver → hepatitis → fibrosis → sirosis</em>) dengan penurunan fungsi ekskresi berdasarkan hasil analisis kelompok kalian.
+        </div>
+        <textarea class="form-textarea" id="f2_kesimpulan" rows="6" placeholder="Simpulkan hubungan antara tahapan kerusakan hati dengan penurunan fungsi ekskresi secara sistematis..."></textarea>
+      </div>
+
+      <button class="submit-btn" style="background:linear-gradient(135deg,#4c1d95,#7c3aed);box-shadow:0 4px 18px rgba(124,58,237,.28);" onclick="submitFase(2)">✅ Simpan &amp; Lanjut ke Fase 3</button>
+      <div class="submit-status" id="status-f2"></div>
+    </div>
+  </div>
+  <div class="fnav"><button class="btn btn-ghost" onclick="gof(0)">← Fase 1</button><span class="ninfo">Fase 2 / 5</span><button class="btn btn-fase" onclick="nextFase(2,2)">Lanjut Fase 3 →</button></div>
+</div>
+
+
+<!-- ══════════════════════
+  FASE 3 — PENYELIDIKAN
+══════════════════════ -->
+<div class="fp" id="f2">
+  <div class="fase-title">Fase 3 — Membimbing Penyelidikan Individu atau Kelompok</div>
+  <div class="fase-sub">Saatnya menyelidiki! Gunakan rumusan masalah yang sudah dipilih kelompokmu sebagai panduan, lalu cari jawabannya dari berbagai sumber ilmiah. Semua hasil dicatat di LKPD.</div>
+
+  <!-- PENGINGAT RUMUSAN MASALAH -->
+  <div style="background:linear-gradient(135deg,#78350f,#b45309);border-radius:16px;padding:20px 24px;margin-bottom:18px;">
+    <div style="font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:8px;">📌 Ingat — Fokus Penyelidikanmu</div>
+    <div style="font-size:15px;font-weight:800;color:#fff;line-height:1.5;">Seluruh penyelidikan di Fase 3 ini bertujuan untuk <em>menjawab rumusan masalah</em> yang sudah kelompokmu pilih di Fase 2. Pastikan kamu masih mengingatnya sebelum mulai mencari sumber.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🔍</div><div><h3>Alur Penyelidikan</h3><p>Ikuti langkah berikut secara berurutan</p></div></div>
+    <div class="pm-steps">
+      <div class="pm-step">
+        <div class="pm-num">1</div>
+        <div class="pm-body"><div class="pm-title">Jawab rumusan masalah dengan mencari sumber</div><div class="pm-desc">Cari informasi dari <strong>minimal 3 sumber berbeda</strong> yang relevan dengan rumusan masalahmu. Setiap sumber yang kamu temukan ditulis di tabel sumber pada LKPD.</div></div>
+      </div>
+      <div class="pm-step">
+        <div class="pm-num">2</div>
+        <div class="pm-body"><div class="pm-title">Catat sumber dan informasi yang ditemukan</div><div class="pm-desc">Untuk setiap sumber, isi tabel di LKPD: <strong>nama/judul sumber · jenis sumber · penulis/tahun · informasi relevan yang ditemukan</strong>.</div></div>
+      </div>
+      <div class="pm-step" style="padding-bottom:0;">
+        <div class="pm-num">3</div>
+        <div class="pm-body"><div class="pm-title">Susun solusi berbasis data temuan</div><div class="pm-desc">Setelah mengumpulkan informasi, gunakan data tersebut untuk menyusun <strong>solusi atau rekomendasi</strong> yang relevan dengan kasus. Tulis solusimu di bagian solusi pada LKPD.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARA MENCARI SUMBER -->
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🗂️</div><div><h3>Cara Mencari Sumber yang Relevan</h3><p>Panduan menemukan artikel ilmiah berkualitas</p></div></div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="background:#f0f7ff;border-radius:12px;padding:14px 16px;border-left:4px solid #2563eb;">
+        <div style="font-size:12px;font-weight:800;color:#1d4ed8;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;">🎓 Google Scholar</div>
+        <div style="font-size:13px;color:#334155;line-height:1.7;">Buka <strong>scholar.google.com</strong> — ketik kata kunci seperti <em>\"penyakit hati remaja\"</em> atau <em>\"liver disease adolescents\"</em>. Pilih artikel dari 5 tahun terakhir untuk data yang relevan.</div>
+      </div>
+      <div style="background:#f0fdf4;border-radius:12px;padding:14px 16px;border-left:4px solid #059669;">
+        <div style="font-size:12px;font-weight:800;color:#047857;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;">🔬 PubMed</div>
+        <div style="font-size:13px;color:#334155;line-height:1.7;">Buka <strong>pubmed.ncbi.nlm.nih.gov</strong> — database artikel medis internasional. Gunakan kata kunci dalam Bahasa Inggris. Cocok untuk mencari mekanisme biologis secara mendalam.</div>
+      </div>
+      <div style="background:#fffbeb;border-radius:12px;padding:14px 16px;border-left:4px solid #d97706;">
+        <div style="font-size:12px;font-weight:800;color:#b45309;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;">🌐 Website Terpercaya</div>
+        <div style="font-size:13px;color:#334155;line-height:1.7;">Boleh menggunakan sumber dari website resmi seperti <strong>Kemenkes RI, WHO, Mayo Clinic, atau situs universitas</strong>. Hindari blog pribadi atau Wikipedia sebagai sumber utama.</div>
+      </div>
+      <div style="background:#f5f3ff;border-radius:12px;padding:14px 16px;border-left:4px solid #7c3aed;">
+        <div style="font-size:12px;font-weight:800;color:#6d28d9;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;">📖 Materi dari Fase 2</div>
+        <div style="font-size:13px;color:#334155;line-height:1.7;">Kamu juga <strong>boleh menggunakan materi yang sudah dibaca di Fase 2</strong> sebagai salah satu sumber. Cantumkan nama buku/materi dan konsep yang kamu ambil.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM LKPD FASE 3 -->
+  <div class="lkpd-form" style="margin-top:18px;">
+    <div class="lkpd-form-head" style="background:linear-gradient(135deg,#0f766e,#0d9488);">
+      <div><h4>✍️ LKPD Fase 3 — Penyelidikan</h4><p>Catat semua temuan investigasimu</p></div>
+    </div>
+    <div class="lkpd-form-body">
+      <div class="form-group">
+        <div class="form-label">📚 Tabel sumber referensi <span>(minimal 3 sumber)</span></div>
+        <table class="form-table">
+          <thead><tr><th>Sumber / Judul</th><th>Tautan / Penulis &amp; Tahun</th><th>Informasi Relevan</th></tr></thead>
+          <tbody>
+            <tr><td><input type="text" id="f3_src1_nama" placeholder="Nama sumber..."></td><td><input type="text" id="f3_src1_url" placeholder="URL / Penulis..."></td><td><input type="text" id="f3_src1_info" placeholder="Info relevan..."></td></tr>
+            <tr><td><input type="text" id="f3_src2_nama" placeholder="Nama sumber..."></td><td><input type="text" id="f3_src2_url" placeholder="URL / Penulis..."></td><td><input type="text" id="f3_src2_info" placeholder="Info relevan..."></td></tr>
+            <tr><td><input type="text" id="f3_src3_nama" placeholder="Nama sumber..."></td><td><input type="text" id="f3_src3_url" placeholder="URL / Penulis..."></td><td><input type="text" id="f3_src3_info" placeholder="Info relevan..."></td></tr>
+            <tr><td><input type="text" id="f3_src4_nama" placeholder="(opsional)"></td><td><input type="text" id="f3_src4_url" placeholder="..."></td><td><input type="text" id="f3_src4_info" placeholder="..."></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="form-group">
+        <div class="form-label">💡 Berdasarkan rumusan masalah yang telah kamu buat, jawab rumusan tersebut berdasarkan sumber data yang telah kamu cari di atas</div>
+        <textarea class="form-textarea" id="f3_jawab_rumusan" rows="6" placeholder="Tuliskan jawaban dari rumusan masalah kelompokmu berdasarkan data dan fakta dari sumber referensi yang sudah dicatat..."></textarea>
+      </div>
+      <div class="form-group">
+        <div class="form-label">🔗 Keterkaitan antara gejala, penyebab, dan gangguan pada kasus</div>
+        <textarea class="form-textarea" id="f3_keterkaitan" rows="5" placeholder="Bagaimana keterkaitan antara gejala, penyebab, dan gangguan yang terjadi sesuai dengan kasus yang telah disediakan?"></textarea>
+      </div>
+      <div class="form-group">
+        <div class="form-label">🛡️ Solusi pencegahan dan penanganan</div>
+        <textarea class="form-textarea" id="f3_solusi" rows="5" placeholder="Berikan solusi berupa upaya pencegahan maupun penanganan terhadap kasus dan rumusan masalah..."></textarea>
+      </div>
+      <button class="submit-btn" style="background:linear-gradient(135deg,#0f766e,#0d9488);box-shadow:0 4px 18px rgba(13,148,136,.26);" onclick="submitFase(3)">✅ Simpan &amp; Lanjut ke Fase 4</button>
+      <div class="submit-status" id="status-f3"></div>
+    </div>
+  </div>
+  <div class="fnav"><button class="btn btn-ghost" onclick="gof(1)">← Fase 2</button><span class="ninfo">Fase 3 / 5</span><button class="btn btn-fase" onclick="nextFase(3,3)">Lanjut Fase 4 →</button></div>
+</div>
+
+
+<!-- ══════════════════════
+  FASE 4 — PENGEMBANGAN HASIL
+══════════════════════ -->
+<div class="fp" id="f3">
+  <div class="fase-title">Fase 4 — Mengembangkan dan Menyajikan Hasil</div>
+  <div class="fase-sub">Setiap kelompok mempresentasikan hasil penyelidikannya. Kelompok lain menyimak dan memberikan tanggapan. Semua catatan ditulis di LKPD.</div>
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🎤</div><div><h3>Panduan Presentasi</h3><p>Waktu presentasi: 10 menit + 5 menit tanya jawab</p></div></div>
+    <div class="pres-grid">
+      <div class="pres-card">
+        <h4>📋 Isi yang Harus Disampaikan</h4>
+        <ul>
+          <li>Rumusan masalah yang diselidiki kelompok</li>
+          <li>Penjelasan mekanisme hati yang relevan</li>
+          <li>Ringkasan sumber dan data yang ditemukan</li>
+          <li>Jawaban rumusan masalah berdasarkan data</li>
+          <li>Solusi dan rekomendasi yang diusulkan</li>
+          <li>Simpulan kelompok</li>
+        </ul>
+      </div>
+      <div class="pres-card">
+        <h4>⏱ Alokasi Waktu</h4>
+        <ul>
+          <li><strong>1 mnt</strong> — Perkenalan rumusan masalah</li>
+          <li><strong>3 mnt</strong> — Mekanisme hati &amp; data temuan</li>
+          <li><strong>3 mnt</strong> — Jawaban &amp; solusi</li>
+          <li><strong>1 mnt</strong> — Simpulan</li>
+          <li><strong>2 mnt</strong> — Tanya jawab &amp; tanggapan</li>
+        </ul>
+      </div>
+    </div>
+    <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:13px 16px;font-size:13px;color:#92400e;line-height:1.7;margin-top:4px;">
+      👥 <strong>Kelompok yang mendengarkan</strong> wajib menyimak dan menyiapkan <strong>minimal 1 pertanyaan atau tanggapan</strong> untuk kelompok yang presentasi.
+    </div>
+  </div>
+
+  <!-- FORM LKPD FASE 4 -->
+  <div class="lkpd-form">
+    <div class="lkpd-form-head" style="background:linear-gradient(135deg,#78350f,#d97706);">
+      <div><h4>✍️ LKPD Fase 4 — Pengembangan &amp; Penyajian Hasil</h4><p>Catat semua catatan presentasi</p></div>
+    </div>
+    <div class="lkpd-form-body">
+      <div class="form-group">
+        <div class="form-label">❓ Pertanyaan dari kelompok lain &amp; jawaban kelompokmu</div>
+        <p style="font-size:12.5px;color:#64748b;margin-bottom:10px;">Catat pertanyaan yang masuk dari kelompok lain beserta jawaban yang diberikan kelompokmu.</p>
+        <div style="overflow-x:auto;border-radius:12px;border:1.5px solid #e2e8f0;">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+              <tr style="background:#f1f5f9;">
+                <th style="padding:10px 12px;text-align:left;font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.8px;border-bottom:1.5px solid #e2e8f0;width:120px;">Kelompok</th>
+                <th style="padding:10px 12px;text-align:left;font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.8px;border-bottom:1.5px solid #e2e8f0;">Pertanyaan</th>
+                <th style="padding:10px 12px;text-align:left;font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.8px;border-bottom:1.5px solid #e2e8f0;">Jawaban</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 8px;"><input type="text" id="f4_tj1_kel" placeholder="Kel. ..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;"><input type="text" id="f4_tj1_q" placeholder="Pertanyaan..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;"><input type="text" id="f4_tj1_a" placeholder="Jawaban..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td></tr>
+              <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 8px;"><input type="text" id="f4_tj2_kel" placeholder="Kel. ..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;"><input type="text" id="f4_tj2_q" placeholder="Pertanyaan..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;"><input type="text" id="f4_tj2_a" placeholder="Jawaban..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td></tr>
+              <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 8px;"><input type="text" id="f4_tj3_kel" placeholder="Kel. ..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;"><input type="text" id="f4_tj3_q" placeholder="Pertanyaan..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;"><input type="text" id="f4_tj3_a" placeholder="Jawaban..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td></tr>
+              <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 8px;"><input type="text" id="f4_tj4_kel" placeholder="Kel. ..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;"><input type="text" id="f4_tj4_q" placeholder="Pertanyaan..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;"><input type="text" id="f4_tj4_a" placeholder="Jawaban..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td></tr>
+              <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 8px;"><input type="text" id="f4_tj5_kel" placeholder="Kel. ..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;"><input type="text" id="f4_tj5_q" placeholder="Pertanyaan..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;"><input type="text" id="f4_tj5_a" placeholder="Jawaban..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td></tr>
+              <tr><td style="padding:6px 8px;"><input type="text" id="f4_tj6_kel" placeholder="Kel. ..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;"><input type="text" id="f4_tj6_q" placeholder="Pertanyaan..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;"><input type="text" id="f4_tj6_a" placeholder="Jawaban..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-label">👥 Pertanyaan/tanggapanmu untuk kelompok lain <span>(minimal 1)</span></div>
+        <p style="font-size:12.5px;color:#64748b;margin-bottom:10px;">Catat pertanyaan atau tanggapan yang kamu sampaikan saat mendengarkan presentasi kelompok lain.</p>
+        <div style="overflow-x:auto;border-radius:12px;border:1.5px solid #e2e8f0;">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+              <tr style="background:#f1f5f9;">
+                <th style="padding:10px 12px;text-align:left;font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.8px;border-bottom:1.5px solid #e2e8f0;width:120px;">Kelompok</th>
+                <th style="padding:10px 12px;text-align:left;font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.8px;border-bottom:1.5px solid #e2e8f0;">Pertanyaan / Tanggapan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 8px;"><input type="text" id="f4_tg1_kel" placeholder="Kel. ..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;" colspan="2"><input type="text" id="f4_tg1_isi" placeholder="Pertanyaan/tanggapan..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td></tr>
+              <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 8px;"><input type="text" id="f4_tg2_kel" placeholder="Kel. ..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;" colspan="2"><input type="text" id="f4_tg2_isi" placeholder="Pertanyaan/tanggapan..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td></tr>
+              <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 8px;"><input type="text" id="f4_tg3_kel" placeholder="Kel. ..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;" colspan="2"><input type="text" id="f4_tg3_isi" placeholder="Pertanyaan/tanggapan..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td></tr>
+              <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 8px;"><input type="text" id="f4_tg4_kel" placeholder="Kel. ..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;" colspan="2"><input type="text" id="f4_tg4_isi" placeholder="Pertanyaan/tanggapan..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td></tr>
+              <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 8px;"><input type="text" id="f4_tg5_kel" placeholder="Kel. ..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;" colspan="2"><input type="text" id="f4_tg5_isi" placeholder="Pertanyaan/tanggapan..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td></tr>
+              <tr><td style="padding:6px 8px;"><input type="text" id="f4_tg6_kel" placeholder="Kel. ..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td><td style="padding:6px 8px;" colspan="2"><input type="text" id="f4_tg6_isi" placeholder="Pertanyaan/tanggapan..." style="width:100%;font-family:inherit;font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:7px 10px;outline:none;"></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <button class="submit-btn" style="background:linear-gradient(135deg,#b45309,#d97706);box-shadow:0 4px 18px rgba(217,119,6,.26);" onclick="submitFase(4)">✅ Simpan &amp; Lanjut ke Fase 5</button>
+      <div class="submit-status" id="status-f4"></div>
+    </div>
+  </div>
+  <div class="fnav"><button class="btn btn-ghost" onclick="gof(2)">← Fase 3</button><span class="ninfo">Fase 4 / 5</span><button class="btn btn-fase" onclick="nextFase(4,4)">Lanjut Fase 5 →</button></div>
+</div>
+
+
+<!-- ══════════════════════
+  FASE 5 — ANALISIS & EVALUASI
+══════════════════════ -->
+<div class="fp" id="f4">
+  <div class="fase-title">Fase 5 — Menganalisis dan Mengevaluasi Proses Pemecahan Masalah</div>
+  <div class="fase-sub">Refleksikan seluruh proses belajarmu. Jawab semua pertanyaan di bawah dengan jujur dan mendalam.</div>
+
+  <!-- FORM LKPD FASE 5 -->
+  <div class="lkpd-form">
+    <div class="lkpd-form-head" style="background:linear-gradient(135deg,#065f46,#059669);">
+      <div><h4>✍️ LKPD Fase 5 — Analisis &amp; Evaluasi</h4><p>Isi semua kolom refleksi secara jujur dan mendalam</p></div>
+    </div>
+    <div class="lkpd-form-body">
+      <div class="form-group">
+        <div class="form-label">✨ Refleksi 1 — Konsep Baru</div>
+        <textarea class="form-textarea" id="f5_refleksi1" rows="4" placeholder="Apa konsep tentang hati yang paling baru dan mengejutkan yang kamu temukan? Mengapa hal itu menarik bagimu?"></textarea>
+      </div>
+      <div class="form-group">
+        <div class="form-label">🪞 Refleksi 2 — Kaitkan dengan Hidupmu</div>
+        <textarea class="form-textarea" id="f5_refleksi2" rows="4" placeholder="Setelah mempelajari kasus ini, adakah kebiasaan sehari-harimu yang bisa membahayakan hatimu? Apa yang akan kamu ubah?"></textarea>
+      </div>
+      <div class="form-group">
+        <div class="form-label">🔄 Refleksi 3 — Proses Belajar</div>
+        <textarea class="form-textarea" id="f5_refleksi3" rows="4" placeholder="Bagian mana yang paling menantang? Jika boleh mengulang, apa yang akan kamu lakukan berbeda?"></textarea>
+      </div>
+      <div class="form-group">
+        <div class="form-label">✅ Kelebihan solusi yang dipilih</div>
+        <textarea class="form-textarea" id="f5_kelebihan" rows="4" placeholder="Evaluasi kelebihan dari solusi yang telah dipilih kelompokmu..."></textarea>
+      </div>
+      <div class="form-group">
+        <div class="form-label">⚠️ Kekurangan solusi yang dipilih</div>
+        <textarea class="form-textarea" id="f5_kekurangan" rows="4" placeholder="Evaluasi kekurangan atau keterbatasan dari solusi yang telah dipilih..."></textarea>
+      </div>
+      <button class="submit-btn" style="background:linear-gradient(135deg,#065f46,#059669);box-shadow:0 4px 18px rgba(5,150,105,.26);" onclick="submitFase(5)">🎉 Selesai! Kirim Semua Jawaban</button>
+      <div class="submit-status" id="status-f5"></div>
+    </div>
+  </div>
+
+  <div class="done-banner" id="done-banner" style="display:none;">
+    <h3>🎉 Organ Hati Selesai!</h3>
+    <p>Semua jawaban LKPD telah tersimpan di Firebase. Terima kasih atas kerja kerasmu!<br/>Simak presentasi kelompok organ lainnya!</p>
+    <a href="dashboard.html" class="btn btn-green" style="margin:0 auto;">Kembali ke Beranda →</a>
+  </div>
+  <div class="fnav" style="margin-top:20px;"><button class="btn btn-ghost" onclick="gof(3)">← Fase 4</button><span class="ninfo" id="fase5-nav-info">Fase 5 / 5</span><a href="dashboard.html" class="btn btn-green">Beranda →</a></div>
+</div>
+
+</div><!-- /wrap -->
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, set, get } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+const app = initializeApp({
+  apiKey:'AIzaSyAVRUz17JObm2qPfcDGmrasgacRAthjDgM',
+  authDomain:'bioekskresi.firebaseapp.com',
+  databaseURL:'https://bioekskresi-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId:'bioekskresi',
+  storageBucket:'bioekskresi.firebasestorage.app',
+  messagingSenderId:'129115226512',
+  appId:'1:129115226512:web:b9fa69270169ac6a527315'
+});
+const db = getDatabase(app);
+
+
+let currentKelompok = '';
+const faseSubmitted = {};
+
+window.addEventListener('DOMContentLoaded', () => {
+  const bar = document.createElement('div');
+  bar.className = 'identity-bar';
+  bar.innerHTML = `
+    <div class="id-field">
+      <div class="id-label">Kelompok</div>
+      <select id="sel-kelompok">
+        <option value="">— Pilih Kelompok —</option>
+        <option value="3">Kelompok 3</option>
+        <option value="4">Kelompok 4</option>
+      </select>
+    </div>
+    <div style="font-size:12px;color:rgba(255,255,255,.6);font-style:italic">Pilih kelompok sebelum mengisi LKPD</div>
+  `;
+  const wrap = document.querySelector('.wrap');
+  wrap.insertBefore(bar, wrap.firstChild);
+  document.getElementById('sel-kelompok').addEventListener('change', function() {
+    currentKelompok = this.value;
+    resetForm();
+    if (currentKelompok) loadSaved(currentKelompok);
+  });
+});
+
+function resetForm() {
+  document.querySelectorAll('.wrap textarea, .wrap input[type="text"]').forEach(el => el.value = '');
+  Object.keys(faseSubmitted).forEach(k => delete faseSubmitted[k]);
+}
+
+async function loadSaved(k) {
+  try {
+    const snap = await get(ref(db, 'jawaban/Hati/kelompok_' + k));
+    if (!snap.exists()) return;
+    const d = snap.val();
+    const sv = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined) el.value = val; };
+    if (d.fase_1) { sv('f1_fakta', d.fase_1.fakta); sv('f1_rumusan', d.fase_1.rumusan_masalah); faseSubmitted[1] = true; }
+    if (d.fase_2) {
+      const f2 = d.fase_2;
+      sv('f2_rumusan_pilih', f2.rumusan_pilih);
+      sv('f2_dampak_gangguan', f2.dampak_gangguan); sv('f2_hemodialisis', f2.hemodialisis);
+      sv('f2_keterkaitan_gejala', f2.keterkaitan_gejala); sv('f2_kebiasaan_hati', f2.kebiasaan_hati);
+      sv('f2_progresi_hati', f2.progresi_hati);
+      sv('f2_struktur_paru', f2.struktur_paru); sv('f2_mekanisme_co2', f2.mekanisme_co2); sv('f2_dampak_polutan', f2.dampak_polutan);
+      sv('f2_struktur_kulit', f2.struktur_kulit); sv('f2_kelenjar_kulit', f2.kelenjar_kulit); sv('f2_termoregulasi', f2.termoregulasi);
+      // Tabel huruf hati
+      ['A','B','C','D','E','F','G','H','I','J'].forEach(l => sv('f2_hati'+l, f2['hati_'+l]));
+      // Tabel struktur fungsi
+      for (let i=1;i<=10;i++) { sv('f2_str'+i+'_nama', f2['str'+i+'_nama']); sv('f2_str'+i+'_fungsi', f2['str'+i+'_fungsi']); }
+      faseSubmitted[2] = true;
+    }
+    if (d.fase_3) {
+      const f3 = d.fase_3;
+      sv('f3_jawab_rumusan', f3.jawab_rumusan); sv('f3_keterkaitan', f3.keterkaitan); sv('f3_solusi', f3.solusi);
+      try { const srcs = JSON.parse(f3.sumber_referensi||'[]'); srcs.forEach((s,i) => { sv('f3_src'+(i+1)+'_nama',s.nama); sv('f3_src'+(i+1)+'_url',s.url); sv('f3_src'+(i+1)+'_info',s.info); }); } catch {}
+      faseSubmitted[3] = true;
+    }
+    if (d.fase_4) { faseSubmitted[4] = true; }
+    if (d.fase_5) {
+      const f5 = d.fase_5;
+      sv('f5_refleksi1',f5.refleksi1); sv('f5_refleksi2',f5.refleksi2); sv('f5_refleksi3',f5.refleksi3);
+      sv('f5_kelebihan',f5.kelebihan); sv('f5_kekurangan',f5.kekurangan);
+      faseSubmitted[5] = true;
+    }
+  } catch(e) { console.warn('Load:', e); }
+}
+
+function gv(id) { return (document.getElementById(id)||{}).value||''; }
+function showSt(el, type, msg) { if(!el) return; el.className='submit-status '+type; el.textContent=msg; }
+
+async function submitFase(fase) {
+  if (!currentKelompok) { alert('⚠️ Pilih kelompok terlebih dahulu!'); window.scrollTo({top:0,behavior:'smooth'}); return; }
+  const statusEl = document.getElementById('status-f'+fase);
+  const btn = statusEl?.previousElementSibling;
+  const now = new Date().toLocaleString('id-ID');
+  let data = { organ:'Hati', kelompok:currentKelompok, fase:fase, timestamp:now };
+
+  if (fase===1) {
+    data.fakta = gv('f1_fakta'); data.rumusan_masalah = gv('f1_rumusan');
+    if (!data.fakta) { showSt(statusEl,'err','⚠️ Isi fakta terlebih dahulu.'); return; }
+  } else if (fase===2) {
+    data.rumusan_pilih = gv('f2_rumusan_pilih');
+    data.struktur_huruf = JSON.stringify(['A','B','C','D','E','F','G','H','I','J'].map(l=>({huruf:l,nama:gv('f2_hati'+l)})));
+    data.struktur_fungsi = JSON.stringify([1,2,3,4,5,6,7,8,9,10].map(i=>({nama:gv('f2_str'+i+'_nama'),fungsi:gv('f2_str'+i+'_fungsi')})));
+    data.keterkaitan_gejala = gv('f2_keterkaitan_gejala');
+    data.kebiasaan_hati = gv('f2_kebiasaan_hati');
+    data.progresi_hati = gv('f2_progresi_hati');
+    if (!data.rumusan_pilih) { showSt(statusEl,'err','⚠️ Isi rumusan masalah.'); return; }
+  } else if (fase===3) {
+    data.sumber_referensi = JSON.stringify([1,2,3,4].map(i=>({nama:gv('f3_src'+i+'_nama'),url:gv('f3_src'+i+'_url'),info:gv('f3_src'+i+'_info')})));
+    data.jawab_rumusan = gv('f3_jawab_rumusan');
+    data.keterkaitan   = gv('f3_keterkaitan');
+    data.solusi        = gv('f3_solusi');
+    if (!data.jawab_rumusan && !data.solusi) { showSt(statusEl,'err','⚠️ Isi jawaban rumusan masalah.'); return; }
+  } else if (fase===4) {
+    data.tanya_jawab = JSON.stringify([1,2,3,4,5,6].map(i=>({kelompok:gv('f4_tj'+i+'_kel'),pertanyaan:gv('f4_tj'+i+'_q'),jawaban:gv('f4_tj'+i+'_a')})));
+    data.tanggapan   = JSON.stringify([1,2,3,4,5,6].map(i=>({kelompok:gv('f4_tg'+i+'_kel'),isi:gv('f4_tg'+i+'_isi')})));
+    if (!gv('f4_tj1_q') && !gv('f4_tj1_kel')) { showSt(statusEl,'err','⚠️ Isi minimal 1 baris tanya jawab.'); return; }
+  } else if (fase===5) {
+    data.refleksi1 = gv('f5_refleksi1'); data.refleksi2 = gv('f5_refleksi2'); data.refleksi3 = gv('f5_refleksi3');
+    data.kelebihan = gv('f5_kelebihan'); data.kekurangan = gv('f5_kekurangan');
+    if (!data.refleksi1) { showSt(statusEl,'err','⚠️ Isi refleksi terlebih dahulu.'); return; }
+  }
+
+  showSt(statusEl,'loading','⏳ Menyimpan ke Firebase...');
+  if (btn) btn.disabled = true;
+  try {
+    await set(ref(db, `jawaban/Hati/kelompok_${currentKelompok}/fase_${fase}`), data);
+    faseSubmitted[fase] = true;
+    showSt(statusEl,'ok','✅ Fase '+fase+' berhasil disimpan!');
+    if (btn) { btn.disabled=false; btn.textContent='✅ Tersimpan'; }
+    if (fase===5) { const db2=document.getElementById('done-banner'); if(db2) db2.style.display='block'; }
+  } catch(e) {
+    showSt(statusEl,'err','❌ Gagal simpan: '+e.message);
+    if (btn) btn.disabled = false;
+  }
+}
+
+function nextFase(req, idx) {
+  if (!faseSubmitted[req]) { alert('⚠️ Simpan jawaban Fase '+req+' terlebih dahulu!'); return; }
+  gof(idx);
+}
+
+const FASE = ['Orientasi Masalah','Organisasi Belajar','Penyelidikan','Pengembangan Hasil','Analisis & Evaluasi'];
+function gof(i) {
+  document.body.setAttribute('data-fase', i);
+  document.querySelectorAll('.fp').forEach((p,x) => p.classList.toggle('on', x===i));
+  document.querySelectorAll('.ftab').forEach((t,x) => { t.classList.remove('on','done'); if(x<i)t.classList.add('done'); if(x===i)t.classList.add('on'); });
+  for(let d=0;d<5;d++) { const el=document.getElementById('c'+d); if(!el)continue; el.classList.remove('done','active'); if(d<i)el.classList.add('done'); if(d===i)el.classList.add('active'); }
+  const pbf=document.getElementById('pbf'); const pbl=document.getElementById('pbl');
+  if(pbf)pbf.style.width=((i+1)/5*100)+'%';
+  if(pbl)pbl.textContent=`Fase ${i+1} dari 5 — ${FASE[i]}`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleAcc(btn) { const body=btn.nextElementSibling; const arr=btn.querySelector('.acc-arr'); const open=body.style.display!=='none'; body.style.display=open?'none':'block'; if(arr)arr.style.transform=open?'':'rotate(180deg)'; }
+function tge(el) { el.classList.toggle('on'); const cb=el.querySelector('.ecb'); if(cb)cb.textContent=el.classList.contains('on')?'✓':''; }
+
+window.submitFase=submitFase; window.nextFase=nextFase; window.gof=gof; window.toggleAcc=toggleAcc; window.tge=tge;
+</script>
+</body>
+</html>

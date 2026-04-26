@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Identitas Pembelajaran – BioEkskresi</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#f1f5fb;color:#0f172a;min-height:100vh;-webkit-font-smoothing:antialiased;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:99px;}
+
+/* ── TOPBAR ── */
+.topbar{background:rgba(255,255,255,.97);border-bottom:1px solid #e8edf5;height:62px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 6px rgba(15,23,42,.06);}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.brand-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1e40af,#2563eb,#0d9488);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 3px 10px rgba(37,99,235,.3);}
+.brand-name{font-size:17px;font-weight:800;color:#0f172a;letter-spacing:-.3px;}
+.brand-name span{color:#2563eb;}
+.nav{display:flex;align-items:center;gap:1px;}
+.nav a{font-size:13.5px;font-weight:600;color:#64748b;text-decoration:none;padding:7px 14px;border-radius:9px;transition:all .17s;}
+.nav a:hover{color:#0f172a;background:#f1f5f9;}
+.nav a.on{color:#2563eb;background:#eff6ff;}
+.btn-back{font-size:13px;font-weight:600;color:#64748b;text-decoration:none;padding:7px 14px;border-radius:9px;border:1px solid #e2e8f0;background:#fff;display:inline-flex;align-items:center;gap:6px;transition:all .17s;}
+.btn-back:hover{color:#2563eb;border-color:#bfdbfe;}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 48%,#0d9488 100%);padding:52px 40px 72px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.055) 1px,transparent 1px);background-size:26px 26px;pointer-events:none;}
+.hb1{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(rgba(255,255,255,.09),transparent 65%);top:-190px;right:-90px;pointer-events:none;}
+.hb2{position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(rgba(255,255,255,.06),transparent 65%);bottom:-50px;left:5%;pointer-events:none;}
+.hero-in{max-width:1060px;margin:0 auto;position:relative;z-index:2;}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);border-radius:99px;padding:5px 14px;font-size:12px;font-weight:700;color:#fff;letter-spacing:.3px;margin-bottom:18px;}
+.hdot{width:5px;height:5px;border-radius:50%;background:#fff;animation:blink 2s infinite;flex-shrink:0;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(28px,4vw,46px);font-weight:800;color:#fff;line-height:1.1;letter-spacing:-.5px;margin-bottom:12px;}
+.hero h1 em{font-style:italic;color:#fde68a;}
+.hero p{font-size:15px;color:rgba(255,255,255,.7);line-height:1.75;max-width:560px;}
+
+/* ── WRAP ── */
+.wrap{max-width:1060px;margin:0 auto;padding:36px 40px 80px;}
+
+/* ── SECTION LABEL ── */
+.sec{font-size:10.5px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:#2563eb;margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.sec::after{content:'';flex:1;height:1.5px;background:#e8edf5;}
+
+/* ── INFO GRID (top stats) ── */
+.info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:28px;}
+.ig-card{background:#fff;border:1px solid #e8edf5;border-radius:16px;padding:18px 20px;box-shadow:0 1px 8px rgba(15,23,42,.05);transition:all .2s;}
+.ig-card:hover{border-color:#bfdbfe;transform:translateY(-1px);box-shadow:0 4px 18px rgba(15,23,42,.08);}
+.ig-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:10px;}
+.ig-val{font-size:15px;font-weight:800;color:#0f172a;margin-bottom:2px;letter-spacing:-.2px;}
+.ig-lbl{font-size:11.5px;font-weight:600;color:#94a3b8;}
+
+/* ── OVERVIEW CARD ── */
+.overview{background:#fff;border:1px solid #e8edf5;border-radius:20px;padding:28px;margin-bottom:24px;box-shadow:0 1px 8px rgba(15,23,42,.05);position:relative;overflow:hidden;}
+.overview::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1e40af,#2563eb,#0d9488);border-radius:20px 20px 0 0;}
+.ov-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+.ov-item{padding:14px 20px;border-right:1px solid #f1f5f9;}
+.ov-item:last-child{border-right:none;}
+.ov-item:nth-child(4),.ov-item:nth-child(5),.ov-item:nth-child(6){border-top:1px solid #f1f5f9;}
+.ov-lbl{font-size:10.5px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:5px;}
+.ov-val{font-size:14px;font-weight:700;color:#0f172a;line-height:1.4;}
+
+/* ── STANDARD CARD ── */
+.card{background:#fff;border:1px solid #e8edf5;border-radius:20px;padding:26px;margin-bottom:20px;box-shadow:0 1px 8px rgba(15,23,42,.05);}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.card-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+.card-header h3{font-size:16px;font-weight:800;color:#0f172a;letter-spacing:-.2px;}
+.card-header p{font-size:12.5px;color:#64748b;margin-top:1px;}
+
+/* ── CP/TP TABLE ── */
+.cp-block{background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #2563eb;border-radius:0 12px 12px 0;padding:16px 18px;margin-bottom:14px;}
+.cp-label{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#2563eb;margin-bottom:6px;}
+.cp-text{font-size:14px;color:#0f172a;line-height:1.7;font-weight:500;}
+
+/* ── TUJUAN LIST ── */
+.tp-list{display:flex;flex-direction:column;gap:10px;}
+.tp-item{display:flex;align-items:flex-start;gap:13px;padding:14px 16px;background:#f8fafc;border-radius:12px;border:1px solid #e8edf5;transition:all .18s;}
+.tp-item:hover{border-color:#bfdbfe;background:#f0f7ff;}
+.tp-num{width:26px;height:26px;border-radius:7px;background:#eff6ff;color:#2563eb;font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.tp-text{font-size:13.5px;color:#334155;line-height:1.65;}
+
+/* ── MATERI TABLE ── */
+.materi-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:6px;}
+.materi-card{background:#f8fafc;border:1px solid #e8edf5;border-radius:14px;padding:18px;}
+.materi-card h4{font-size:13px;font-weight:800;color:#0f172a;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.materi-badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:99px;font-size:10px;font-weight:700;}
+.mb-blue{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
+.mb-teal{background:#f0fdfa;color:#0f766e;border:1px solid #99f6e4;}
+.materi-list{display:flex;flex-direction:column;gap:6px;}
+.ml-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#475569;line-height:1.55;}
+.ml-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.ml-dot-b{background:#2563eb;}
+.ml-dot-t{background:#0d9488;}
+
+/* ── FASE PBL ── */
+.fase-list{display:flex;flex-direction:column;gap:10px;}
+.fase-item{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;background:#f8fafc;border-radius:14px;border:1px solid #e8edf5;transition:all .18s;}
+.fase-item:hover{border-color:#bfdbfe;background:#f0f7ff;transform:translateX(3px);}
+.fase-num{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#1e40af,#2563eb);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.fase-title{font-size:13.5px;font-weight:700;color:#0f172a;margin-bottom:3px;}
+.fase-desc{font-size:12.5px;color:#64748b;line-height:1.55;}
+
+/* ── PENILAIAN TABLE ── */
+.penilaian-table{width:100%;border-collapse:collapse;border-radius:14px;overflow:hidden;}
+.penilaian-table thead tr{background:linear-gradient(135deg,#1e40af,#2563eb);}
+.penilaian-table thead th{padding:12px 16px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:rgba(255,255,255,.85);}
+.penilaian-table tbody tr{border-bottom:1px solid #f1f5f9;transition:background .15s;}
+.penilaian-table tbody tr:last-child{border-bottom:none;}
+.penilaian-table tbody tr:hover{background:#f8faff;}
+.penilaian-table tbody td{padding:13px 16px;font-size:13px;color:#334155;}
+.penilaian-table tbody td:first-child{font-weight:700;color:#0f172a;}
+.bobot-pill{display:inline-flex;align-items:center;padding:3px 11px;border-radius:99px;font-size:11.5px;font-weight:700;}
+.bp-blue{background:#eff6ff;color:#1d4ed8;}
+.bp-teal{background:#f0fdfa;color:#0f766e;}
+.bp-amber{background:#fffbeb;color:#b45309;}
+.bp-green{background:#f0fdf4;color:#166534;}
+.bp-gray{background:#f8fafc;color:#64748b;}
+
+/* ── SUMBER BELAJAR ── */
+.sumber-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.sumber-card{background:#f8fafc;border:1px solid #e8edf5;border-radius:14px;padding:16px;transition:all .18s;}
+.sumber-card:hover{border-color:#bfdbfe;background:#f0f7ff;}
+.sumber-icon{font-size:22px;margin-bottom:8px;}
+.sumber-title{font-size:13px;font-weight:700;color:#0f172a;margin-bottom:3px;}
+.sumber-desc{font-size:12px;color:#64748b;line-height:1.5;}
+
+/* ── ALOKASI WAKTU ── */
+.alokasi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;}
+.al-card{background:linear-gradient(135deg,#1e3a8a,#2563eb);border-radius:16px;padding:20px;text-align:center;box-shadow:0 4px 16px rgba(37,99,235,.2);}
+.al-num{font-size:28px;font-weight:800;color:#fff;letter-spacing:-.5px;margin-bottom:4px;}
+.al-num sup{font-size:13px;font-weight:700;vertical-align:super;color:rgba(255,255,255,.75);}
+.al-lbl{font-size:11px;font-weight:700;color:rgba(255,255,255,.65);letter-spacing:.5px;text-transform:uppercase;}
+
+/* ── TAGS ── */
+.tag{display:inline-flex;align-items:center;gap:4px;padding:4px 11px;border-radius:99px;font-size:11.5px;font-weight:600;}
+.tag-b{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
+.tag-t{background:#f0fdfa;color:#0f766e;border:1px solid #99f6e4;}
+.tag-v{background:#f5f3ff;color:#6d28d9;border:1px solid #ddd6fe;}
+.tag-a{background:#fffbeb;color:#b45309;border:1px solid #fde68a;}
+.tag-g{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;}
+
+@media(max-width:900px){
+  .info-grid{grid-template-columns:repeat(2,1fr);}
+  .ov-grid{grid-template-columns:1fr 1fr;}
+  .ov-item:nth-child(2){border-right:none;}
+  .ov-item:nth-child(3){border-top:1px solid #f1f5f9;border-right:1px solid #f1f5f9;}
+  .materi-grid,.sumber-grid{grid-template-columns:1fr;}
+  .alokasi-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:640px){
+  .topbar{padding:0 18px;}.nav{display:none;}
+  .hero{padding:36px 18px 56px;}
+  .wrap{padding:24px 18px 64px;}
+  .info-grid{grid-template-columns:1fr 1fr;}
+  .ov-grid{grid-template-columns:1fr;}
+  .ov-item{border-right:none!important;border-top:1px solid #f1f5f9;}
+  .ov-item:first-child{border-top:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <a href="dashboard.html" class="brand">
+    <div class="brand-mark">🧬</div>
+    <div class="brand-name">Bio<span>Ekskresi</span></div>
+  </a>
+  <div class="nav">
+    <a href="dashboard.html">Beranda</a>
+    <a href="identitas-penyusun.html">Penyusun</a>
+    <a href="identitas-pembelajaran.html" class="on">Pembelajaran</a>
+  </div>
+  <a href="dashboard.html" class="btn-back">← Beranda</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hb1"></div><div class="hb2"></div>
+  <div class="hero-in">
+    <div class="hero-pill"><div class="hdot"></div>Info Pembelajaran · SMA/MA Kelas XI</div>
+    <h1>Identitas <em>Pembelajaran</em></h1>
+    <p>Capaian pembelajaran, tujuan, model PBL, dan rencana penilaian pada materi Sistem Ekskresi Kelas XI SMAN 1 Malang.</p>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="wrap">
+
+  <!-- STATS TOP -->
+  <div class="info-grid">
+    <div class="ig-card">
+      <div class="ig-icon" style="background:#eff6ff;">📘</div>
+      <div class="ig-val">Biologi</div>
+      <div class="ig-lbl">Mata Pelajaran</div>
+    </div>
+    <div class="ig-card">
+      <div class="ig-icon" style="background:#f0fdfa;">🎓</div>
+      <div class="ig-val">XI / Genap</div>
+      <div class="ig-lbl">Kelas / Semester</div>
+    </div>
+    <div class="ig-card">
+      <div class="ig-icon" style="background:#f5f3ff;">🧬</div>
+      <div class="ig-val">Sistem Ekskresi</div>
+      <div class="ig-lbl">Materi Pokok</div>
+    </div>
+    <div class="ig-card">
+      <div class="ig-icon" style="background:#fffbeb;">🏫</div>
+      <div class="ig-val">SMAN 1 Malang</div>
+      <div class="ig-lbl">Sekolah Sasaran</div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="sec">Informasi Umum</div>
+  <div class="overview">
+    <div class="ov-grid">
+      <div class="ov-item">
+        <div class="ov-lbl">Kurikulum</div>
+        <div class="ov-val">Kurikulum Merdeka</div>
+      </div>
+      <div class="ov-item">
+        <div class="ov-lbl">Fase</div>
+        <div class="ov-val">Fase F (Kelas XI)</div>
+      </div>
+      <div class="ov-item">
+        <div class="ov-lbl">Model Pembelajaran</div>
+        <div class="ov-val">Problem Based Learning (PBL)</div>
+      </div>
+      <div class="ov-item">
+        <div class="ov-lbl">Pendekatan</div>
+        <div class="ov-val">Saintifik · TPACK</div>
+      </div>
+      <div class="ov-item">
+        <div class="ov-lbl">Media</div>
+        <div class="ov-val">Multimedia Website BioEkskresi</div>
+      </div>
+      <div class="ov-item">
+        <div class="ov-lbl">Jumlah Pertemuan</div>
+        <div class="ov-val">4 Pertemuan (10 JP)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALOKASI WAKTU -->
+  <div class="sec">Alokasi Waktu</div>
+  <div class="alokasi-grid" style="margin-bottom:28px;">
+    <div class="al-card">
+      <div class="al-num">1<sup>×</sup></div>
+      <div class="al-lbl">Siklus PBL</div>
+    </div>
+    <div class="al-card">
+      <div class="al-num">4<sup>×</sup></div>
+      <div class="al-lbl">Pertemuan</div>
+    </div>
+    <div class="al-card">
+      <div class="al-num">10<sup>JP</sup></div>
+      <div class="al-lbl">Jam Pelajaran</div>
+    </div>
+    <div class="al-card">
+      <div class="al-num">45<sup>mnt</sup></div>
+      <div class="al-lbl">Per Jam Pelajaran</div>
+    </div>
+  </div>
+
+  <!-- CAPAIAN PEMBELAJARAN -->
+  <div class="sec">Capaian Pembelajaran</div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#eff6ff;">🎯</div>
+      <div>
+        <h3>Capaian Pembelajaran (CP)</h3>
+        <p>Kurikulum Merdeka · Fase F · Elemen Pemahaman Sains</p>
+      </div>
+    </div>
+    <div class="cp-block">
+      <div class="cp-label">Pemahaman Sains</div>
+      <div class="cp-text">Peserta didik mampu mendeskripsikan struktur sel, jaringan, organ, dan sistem organ (sistem gerak, sistem peredaran darah, sistem pencernaan, sistem pernafasan, sistem ekskresi, sistem koordinasi). Peserta didik memiliki kemampuan mengaplikasikan konsep-konsep tersebut dan menghubungkan kondisi/permasalahan yang ada dalam kehidupan nyata.</div>
+    </div>
+    <div class="cp-block" style="border-left-color:#0d9488;">
+      <div class="cp-label" style="color:#0d9488;">Keterampilan Proses</div>
+      <div class="cp-text">Peserta didik mampu melakukan penyelidikan ilmiah, menganalisis data, serta mengomunikasikan hasil penyelidikan tentang sistem ekskresi manusia dan gangguan yang dapat terjadi, dikaitkan dengan pengaruh pola hidup terhadap kesehatan organ ekskresi.</div>
+    </div>
+  </div>
+
+  <!-- TUJUAN PEMBELAJARAN -->
+  <div class="sec">Tujuan Pembelajaran</div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#eff6ff;">🎯</div>
+      <div>
+        <h3>Tujuan Pembelajaran (TP)</h3>
+        <p>Capaian yang diharapkan setelah pembelajaran sistem ekskresi</p>
+      </div>
+    </div>
+    <ol style="display:flex;flex-direction:column;gap:12px;padding-left:20px;margin-top:4px;">
+      <li style="font-size:14px;color:#334155;line-height:1.7;">Peserta didik mampu <strong>mengidentifikasi dan merumuskan permasalahan</strong> terkait gangguan fungsi organ sistem ekskresi berdasarkan studi kasus secara tepat dan sistematis.</li>
+      <li style="font-size:14px;color:#334155;line-height:1.7;">Peserta didik mampu <strong>menganalisis konsep</strong> yang relevan terkait struktur dan mekanisme organ sistem ekskresi untuk memahami permasalahan yang ditemukan.</li>
+      <li style="font-size:14px;color:#334155;line-height:1.7;">Peserta didik mampu <strong>mengumpulkan, membandingkan, dan mengevaluasi informasi</strong> dari berbagai sumber untuk menjelaskan mekanisme kerja organ sistem ekskresi secara tepat.</li>
+      <li style="font-size:14px;color:#334155;line-height:1.7;">Peserta didik mampu <strong>menyusun dan menyajikan solusi</strong> terhadap permasalahan berdasarkan konsep ilmiah secara sistematis.</li>
+      <li style="font-size:14px;color:#334155;line-height:1.7;">Peserta didik mampu <strong>mengevaluasi solusi</strong> yang diusulkan serta menyimpulkan konsep sistem ekskresi secara logis dan reflektif.</li>
+    </ol>
+  </div>
+
+  <div class="sec">Model &amp; Sintaks Pembelajaran</div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#fffbeb;">⚙️</div>
+      <div>
+        <h3>Problem Based Learning (PBL)</h3>
+        <p>5 fase sintaks PBL · diterapkan dalam 1 siklus</p>
+      </div>
+    </div>
+    <div class="fase-list">
+      <div class="fase-item">
+        <div class="fase-num">1</div>
+        <div>
+          <div class="fase-title">Mengorientasikan Peserta Didik pada Masalah</div>
+          <div class="fase-desc">Guru menyajikan skenario masalah nyata berkaitan dengan gangguan sistem ekskresi. Peserta didik mengidentifikasi masalah dan merumuskan pertanyaan penyelidikan.</div>
+        </div>
+      </div>
+      <div class="fase-item">
+        <div class="fase-num">2</div>
+        <div>
+          <div class="fase-title">Mengorganisasikan Peserta Didik untuk Belajar</div>
+          <div class="fase-desc">Guru membantu peserta didik mendefinisikan dan mengorganisasikan tugas belajar yang berhubungan dengan masalah. Pembagian kelompok dan peran masing-masing anggota.</div>
+        </div>
+      </div>
+      <div class="fase-item">
+        <div class="fase-num">3</div>
+        <div>
+          <div class="fase-title">Membimbing Penyelidikan Individu atau Kelompok</div>
+          <div class="fase-desc">Guru mendorong peserta didik mengumpulkan informasi dari berbagai sumber, melakukan pengamatan, dan menganalisis data untuk memecahkan masalah yang diberikan.</div>
+        </div>
+      </div>
+      <div class="fase-item">
+        <div class="fase-num">4</div>
+        <div>
+          <div class="fase-title">Mengembangkan dan Menyajikan Hasil Karya</div>
+          <div class="fase-desc">Guru membantu peserta didik merencanakan dan menyiapkan karya yang sesuai — laporan, presentasi, atau poster ilmiah — sebagai bentuk hasil pemecahan masalah.</div>
+        </div>
+      </div>
+      <div class="fase-item">
+        <div class="fase-num">5</div>
+        <div>
+          <div class="fase-title">Menganalisis dan Mengevaluasi Proses Pemecahan Masalah</div>
+          <div class="fase-desc">Guru membantu peserta didik melakukan refleksi dan evaluasi terhadap penyelidikan yang dilakukan, serta mengukur ketercapaian tujuan pembelajaran.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PENILAIAN -->
+  <div class="sec">Rencana Penilaian</div>
+
+
+</div>
+</body>
+</html>
